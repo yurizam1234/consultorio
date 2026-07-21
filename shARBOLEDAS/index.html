@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SH Arboledas — Diagnóstico y atención médica</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- Capa decorativa: los tonos de la paleta se revelan mientras se hace scroll -->
+<div class="scroll-aurora" aria-hidden="true"></div>
+
+<!-- Molde SVG reutilizable para las fotos con recorte orgánico de los encabezados de sección -->
+<svg class="svg-mask-hidden-definitions" aria-hidden="true">
+  <defs>
+    <clipPath id="organic-leaf-mask" clipPathUnits="objectBoundingBox">
+      <path d="M 0.15,0 C 0.5,0 0.65,0.02 1,0.28 L 1,0.85 C 1,0.93 0.93,1 0.85,1 L 0.2,1 C 0.05,1 0,0.85 0,0.65 L 0,0.15 C 0,0.05 0.05,0 0.15,0 Z" />
+    </clipPath>
+  </defs>
+</svg>
+
+<div class="landing-wrapper">
+
+  <!-- ===== NAVBAR ===== -->
+  <div class="wrap">
+    <header class="navbar">
+      <div class="nav-logo">
+        <span class="nav-brand"> <img src="/assets/img/logo.png" alt="SH Arboledas"></span>
+      </div>
+      <nav class="nav-links">
+        <a href="#servicios">Servicios</a>
+        <a href="#agendar-info">Cómo agendar</a>
+        <a href="#instalaciones">Instalaciones</a>
+        <a href="#equipo">Equipo</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#" class="nav-btn-active js-open-cita">Agendar cita</a>
+      </nav>
+      <button class="burger" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+    </header>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="inicio">
+    <div class="wrap">
+      <div class="hero-visual-3d" data-reveal>
+        <div class="hero-3d-glow"></div>
+        <img class="hero-3d-img" src="/assets/img/hero-visual.png" alt="Ilustración 3D SH Arboledas" />
+      </div>
+
+      <div class="hero-info" data-reveal>
+        <p class="eyebrow">Hospital · Diagnóstico por imagen · Urgencias 24/7</p>
+        <h1>Claridad, desde <em>la primera cita.</em></h1>
+        <p class="lead">Agenda en línea con especialistas certificados, estudios de imagenología de alta precisión y atención de urgencias los 365 días del año, en Tuxtla Gutiérrez.</p>
+        <div class="hero-ctas">
+          <a href="#" class="btn btn-primary js-open-cita">Agendar mi cita</a>
+          <a href="#servicios" class="btn btn-ghost">Conocer especialidades</a>
+        </div>
+        <div class="hero-stats">
+          <div><b>5</b><span>QUIRÓFANOS EQUIPADOS</span></div>
+          <div><b>30+</b><span>ESPECIALISTAS</span></div>
+          <div><b>24/7</b><span>URGENCIAS TODO EL AÑO</span></div>
+          <div><b>24h</b><span>ENTREGA DE RESULTADOS</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SH ARBOLEDAS (Confianza) ===== -->
+  <section id="nosotros" style="padding: 56px 0;">
+    <div class="wrap">
+      <div class="trust-intro" data-reveal>
+        <div class="trust-visual">
+          <div class="trust-badge-float"><b>+15</b><span>Años de experiencia</span></div>
+          <div class="trust-shape shape-1">
+            <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80" alt="Equipo médico SH Arboledas" />
+          </div>
+          <div class="trust-shape shape-2">
+            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&q=80" alt="Equipamiento de diagnóstico" />
+          </div>
+        </div>
+
+        <div class="trust-content">
+          <p class="eyebrow">SH Arboledas</p>
+          <h2>Un equipo médico en el que puedes confiar</h2>
+          <p class="trust-lead">Por más de una década hemos acompañado a familias de Tuxtla Gutiérrez con diagnósticos precisos, especialistas certificados y tecnología de punta — porque tu salud merece claridad, no incertidumbre.</p>
+          <ul class="trust-points">
+            <li><span class="check">✓</span> Especialistas certificados en cada área médica</li>
+            <li><span class="check">✓</span> Equipos de diagnóstico de última generación</li>
+            <li><span class="check">✓</span> Acompañamiento cercano en cada etapa de tu atención</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+ <!-- ===== SERVICIOS (Áreas médicas) ===== -->
+<section id="servicios" style="background: #e6f7f5; padding: 56px 0;">
+  <div class="wrap">
+    <div class="organic-feature-card" data-reveal>
+      <div class="media-mask-wrapper">
+        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=700&q=80" alt="Áreas médicas SH Arboledas" />
+      </div>
+      <div class="info-content-wrapper">
+        <span class="feature-badge-pill">Áreas médicas</span>
+        <h2 class="feature-title">Todo lo que tu salud necesita, bajo un mismo techo.</h2>
+        <p class="feature-desc">Instalaciones modernas y personal especializado en diagnóstico, cirugía y atención integral.</p>
+      </div>
+    </div>
+
+    <!-- Cinematic Hero Slider: una área médica a pantalla completa a la vez -->
+    <div class="med-hero-slider" id="medHeroSlider" data-reveal>
+      <div class="med-hero-slides" id="medHeroSlides">
+        <!-- Los slides de fondo se generan con JavaScript -->
+      </div>
+      <div class="med-hero-scrim"></div>
+
+      <div class="med-hero-content">
+        <span class="med-hero-tagline" id="medTagline"></span>
+        <h3 class="med-hero-title" id="medTitle"></h3>
+        <p class="med-hero-desc" id="medDesc"></p>
+        <a href="#contacto" class="med-hero-cta">Ver todo <i class="btn-circle-icon"></i></a>
+      </div>
+
+      <div class="med-hero-thumbs">
+        <div class="med-thumb-row" id="medThumbRow">
+          <!-- Miniaturas generadas con JavaScript -->
+        </div>
+        <div class="med-hero-controls">
+          <button class="med-control-dot" id="medPrevBtn" aria-label="Área anterior"></button>
+          <button class="med-control-dot" id="medNextBtn" aria-label="Área siguiente"></button>
+        </div>
+      </div>
+
+      <div class="med-hero-counter" id="medCounter">01</div>
+    </div>
+  </div>
+</section>
+
+  <!-- ===== CÓMO AGENDAR ===== -->
+  <section class="band" id="agendar-info">
+   <div class="wrap">
+    <div class="organic-feature-card reverse" data-reveal>
+      <div class="media-mask-wrapper">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&q=80" alt="Agenda en línea SH Arboledas" />
+      </div>
+      <div class="info-content-wrapper">
+        <span class="feature-badge-pill">Agenda en línea</span>
+        <h2 class="feature-title">Tres pasos, sin filas ni llamadas.</h2>
+        <p class="feature-desc">Diseñado para que cualquier paciente, sin importar su experiencia con la tecnología, agende su cita en menos de dos minutos.</p>
+      </div>
+    </div>
+
+    <div class="agenda-steps">
+      <!-- Paso 1 -->
+      <div class="info-step-card">
+        <div class="card-ribbon"><span class="ribbon-circle">1</span></div>
+        <div class="card-text-block">
+          <span class="card-title">Elige especialidad</span>
+          <p class="card-description">Selecciona el área médica y, si lo sabes, el motivo de tu consulta. Te mostramos horarios reales del especialista.</p>
+        </div>
+        <div class="card-action-block">
+          <span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3h6M9 8h6M9 13h6M9 18h3"/></svg></span>
+          <div class="chevron-group"><span class="chevron-arrow"></span><span class="chevron-arrow"></span></div>
+        </div>
+      </div>
+
+      <!-- Paso 2 -->
+      <div class="info-step-card">
+        <div class="card-ribbon"><span class="ribbon-circle">2</span></div>
+        <div class="card-text-block">
+          <span class="card-title">Elige fecha y hora</span>
+          <p class="card-description">Un calendario simple con disponibilidad real. Sin llamadas, sin esperar a que alguien te conteste.</p>
+        </div>
+        <div class="card-action-block">
+          <span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></span>
+          <div class="chevron-group"><span class="chevron-arrow"></span><span class="chevron-arrow"></span></div>
+        </div>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="info-step-card">
+        <div class="card-ribbon"><span class="ribbon-circle">3</span></div>
+        <div class="card-text-block">
+          <span class="card-title">Confirma y listo</span>
+          <p class="card-description">Recibe confirmación por WhatsApp o correo, con recordatorio automático 24 horas antes de tu cita.</p>
+        </div>
+        <div class="card-action-block">
+          <span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 5-5"/></svg></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      Tu historial de estudios y citas queda disponible en tu cuenta, para consultarlo cuando lo necesites.
+    </div>
+   </div>
+  </section>
+
+  <!-- ===== POR QUÉ ESCOGERNOS ===== -->
+  <section id="por-que-escogernos" style="padding: 56px 0;">
+    <div class="wrap">
+      <div class="reasons-grid" data-reveal>
+
+        <!-- Contenido: texto + rejilla compacta de motivos -->
+        <div class="reasons-content">
+          <div class="reasons-tagline-row">
+            <p class="eyebrow" style="margin: 0;">Por qué escogernos</p>
+            <span class="reasons-tagline-line"></span>
+          </div>
+
+          <h2 class="reasons-title">Motivos para confiar tu salud a SH Arboledas</h2>
+          <p class="reasons-desc">Combinamos experiencia clínica, tecnología de punta y un trato cercano para que cada visita te dé certeza, no dudas.</p>
+
+          <div class="reasons-features">
+            <div class="reason-feature-item">
+              <span class="reason-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg></span>
+              <span class="reason-feature-label">Especialistas certificados</span>
+            </div>
+            <div class="reason-feature-item">
+              <span class="reason-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg></span>
+              <span class="reason-feature-label">Tecnología de punta</span>
+            </div>
+            <div class="reason-feature-item">
+              <span class="reason-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
+              <span class="reason-feature-label">Urgencias 24/7</span>
+            </div>
+            <div class="reason-feature-item">
+              <span class="reason-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z"/></svg></span>
+              <span class="reason-feature-label">Resultados en 24h</span>
+            </div>
+            <div class="reason-feature-item">
+              <span class="reason-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M20.8 8.6c0 4.7-8.8 10.4-8.8 10.4S3.2 13.3 3.2 8.6a4.6 4.6 0 0 1 8.8-2 4.6 4.6 0 0 1 8.8 2Z"/></svg></span>
+              <span class="reason-feature-label">Atención personalizada</span>
+            </div>
+            <div class="reason-feature-item">
+              <span class="reason-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-8h6v8"/></svg></span>
+              <span class="reason-feature-label">Instalaciones modernas</span>
+            </div>
+          </div>
+
+          <a href="#servicios" class="reasons-cta-btn">
+            Conocer nuestras áreas médicas
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+
+        <!-- Collage de rombos asimétricos -->
+        <div class="reasons-collage">
+          <div class="diamond-card diamond-1">
+            <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=500&q=80" alt="Especialistas SH Arboledas" />
+          </div>
+          <div class="diamond-card diamond-2">
+            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=500&q=80" alt="Tecnología de diagnóstico" />
+          </div>
+          <div class="diamond-card diamond-3">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=500&q=80" alt="Instalaciones SH Arboledas" />
+          </div>
+          <div class="reasons-center-badge">✓</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+<!-- ===== INSTALACIONES (Paneles Diagonales) ===== -->
+<section id="instalaciones" style="background: #e6f7f5; padding: 56px 0;">
+  <div class="wrap">
+    <div class="section-head" data-reveal style="max-width: 640px; margin-bottom: 44px;">
+      <p class="eyebrow">Instalaciones</p>
+      <h2>Infraestructura pensada para diagnósticos precisos.</h2>
+      <p>Pasa el cursor sobre cada imagen para descubrir nuestros espacios.</p>
+    </div>
+
+    <!-- Paneles diagonales: al pasar el cursor, el panel se abre y muestra la información -->
+    <div class="diagonal-container">
+      <!-- Panel 1 -->
+      <div class="diagonal-panel">
+        <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&q=80" alt="Consultorios privados" />
+        <div class="diagonal-panel-content">
+          <span class="panel-num">01</span>
+          <h3>Consultorios privados</h3>
+          <p>Espacios acogedores para una atención personalizada y confidencial.</p>
+          <span class="tag">🔬 Diagnóstico</span>
+        </div>
+      </div>
+
+      <!-- Panel 2 -->
+      <div class="diagonal-panel">
+        <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&q=80" alt="Área de diagnóstico" />
+        <div class="diagonal-panel-content">
+          <span class="panel-num">02</span>
+          <h3>Área de diagnóstico</h3>
+          <p>Equipos de última generación para estudios precisos y rápidos.</p>
+          <span class="tag">📡 Imagenología</span>
+        </div>
+      </div>
+
+      <!-- Panel 3 -->
+      <div class="diagonal-panel">
+        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80" alt="Sala de espera" />
+        <div class="diagonal-panel-content">
+          <span class="panel-num">03</span>
+          <h3>Sala de espera</h3>
+          <p>Ambiente relajante con luz natural, áreas verdes y confort.</p>
+          <span class="tag">🛋️ Confort</span>
+        </div>
+      </div>
+
+      <!-- Panel 4 -->
+      <div class="diagonal-panel">
+        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=80" alt="Quirófanos" />
+        <div class="diagonal-panel-content">
+          <span class="panel-num">04</span>
+          <h3>Quirófanos</h3>
+          <p>Cinco quirófanos totalmente equipados con tecnología de punta.</p>
+          <span class="tag">🏥 Cirugía</span>
+        </div>
+      </div>
+
+      <!-- Panel 5 -->
+      <div class="diagonal-panel">
+        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80" alt="Urgencias 24/7" />
+        <div class="diagonal-panel-content">
+          <span class="panel-num">05</span>
+          <h3>Urgencias 24/7</h3>
+          <p>Personal capacitado y área equipada disponible todos los días del año.</p>
+          <span class="tag">🚨 Atención inmediata</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EQUIPO (Slideshow con captions animados) ===== -->
+<section id="equipo" style="padding: 56px 0;">
+  <div class="wrap" data-reveal>
+    <div class="section-head" style="text-align: center; max-width: 640px; margin: 0 auto 44px;">
+      <p class="eyebrow" style="color: var(--teal-start);">Nuestro equipo</p>
+      <h2 style="color: #284d5c;">Las personas detrás de tu atención</h2>
+      <p style="color: #4b5563;">Médicos con amplia experiencia y vocación de servicio.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="team-slideshow" id="teamSlideshow">
+      <div class="slides-track" id="teamSlidesTrack">
+        <!-- Los slides se generan con JavaScript -->
+      </div>
+
+      <!-- Controles -->
+      <div class="carousel-controls">
+        <button class="carousel-btn prev-btn" id="prevBtn" aria-label="Doctor anterior">‹</button>
+        <div class="slide-dots" id="teamDots"></div>
+        <button class="carousel-btn next-btn" id="nextBtn" aria-label="Doctor siguiente">›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- ===== TESTIMONIOS ===== -->
+  <section id="testimonios" style="background: #e6f7f5; padding: 56px 0;">
+    <div class="wrap">
+      <div class="section-head" data-reveal style="text-align: center; max-width: 640px; margin: 0 auto 44px;">
+        <p class="eyebrow">Testimonios</p>
+        <h2>Qué piensan los pacientes de nosotros</h2>
+      </div>
+
+      <div class="testimonial-carousel" id="testimonialCarousel" data-reveal>
+        <div class="testimonial-track" id="testimonialTrack">
+          <!-- Las tarjetas se generan con JavaScript -->
+        </div>
+
+        <div class="testimonial-controls">
+          <button class="carousel-btn" id="testiPrevBtn" aria-label="Testimonio anterior">‹</button>
+          <div class="slide-dots" id="testiDots"></div>
+          <button class="carousel-btn" id="testiNextBtn" aria-label="Testimonio siguiente">›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section id="contacto">
+   <div class="wrap">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Contacto</p>
+      <h2>Estamos cerca. Escríbenos o visítanos.</h2>
+    </div>
+
+    <div class="contact-container" data-reveal>
+      <!-- Mapa abstracto a pantalla completa de la tarjeta -->
+      <div class="map-background-layer"></div>
+
+      <div class="map-location-pin">
+        <div class="pin-glow-effect"></div>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--teal-start)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      </div>
+
+      <!-- Formulario -->
+      <div class="contact-content">
+        <header class="form-header-block">
+          <h3 class="form-main-title">Contáctanos</h3>
+          <p class="form-subtitle">Escríbenos y te ayudamos a resolver tus dudas.</p>
+        </header>
+
+        <form class="fields-stack" onsubmit="return false;">
+          <div class="input-group-linear">
+            <label class="input-label-text">Nombre completo</label>
+            <input type="text" class="input-field-element" required>
+          </div>
+          <div class="input-group-linear">
+            <label class="input-label-text">Teléfono</label>
+            <input type="tel" class="input-field-element">
+          </div>
+          <div class="input-group-linear">
+            <label class="input-label-text">Mensaje</label>
+            <input type="text" class="input-field-element" placeholder="¿En qué podemos ayudarte?" required>
+          </div>
+        </form>
+      </div>
+
+      <!-- Fila inferior: botón de envío y datos de contacto, a la misma altura -->
+      <div class="contact-bottom-row">
+        <button class="submit-pill-btn" type="submit">
+          Enviar mensaje
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+
+        <div class="contact-info-glass">
+          <div class="glass-addr">
+            <b>Hospital Arboledas</b>
+            <span>16 Poniente Norte #436, Col. Bonampak, Tuxtla Gutiérrez, CP 29030</span>
+          </div>
+          <div class="glass-info-row">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .6 2.9a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.5 2.9.6a2 2 0 0 1 1.8 2Z"/></svg></span>
+            <span>(961) 602-9586, 24/7</span>
+          </div>
+          <div class="glass-info-row">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20l1.1-5.4A8.5 8.5 0 1 1 21 11.5Z"/></svg></span>
+            <span>(961) 404-7409</span>
+          </div>
+          <div class="glass-info-row">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+            <span>sharboledas@gmail.com</span>
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="wrap">
+    <footer class="footer">
+      <div class="foot-brand">
+        <div class="foot-logo">
+          <div class="logo-icon"></div>
+          <span>SH Arboledas</span>
+        </div>
+        <p>Hospital y centro de diagnóstico en Tuxtla Gutiérrez, Chiapas. Atención integral, urgencias 24/7 e imagenología de alta precisión.</p>
+        <div class="foot-badges">
+          <span>COFEPRIS 253301201A0303</span>
+          <span>Lic. San. 24AM071010011</span>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="#servicios">Servicios</a>
+        <a href="#instalaciones">Instalaciones</a>
+        <a href="#equipo">Equipo</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+    </footer>
+  </div>
+
+</div>
+
+<!-- ===== BOTÓN FLOTANTE DE URGENCIAS ===== -->
+<div class="emergency-float" id="emergencyFloat">
+  <button class="emergency-btn" id="emergencyBtn" aria-expanded="false" aria-controls="emergencyMenu">
+    <span class="emergency-pulse"></span>
+    <span class="label">¿Es una urgencia?</span>
+  </button>
+  <div class="emergency-menu" id="emergencyMenu">
+    <a href="tel:+529616029586" class="emergency-option">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .6 2.9a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.5 2.9.6a2 2 0 0 1 1.8 2Z"/></svg></span>
+      Llamar ahora — 961 602 9586
+    </a>
+    <a href="https://wa.me/529616029586" class="emergency-option" target="_blank">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20l1.1-5.4A8.5 8.5 0 1 1 21 11.5Z"/></svg></span>
+      Escribir por WhatsApp
+    </a>
+  </div>
+</div>
+
+<!-- ===== FLOTANTE: AGENDAR CITA ===== -->
+<button class="float-agendar js-open-cita" id="openCitaBtn" aria-haspopup="dialog" aria-controls="citaModalOverlay">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="m9 15 2 2 4-4"/></svg>
+  Agendar cita
+</button>
+
+<!-- ===== MODAL: AGENDA TU CITA ===== -->
+<div class="cita-modal-overlay" id="citaModalOverlay">
+  <div class="cita-modal" role="dialog" aria-modal="true" aria-labelledby="citaModalTitle">
+    <button class="cita-modal-close" id="citaModalClose" aria-label="Cerrar">×</button>
+
+    <div class="organic-booker-card">
+      <div class="card-graphic-container">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+      </div>
+
+      <div class="card-info-content">
+        <div class="organic-card-head">
+          <h4 id="citaModalTitle">Agenda tu cita</h4>
+          <span class="demo-badge">DEMO</span>
+        </div>
+
+        <div class="booking-row">
+          <div class="booking-field">
+            <p class="booker-label">1 · Especialidad</p>
+            <div class="chip-row" id="specChips">
+              <button class="chip active" data-spec="Oftalmología">Oftalmología</button>
+              <button class="chip" data-spec="Imagenología">Imagenología</button>
+              <button class="chip" data-spec="Laboratorio">Laboratorio</button>
+              <button class="chip" data-spec="Medicina General">Medicina General</button>
+              <button class="chip" data-spec="Urgencias">Urgencias</button>
+            </div>
+          </div>
+
+          <div class="booking-field">
+            <p class="booker-label">2 · Fecha</p>
+            <div class="day-strip" id="dayStrip">
+              <div class="day active" data-day="Jue 17"><span class="dname">Jue</span><span class="dnum">17</span></div>
+              <div class="day" data-day="Vie 18"><span class="dname">Vie</span><span class="dnum">18</span></div>
+              <div class="day" data-day="Sáb 19"><span class="dname">Sáb</span><span class="dnum">19</span></div>
+              <div class="day" data-day="Lun 21"><span class="dname">Lun</span><span class="dnum">21</span></div>
+              <div class="day" data-day="Mar 22"><span class="dname">Mar</span><span class="dnum">22</span></div>
+            </div>
+          </div>
+
+          <div class="booking-field">
+            <p class="booker-label">3 · Horario</p>
+            <div class="chip-row" id="timeChips">
+              <button class="chip active" data-time="09:00">09:00</button>
+              <button class="chip" data-time="10:30">10:30</button>
+              <button class="chip" data-time="12:00">12:00</button>
+              <button class="chip" data-time="16:00">16:00</button>
+              <button class="chip" data-time="17:30">17:30</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-summary-block">
+          <div class="summary-left">
+            <span class="info-tagline">Tu cita</span>
+            <h2 class="info-main-date" id="summaryText">Oftalmología · Jue 17 · 09:00 hrs</h2>
+          </div>
+          <button class="card-pill-btn" id="confirmBtn">Confirmar cita</button>
+        </div>
+
+        <div class="toast" id="toast">✓ Cita agendada — confirmación enviada por WhatsApp</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+<!-- GSAP + ScrollTrigger: parallax del hero, ensamblado horizontal y onda ECG entre secciones -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="js/parallax.js"></script>
+</body>
+</html>
+
+
