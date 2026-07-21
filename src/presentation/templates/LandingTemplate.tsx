@@ -1,4 +1,5 @@
 import { ScrollAurora } from "@/presentation/atoms/ScrollAurora";
+import { EcgDivider } from "@/presentation/atoms/EcgDivider";
 import { Navbar } from "@/presentation/organisms/Navbar";
 import { Hero } from "@/presentation/organisms/Hero";
 import { TrustIntro } from "@/presentation/organisms/TrustIntro";
@@ -13,22 +14,32 @@ import { Footer } from "@/presentation/organisms/Footer";
 import { EmergencyFloat } from "@/presentation/organisms/EmergencyFloat";
 import { FloatAgendarButton } from "@/presentation/organisms/FloatAgendarButton";
 import { CitaModal } from "@/presentation/organisms/CitaModal";
+import { ScrollEffects } from "@/presentation/organisms/ScrollEffects";
 
 export function LandingTemplate() {
   return (
     <>
       <ScrollAurora />
+      <ScrollEffects />
 
       <div className="landing-wrapper">
         <Navbar />
         <Hero />
+        <EcgDivider />
         <TrustIntro />
+        <EcgDivider />
         <ServiciosSlider />
+        <EcgDivider />
         <AgendarInfo />
+        <EcgDivider />
         <PorQueEscogernos />
+        <EcgDivider />
         <Instalaciones />
+        <EcgDivider />
         <Equipo />
+        <EcgDivider />
         <Testimonios />
+        <EcgDivider />
         <Contacto />
         <Footer />
       </div>

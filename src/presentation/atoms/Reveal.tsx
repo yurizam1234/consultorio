@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
 import type { HTMLAttributes, ReactNode } from "react";
 import { cn } from "@/shared/lib/utils";
 
@@ -9,32 +6,11 @@ interface RevealProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
 }
 
+// Marca el nodo con data-reveal; la animación de entrada (ensamblado horizontal
+// ligado al scroll) la controla GSAP/ScrollTrigger en ScrollEffects.tsx.
 export function Reveal({ className, children, ...rest }: RevealProps) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.14 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div ref={ref} data-reveal className={cn(visible && "in", className)} {...rest}>
+    <div data-reveal className={cn(className)} {...rest}>
       {children}
     </div>
   );

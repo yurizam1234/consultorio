@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { NavLinksList } from "@/presentation/molecules/NavLinksList";
 import { navLinks } from "@/shared/data/navegacion";
-import { useCitaModal } from "@/presentation/hooks/useCitaModal";
+import { useLanguage } from "@/presentation/hooks/useLanguage";
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { open } = useCitaModal();
+  const { t } = useLanguage();
 
   return (
     <div className="wrap">
@@ -17,14 +17,13 @@ export function Navbar() {
           <img src="/img/logo.png" alt="SH Arboledas" />
         </div>
 
-        <NavLinksList
-          links={navLinks}
-          mobileOpen={mobileOpen}
-          onLinkClick={() => setMobileOpen(false)}
-          onOpenCita={open}
-        />
+        <NavLinksList links={navLinks} mobileOpen={mobileOpen} onLinkClick={() => setMobileOpen(false)} />
 
-        <button className="burger" aria-label="Abrir menú" onClick={() => setMobileOpen((prev) => !prev)}>
+        <button
+          className="burger"
+          aria-label={t("aria.open_menu")}
+          onClick={() => setMobileOpen((prev) => !prev)}
+        >
           <span />
           <span />
           <span />

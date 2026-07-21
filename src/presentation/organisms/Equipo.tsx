@@ -4,6 +4,7 @@ import { Reveal } from "@/presentation/atoms/Reveal";
 import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { DoctorSlide } from "@/presentation/molecules/DoctorSlide";
 import { useCarousel } from "@/presentation/hooks/useCarousel";
+import { useLanguage } from "@/presentation/hooks/useLanguage";
 import { doctores } from "@/shared/data/doctores";
 import { cn } from "@/shared/lib/utils";
 
@@ -12,18 +13,15 @@ export function Equipo() {
     length: doctores.length,
     autoplayMs: 5000,
   });
+  const { t } = useLanguage();
 
   return (
     <section id="equipo">
       <div className="wrap">
         <SectionHead
-          eyebrow="Nuestro equipo"
-          title="Las personas detrás de tu atención"
-          description="Médicos con amplia experiencia y vocación de servicio."
-          center
-          eyebrowColor="var(--teal-start)"
-          titleColor="#284d5c"
-          descriptionColor="#4b5563"
+          eyebrow={t("equipo.eyebrow")}
+          title={t("equipo.title")}
+          description={t("equipo.desc")}
         />
       </div>
 
@@ -37,7 +35,7 @@ export function Equipo() {
         </Reveal>
 
         <div className="carousel-controls">
-          <button className="carousel-btn prev-btn" aria-label="Doctor anterior" onClick={prev}>
+          <button className="carousel-btn prev-btn" aria-label={t("aria.prev_doctor")} onClick={prev}>
             ‹
           </button>
           <div className="slide-dots">
@@ -45,12 +43,12 @@ export function Equipo() {
               <button
                 key={doctor.name}
                 className={cn("dot", index === activeIndex && "active")}
-                aria-label={`Ver a ${doctor.name}`}
+                aria-label={t("aria.view_doctor", { name: doctor.name })}
                 onClick={() => goTo(index)}
               />
             ))}
           </div>
-          <button className="carousel-btn next-btn" aria-label="Doctor siguiente" onClick={next}>
+          <button className="carousel-btn next-btn" aria-label={t("aria.next_doctor")} onClick={next}>
             ›
           </button>
         </div>

@@ -1,16 +1,23 @@
+"use client";
+
 import { Reveal } from "@/presentation/atoms/Reveal";
 import { TrustPointItem } from "@/presentation/molecules/TrustPointItem";
-import { trustPoints } from "@/shared/data/contacto";
+import { useLanguage } from "@/presentation/hooks/useLanguage";
 
 export function TrustIntro() {
+  const { t } = useLanguage();
+
   return (
-    <section id="nosotros" style={{ padding: "56px 0" }}>
+    <section id="nosotros" style={{ padding: "20px 0 56px" }}>
       <div className="wrap">
-        <Reveal className="trust-intro">
-          <div className="trust-visual">
+        <p className="eyebrow" data-reveal-name>
+          {t("nosotros.eyebrow")}
+        </p>
+        <div className="trust-intro">
+          <Reveal className="trust-visual">
             <div className="trust-badge-float">
               <b>+15</b>
-              <span>Años de experiencia</span>
+              <span>{t("nosotros.badge")}</span>
             </div>
             <div className="trust-shape shape-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -26,22 +33,20 @@ export function TrustIntro() {
                 alt="Equipamiento de diagnóstico"
               />
             </div>
-          </div>
+          </Reveal>
 
           <div className="trust-content">
-            <p className="eyebrow">SH Arboledas</p>
-            <h2>Un equipo médico en el que puedes confiar</h2>
-            <p className="trust-lead">
-              Por más de una década hemos acompañado a familias de Tuxtla Gutiérrez con diagnósticos precisos,
-              especialistas certificados y tecnología de punta — porque tu salud merece claridad, no incertidumbre.
-            </p>
-            <ul className="trust-points">
-              {trustPoints.map((point) => (
-                <TrustPointItem key={point} text={point} />
-              ))}
-            </ul>
+            <Reveal style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              <h2>{t("nosotros.h2")}</h2>
+              <p className="trust-lead">{t("nosotros.lead")}</p>
+              <ul className="trust-points">
+                <TrustPointItem text={t("nosotros.point1")} />
+                <TrustPointItem text={t("nosotros.point2")} />
+                <TrustPointItem text={t("nosotros.point3")} />
+              </ul>
+            </Reveal>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

@@ -28,46 +28,22 @@ export const diasDisponibles = [
 
 export const horariosDisponibles = ["09:00", "10:30", "12:00", "16:00", "17:30"];
 
-export const heroStats = [
-  { value: "5", label: "Quirófanos equipados" },
-  { value: "30+", label: "Especialistas" },
-  { value: "24/7", label: "Urgencias todo el año" },
-  { value: "24h", label: "Entrega de resultados" },
-];
+// Los textos (label/title/description) viven en shared/i18n/translations.ts
+// bajo las claves hero.stat{n}, nosotros.point{n}, reasons.feature{n}, agendar.step{n}.title/.desc —
+// aquí solo queda lo estructural (valores numéricos, íconos, orden).
+export const heroStats = [{ value: "5" }, { value: "30+" }, { value: "24/7" }, { value: "24h" }];
 
-export const trustPoints = [
-  "Especialistas certificados en cada área médica",
-  "Equipos de diagnóstico de última generación",
-  "Acompañamiento cercano en cada etapa de tu atención",
-];
-
-export const reasonFeatures = [
-  { label: "Especialistas certificados", icon: "shield-check" as const },
-  { label: "Tecnología de punta", icon: "monitor" as const },
-  { label: "Urgencias 24/7", icon: "clock" as const },
-  { label: "Resultados en 24h", icon: "bolt" as const },
-  { label: "Atención personalizada", icon: "heart" as const },
-  { label: "Instalaciones modernas", icon: "building" as const },
+export const reasonFeatureIcons = [
+  "shield-check" as const,
+  "monitor" as const,
+  "clock" as const,
+  "bolt" as const,
+  "heart" as const,
+  "building" as const,
 ];
 
 export const agendaSteps = [
-  {
-    num: 1,
-    title: "Elige especialidad",
-    description:
-      "Selecciona el área médica y, si lo sabes, el motivo de tu consulta. Te mostramos horarios reales del especialista.",
-    icon: "calendar" as const,
-  },
-  {
-    num: 2,
-    title: "Elige fecha y hora",
-    description: "Un calendario simple con disponibilidad real. Sin llamadas, sin esperar a que alguien te conteste.",
-    icon: "calendar-hours" as const,
-  },
-  {
-    num: 3,
-    title: "Confirma y listo",
-    description: "Recibe confirmación por WhatsApp o correo, con recordatorio automático 24 horas antes de tu cita.",
-    icon: "check-circle" as const,
-  },
+  { num: 1, icon: "calendar" as const },
+  { num: 2, icon: "calendar-hours" as const },
+  { num: 3, icon: "check-circle" as const },
 ];

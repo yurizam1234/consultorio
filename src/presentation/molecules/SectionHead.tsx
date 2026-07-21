@@ -1,4 +1,4 @@
-import type { ElementType } from "react";
+import type { CSSProperties } from "react";
 import { cn } from "@/shared/lib/utils";
 import { Reveal } from "@/presentation/atoms/Reveal";
 
@@ -6,37 +6,30 @@ interface SectionHeadProps {
   eyebrow: string;
   title: string;
   description?: string;
-  center?: boolean;
   className?: string;
-  eyebrowColor?: string;
+  style?: CSSProperties;
   titleColor?: string;
   descriptionColor?: string;
-  reveal?: boolean;
 }
 
 export function SectionHead({
   eyebrow,
   title,
   description,
-  center,
   className,
-  eyebrowColor,
+  style,
   titleColor,
   descriptionColor,
-  reveal = true,
 }: SectionHeadProps) {
-  const Wrapper: ElementType = reveal ? Reveal : "div";
-
   return (
-    <Wrapper
-      className={cn("section-head", center && "text-center mx-auto", className)}
-      style={center ? { textAlign: "center", margin: "0 auto 44px" } : undefined}
-    >
-      <p className="eyebrow" style={eyebrowColor ? { color: eyebrowColor } : undefined}>
+    <>
+      <p className="eyebrow" data-reveal-name>
         {eyebrow}
       </p>
-      <h2 style={titleColor ? { color: titleColor } : undefined}>{title}</h2>
-      {description && <p style={descriptionColor ? { color: descriptionColor } : undefined}>{description}</p>}
-    </Wrapper>
+      <Reveal className={cn("section-head", className)} style={style}>
+        <h2 style={titleColor ? { color: titleColor } : undefined}>{title}</h2>
+        {description && <p style={descriptionColor ? { color: descriptionColor } : undefined}>{description}</p>}
+      </Reveal>
+    </>
   );
 }

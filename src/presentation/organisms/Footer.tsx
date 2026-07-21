@@ -1,7 +1,12 @@
+"use client";
+
 import { navLinks } from "@/shared/data/navegacion";
 import { contactoInfo } from "@/shared/data/contacto";
+import { useLanguage } from "@/presentation/hooks/useLanguage";
 
 export function Footer() {
+  const { t } = useLanguage();
+
   return (
     <div className="wrap">
       <footer className="footer">
@@ -10,10 +15,7 @@ export function Footer() {
             <div className="logo-icon" />
             <span>SH Arboledas</span>
           </div>
-          <p>
-            Hospital y centro de diagnóstico en Tuxtla Gutiérrez, Chiapas. Atención integral, urgencias 24/7 e
-            imagenología de alta precisión.
-          </p>
+          <p>{t("footer.desc")}</p>
           <div className="foot-badges">
             <span>{contactoInfo.cofepris}</span>
             <span>{contactoInfo.licenciaSanitaria}</span>
@@ -24,7 +26,7 @@ export function Footer() {
             .filter((link) => link.href !== "#agendar-info")
             .map((link) => (
               <a key={link.href} href={link.href}>
-                {link.label}
+                {t(link.labelKey)}
               </a>
             ))}
         </div>

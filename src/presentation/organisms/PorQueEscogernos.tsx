@@ -1,41 +1,45 @@
+"use client";
+
 import { Reveal } from "@/presentation/atoms/Reveal";
 import { Icon } from "@/presentation/atoms/Icon";
 import { ReasonFeatureItem } from "@/presentation/molecules/ReasonFeatureItem";
 import { DiamondImage } from "@/presentation/molecules/DiamondImage";
-import { reasonFeatures } from "@/shared/data/contacto";
+import { reasonFeatureIcons } from "@/shared/data/contacto";
+import { useLanguage } from "@/presentation/hooks/useLanguage";
 
 export function PorQueEscogernos() {
+  const { t } = useLanguage();
+
   return (
-    <section id="por-que-escogernos" style={{ padding: "56px 0" }}>
+    <section id="por-que-escogernos" style={{ padding: "20px 0 56px" }}>
       <div className="wrap">
-        <Reveal className="reasons-grid">
+        <div className="reasons-tagline-row">
+          <p className="eyebrow" data-reveal-name style={{ margin: 0 }}>
+            {t("reasons.eyebrow")}
+          </p>
+          <span className="reasons-tagline-line" />
+        </div>
+
+        <div className="reasons-grid">
           <div className="reasons-content">
-            <div className="reasons-tagline-row">
-              <p className="eyebrow" style={{ margin: 0 }}>
-                Por qué escogernos
-              </p>
-              <span className="reasons-tagline-line" />
-            </div>
+            <Reveal style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              <h2 className="reasons-title">{t("reasons.title")}</h2>
+              <p className="reasons-desc">{t("reasons.desc")}</p>
 
-            <h2 className="reasons-title">Motivos para confiar tu salud a SH Arboledas</h2>
-            <p className="reasons-desc">
-              Combinamos experiencia clínica, tecnología de punta y un trato cercano para que cada visita te dé
-              certeza, no dudas.
-            </p>
+              <div className="reasons-features">
+                {reasonFeatureIcons.map((icon, index) => (
+                  <ReasonFeatureItem key={icon} icon={icon} label={t(`reasons.feature${index + 1}`)} />
+                ))}
+              </div>
 
-            <div className="reasons-features">
-              {reasonFeatures.map((feature) => (
-                <ReasonFeatureItem key={feature.label} icon={feature.icon} label={feature.label} />
-              ))}
-            </div>
-
-            <a href="#servicios" className="reasons-cta-btn">
-              Conocer nuestras áreas médicas
-              <Icon name="arrow-right" stroke="currentColor" strokeWidth={2.2} />
-            </a>
+              <a href="#servicios" className="reasons-cta-btn">
+                {t("reasons.cta")}
+                <Icon name="arrow-right" stroke="currentColor" strokeWidth={2.2} />
+              </a>
+            </Reveal>
           </div>
 
-          <div className="reasons-collage">
+          <Reveal className="reasons-collage">
             <DiamondImage
               position={1}
               src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=500&q=80"
@@ -51,9 +55,8 @@ export function PorQueEscogernos() {
               src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=500&q=80"
               alt="Instalaciones SH Arboledas"
             />
-            <div className="reasons-center-badge">✓</div>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

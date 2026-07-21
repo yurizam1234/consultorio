@@ -1,9 +1,14 @@
+"use client";
+
 import { Reveal } from "@/presentation/atoms/Reveal";
 import { StatItem } from "@/presentation/molecules/StatItem";
 import { heroStats } from "@/shared/data/contacto";
 import { HeroCtas } from "@/presentation/organisms/HeroCtas";
+import { useLanguage } from "@/presentation/hooks/useLanguage";
 
 export function Hero() {
+  const { t } = useLanguage();
+
   return (
     <section className="hero" id="inicio">
       <div className="wrap">
@@ -18,18 +23,15 @@ export function Hero() {
         </Reveal>
 
         <Reveal className="hero-info">
-          <p className="eyebrow">Hospital · Diagnóstico por imagen · Urgencias 24/7</p>
+          <p className="eyebrow">{t("hero.eyebrow")}</p>
           <h1>
-            Claridad, desde <em>la primera cita.</em>
+            {t("hero.h1_pre")} <em>{t("hero.h1_em")}</em>
           </h1>
-          <p className="lead">
-            Agenda en línea con especialistas certificados, estudios de imagenología de alta precisión y atención de
-            urgencias los 365 días del año, en Tuxtla Gutiérrez.
-          </p>
+          <p className="lead">{t("hero.lead")}</p>
           <HeroCtas />
           <div className="hero-stats">
-            {heroStats.map((stat) => (
-              <StatItem key={stat.label} value={stat.value} label={stat.label} />
+            {heroStats.map((stat, index) => (
+              <StatItem key={stat.value} value={stat.value} label={t(`hero.stat${index + 1}`)} />
             ))}
           </div>
         </Reveal>

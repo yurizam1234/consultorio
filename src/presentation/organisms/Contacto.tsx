@@ -5,15 +5,20 @@ import { Icon } from "@/presentation/atoms/Icon";
 import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { ContactInfoRow } from "@/presentation/molecules/ContactInfoRow";
 import { useContactForm } from "@/presentation/hooks/useContactForm";
+import { useLanguage } from "@/presentation/hooks/useLanguage";
 import { contactoInfo } from "@/shared/data/contacto";
 
 export function Contacto() {
   const { nombre, setNombre, telefono, setTelefono, mensaje, setMensaje, status, handleSubmit } = useContactForm();
+  const { t } = useLanguage();
+
+  const submitLabel =
+    status === "success" ? t("contact.submit_success") : status === "loading" ? t("contact.submit_loading") : t("contact.submit");
 
   return (
     <section id="contacto">
       <div className="wrap">
-        <SectionHead eyebrow="Contacto" title="Estamos cerca. Escríbenos o visítanos." />
+        <SectionHead eyebrow={t("contacto.eyebrow")} title={t("contacto.title")} />
 
         <Reveal className="contact-container">
           <div className="map-background-layer" />
@@ -25,14 +30,14 @@ export function Contacto() {
 
           <div className="contact-content">
             <header className="form-header-block">
-              <h3 className="form-main-title">Contáctanos</h3>
-              <p className="form-subtitle">Escríbenos y te ayudamos a resolver tus dudas.</p>
+              <h3 className="form-main-title">{t("contact.form_title")}</h3>
+              <p className="form-subtitle">{t("contact.form_subtitle")}</p>
             </header>
 
             <form id="contact-form" className="fields-stack" onSubmit={handleSubmit}>
               <div className="input-group-linear">
                 <label className="input-label-text" htmlFor="contact-nombre">
-                  Nombre completo
+                  {t("contact.label_name")}
                 </label>
                 <input
                   id="contact-nombre"
@@ -45,7 +50,7 @@ export function Contacto() {
               </div>
               <div className="input-group-linear">
                 <label className="input-label-text" htmlFor="contact-telefono">
-                  Teléfono
+                  {t("contact.label_phone")}
                 </label>
                 <input
                   id="contact-telefono"
@@ -57,13 +62,13 @@ export function Contacto() {
               </div>
               <div className="input-group-linear">
                 <label className="input-label-text" htmlFor="contact-mensaje">
-                  Mensaje
+                  {t("contact.label_message")}
                 </label>
                 <input
                   id="contact-mensaje"
                   type="text"
                   className="input-field-element"
-                  placeholder="¿En qué podemos ayudarte?"
+                  placeholder={t("contact.message_placeholder")}
                   value={mensaje}
                   onChange={(event) => setMensaje(event.target.value)}
                   required
@@ -74,7 +79,7 @@ export function Contacto() {
 
           <div className="contact-bottom-row">
             <button className="submit-pill-btn" type="submit" form="contact-form" disabled={status === "loading"}>
-              {status === "success" ? "Mensaje enviado ✓" : status === "loading" ? "Enviando..." : "Enviar mensaje"}
+              {submitLabel}
               <Icon name="arrow-right" strokeWidth={2.5} />
             </button>
 
