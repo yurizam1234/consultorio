@@ -2,7 +2,7 @@
 (function () {
   // Si el CDN de GSAP falla (red, bloqueador, etc.) el contenido no debe quedar invisible.
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-    document.querySelectorAll('[data-reveal]').forEach((el) => { el.style.opacity = '1'; });
+    document.querySelectorAll('[data-reveal], [data-reveal-name]').forEach((el) => { el.style.opacity = '1'; });
     return;
   }
 
@@ -100,7 +100,25 @@
     );
   }
 
-  // ===== ENSAMBLADO HORIZONTAL: contenedores con varias tarjetas se arman en cascada =====
+  // ===== NOMBRE DE SECCIÓN: aparece primero, grande, antes que el resto del contenido =====
+  document.querySelectorAll('[data-reveal-name]').forEach((el) => {
+    gsap.fromTo(el,
+      { x: -50, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 92%',
+          end: 'top 68%',
+          scrub: 0.6
+        }
+      }
+    );
+  });
+
+  // ===== ENSAMBLADO HORIZONTAL: contenedores con varias tarjetas se arman en cascada (después del nombre) =====
   const groupSelectors = ['.agenda-steps', '.diagonal-container', '.reasons-features'];
   const groupContainers = [];
 
@@ -118,15 +136,15 @@
         ease: 'power2.out',
         scrollTrigger: {
           trigger: container,
-          start: 'top 85%',
-          end: 'top 40%',
+          start: 'top 68%',
+          end: 'top 30%',
           scrub: 0.6
         }
       }
     );
   });
 
-  // ===== ENSAMBLADO HORIZONTAL: resto de bloques [data-reveal] como una sola pieza =====
+  // ===== ENSAMBLADO HORIZONTAL: resto de bloques [data-reveal] como una sola pieza (después del nombre) =====
   document.querySelectorAll('[data-reveal]').forEach((el) => {
     if (el === heroInfo || el.closest('.hero')) return;
     if (el.closest('#citaModalOverlay')) return;
@@ -140,8 +158,8 @@
         ease: 'power2.out',
         scrollTrigger: {
           trigger: el,
-          start: 'top 85%',
-          end: 'top 45%',
+          start: 'top 68%',
+          end: 'top 30%',
           scrub: 0.6
         }
       }
