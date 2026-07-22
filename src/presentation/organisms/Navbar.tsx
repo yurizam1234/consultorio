@@ -10,25 +10,23 @@ export function Navbar() {
   const { t } = useLanguage();
 
   return (
-    <div className="wrap">
-      <header className="navbar">
-        <div className="nav-logo">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/img/logo.png" alt="SH Arboledas" />
-        </div>
+    <header className="navbar">
+      <div className="nav-logo">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/img/logo.png" alt="SH Arboledas" />
+      </div>
 
-        <NavLinksList links={navLinks} mobileOpen={mobileOpen} onLinkClick={() => setMobileOpen(false)} />
+      <NavLinksList links={navLinks} mobileOpen={mobileOpen} onLinkClick={() => setMobileOpen(false)} />
 
-        <button
-          className="burger"
-          aria-label={t("aria.open_menu")}
-          onClick={() => setMobileOpen((prev) => !prev)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-      </header>
-    </div>
+      <button
+        className="burger"
+        aria-label={t("aria.open_menu")}
+        onClick={() => setMobileOpen((prev) => !prev)}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+    </header>
   );
 }

@@ -59,13 +59,38 @@ img, svg { display: block; max-width: 100%; }
 /* Escapa del ancho máximo de .wrap para ocupar todo el ancho del viewport (sliders, carruseles, galerías) */
 .full-bleed { width: 100vw !important; margin-left: calc(50% - 50vw) !important; }
 
-/* ===== NAVBAR ===== */
+/* ===== NAVBAR: pill flotante (glassmorphism estilo "Clear" de iOS) sobre el video del hero ===== */
 .navbar {
-  width: 100%; margin-top: 24px; padding: 16px 32px;
-  background: rgba(255,255,255,0.45); backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.4); border-radius: 9999px;
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  z-index: 100;
+  padding: 16px 32px;
+  border-radius: 9999px;
   display: flex; justify-content: space-between; align-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+  isolation: isolate;
+
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.22) 100%);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 16px 40px rgba(15, 35, 45, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12);
+}
+/* Brillo sutil en la esquina superior izquierda, como luz reflejándose en el vidrio */
+.navbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at 18% -10%, rgba(255, 255, 255, 0.65) 0%, transparent 45%);
 }
 .nav-logo { display: flex; align-items: center; gap: 12px; }
 .nav-logo img { height: 34px; width: auto; }
@@ -98,23 +123,48 @@ img, svg { display: block; max-width: 100%; }
 .btn-amber:hover { box-shadow: 0 12px 28px rgba(226,150,58,0.4); }
 .btn-sm { padding: 10px 20px; font-size: 0.85rem; }
 
-/* ===== HERO ===== */
-.hero { display: flex; flex-direction: column; margin-top: 8px; }
-.hero .wrap { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 48px; align-items: center; }
-.hero-visual-3d { position: relative; height: 480px; display: flex; align-items: center; justify-content: center; }
-.hero-3d-glow {
-  position: absolute; width: 360px; height: 360px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(28, 214, 146, 0.28) 0%, rgba(40, 77, 92, 0.16) 55%, transparent 75%);
-  filter: blur(10px); z-index: 0;
+/* ===== HERO: video de fondo con scroll-scrubbing (el hero se fija mientras el video avanza con el scroll) ===== */
+.hero { position: relative; margin-top: 0; }
+
+.hero-video-wrap {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
+  background: var(--teal-end); /* respaldo visible mientras carga o si el video falla */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.hero-3d-img {
-  position: relative; z-index: 1; max-width: 100%; max-height: 100%; width: auto; height: auto;
-  object-fit: contain; border-radius: 28px;
-  filter: drop-shadow(0 30px 40px rgba(40, 77, 92, 0.25));
-  animation: heroFloat 5s ease-in-out infinite;
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-@keyframes heroFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
-@media (prefers-reduced-motion: reduce) { .hero-3d-img { animation: none; } }
+
+.hero-video-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(40, 77, 92, 0.4) 0%, rgba(40, 77, 92, 0.15) 45%, rgba(40, 77, 92, 0.55) 100%);
+}
+
+.hero-video-title {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  padding: 0 24px;
+  text-align: center;
+  color: #ffffff;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+.hero-video-title em { color: var(--teal-start); font-style: normal; }
 
 /* ===== NOMBRE DE SECCIÓN: grande, en mayúscula y centrado en TODO el ancho de la sección; aparece primero al llegar por scroll (el resto sigue a la izquierda) =====
    Ajuste manual: para achicar cuánto ocupa el centrado, agrega aquí un "max-width" (ej. 900px) y "margin: 0 auto 24px;"
@@ -132,31 +182,6 @@ img, svg { display: block; max-width: 100%; }
   color: var(--teal-start);
 }
 
-/* En el hero ya está visible al cargar (no llega por scroll), se mantiene como pill pequeña a la izquierda */
-.hero-info .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  width: fit-content;
-  margin: 0;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--teal-start);
-  background: rgba(28, 214, 146, 0.12);
-  border: 1px solid rgba(28, 214, 146, 0.28);
-  padding: 7px 16px;
-  border-radius: 9999px;
-}
-
-.hero-info { display: flex; flex-direction: column; gap: 20px; max-width: 680px; }
-.hero-info h1 { font-size: clamp(2.4rem, 4.4vw, 3.4rem); line-height: 1.06; font-weight: 700; color: #284d5c; }
-.hero-info h1 em { color: var(--teal-start); font-style: normal; }
-.hero-info .lead { color: #4b5563; font-size: 1.05rem; max-width: 480px; line-height: 1.6; }
-.hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
-.hero-stats { display: flex; gap: 28px; flex-wrap: wrap; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 20px; }
-.hero-stats b { display: block; font-size: 1.5rem; color: #284d5c; font-weight: 700; }
-.hero-stats span { font-size: 0.7rem; color: #6b7280; letter-spacing: 0.04em; text-transform: uppercase; }
 
 /* ===== SH ARBOLEDAS (confianza) ===== */
 .trust-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
@@ -498,13 +523,8 @@ img, svg { display: block; max-width: 100%; }
 @media (max-width: 980px) {
   .nav-links:not(.mobile-open) { display: none; }
   .burger { display: flex; }
-  .hero .wrap { grid-template-columns: 1fr; gap: 28px; }
-  .hero-visual-3d { height: 300px; order: -1; }
-  .hero-3d-glow { width: 240px; height: 240px; }
 }
 @media (max-width: 640px) {
-  .hero-info h1 { font-size: 2rem; }
-  .hero-stats { gap: 16px; }
   .organic-card-head { flex-direction: column; align-items: flex-start; gap: 8px; }
   .day-strip { flex-wrap: wrap; }
   .footer { flex-direction: column; text-align: center; }

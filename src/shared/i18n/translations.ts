@@ -8,17 +8,8 @@ export const translations = {
     "nav.equipo": "Equipo",
     "nav.contacto": "Contacto",
 
-    "hero.eyebrow": "Hospital · Diagnóstico por imagen · Urgencias 24/7",
     "hero.h1_pre": "Claridad, desde",
     "hero.h1_em": "la primera cita.",
-    "hero.lead":
-      "Agenda en línea con especialistas certificados, estudios de imagenología de alta precisión y atención de urgencias los 365 días del año, en Tuxtla Gutiérrez.",
-    "hero.cta1": "Agendar mi cita",
-    "hero.cta2": "Conocer especialidades",
-    "hero.stat1": "Quirófanos equipados",
-    "hero.stat2": "Especialistas",
-    "hero.stat3": "Urgencias todo el año",
-    "hero.stat4": "Entrega de resultados",
 
     "nosotros.badge": "Años de experiencia",
     "nosotros.eyebrow": "SH Arboledas",
@@ -123,17 +114,8 @@ export const translations = {
     "nav.equipo": "Team",
     "nav.contacto": "Contact",
 
-    "hero.eyebrow": "Hospital · Imaging diagnostics · 24/7 Emergency care",
     "hero.h1_pre": "Clarity, from",
     "hero.h1_em": "the first visit.",
-    "hero.lead":
-      "Book online with certified specialists, high-precision imaging studies, and emergency care 365 days a year, in Tuxtla Gutiérrez.",
-    "hero.cta1": "Book my appointment",
-    "hero.cta2": "See specialties",
-    "hero.stat1": "Equipped operating rooms",
-    "hero.stat2": "Specialists",
-    "hero.stat3": "Year-round emergency care",
-    "hero.stat4": "Results delivery",
 
     "nosotros.badge": "Years of experience",
     "nosotros.eyebrow": "SH Arboledas",

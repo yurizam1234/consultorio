@@ -29,10 +29,8 @@ export const diasDisponibles = [
 export const horariosDisponibles = ["09:00", "10:30", "12:00", "16:00", "17:30"];
 
 // Los textos (label/title/description) viven en shared/i18n/translations.ts
-// bajo las claves hero.stat{n}, nosotros.point{n}, reasons.feature{n}, agendar.step{n}.title/.desc —
+// bajo las claves nosotros.point{n}, reasons.feature{n}, agendar.step{n}.title/.desc —
 // aquí solo queda lo estructural (valores numéricos, íconos, orden).
-export const heroStats = [{ value: "5" }, { value: "30+" }, { value: "24/7" }, { value: "24h" }];
-
 export const reasonFeatureIcons = [
   "shield-check" as const,
   "monitor" as const,
