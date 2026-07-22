@@ -13,7 +13,7 @@ src/
 ├── presentation/
 │   ├── atoms/           # Icon, Button, Chip, Reveal...
 │   ├── molecules/        # SectionHead, StepCard, TestimonialCardItem...
-│   ├── organisms/        # Navbar, Hero, Contacto, CitaModal...
+│   ├── organisms/        # Navbar, Hero, Contacto, ScrollEffects, EmergencyModal...
 │   ├── templates/        # LandingTemplate
 │   └── hooks/            # useCitaBooking, useContactForm, useCarousel... (únicos que importan `container`)
 ├── shared/             # data estática del sitio + utils
@@ -28,5 +28,3 @@ npm run dev
 ```
 
 Abre [http://localhost:3000](http://localhost:3000).
-
-La carpeta `shARBOLEDAS/` contiene la versión estática original (HTML/CSS/JS) usada como referencia de diseño.

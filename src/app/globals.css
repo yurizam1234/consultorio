@@ -56,6 +56,11 @@ img, svg { display: block; max-width: 100%; }
 .landing-wrapper { width: 100%; max-width: 100%; display: flex; flex-direction: column; gap: 26px; }
 .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; box-sizing: border-box; }
 
+/* El navbar es "fixed" y flota sobre el contenido: sin esto, saltar a un link del
+   menú (#servicios, #contacto...) deja el título de la sección tapado detrás de
+   la píldora del nav. Reserva el alto del navbar + aire al saltar por ancla. */
+section[id] { scroll-margin-top: 110px; }
+
 /* Escapa del ancho máximo de .wrap para ocupar todo el ancho del viewport (sliders, carruseles, galerías) */
 .full-bleed { width: 100vw !important; margin-left: calc(50% - 50vw) !important; }
 
@@ -95,7 +100,6 @@ img, svg { display: block; max-width: 100%; }
 .nav-logo { display: flex; align-items: center; gap: 12px; }
 .nav-logo img { height: 46px; width: auto; }
 .logo-icon { width: 28px; height: 28px; border-radius: 6px; background: linear-gradient(135deg, var(--teal-start), var(--teal-end)); }
-.nav-brand { font-weight: 600; font-size: 1.1rem; color: #284d5c; }
 .nav-links { display: flex; align-items: center; gap: 32px; }
 .nav-links a { font-weight: 500; color: #1f2937; transition: color 0.2s; }
 .nav-links a:hover { color: var(--teal-start); }
@@ -111,17 +115,6 @@ img, svg { display: block; max-width: 100%; }
   background: #fff; padding: 24px 28px; gap: 16px; border-radius: 0 0 24px 24px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.04); border-top: 1px solid rgba(0,0,0,0.04); z-index: 20;
 }
-
-/* ===== BOTONES ===== */
-.btn { font-family: var(--font-family); font-weight: 600; font-size: 0.95rem; padding: 14px 28px; border-radius: 9999px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s, box-shadow 0.2s; }
-.btn:active { transform: scale(0.97); }
-.btn-primary { background: linear-gradient(135deg, var(--teal-start), var(--teal-end)); color: #fff; box-shadow: 0 10px 25px rgba(28,214,146,0.25); }
-.btn-primary:hover { box-shadow: 0 12px 30px rgba(28,214,146,0.35); }
-.btn-ghost { background: rgba(255,255,255,0.5); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.6); color: #1f2937; }
-.btn-ghost:hover { background: rgba(255,255,255,0.8); }
-.btn-amber { background: linear-gradient(135deg, #e2963a, #c97a22); color: #fff; box-shadow: 0 8px 20px rgba(226,150,58,0.3); }
-.btn-amber:hover { box-shadow: 0 12px 28px rgba(226,150,58,0.4); }
-.btn-sm { padding: 10px 20px; font-size: 0.85rem; }
 
 /* ===== HERO: video de fondo con scroll-scrubbing (el hero se fija mientras el video avanza con el scroll) ===== */
 .hero { position: relative; margin-top: 0; }
@@ -370,33 +363,12 @@ img, svg { display: block; max-width: 100%; }
 .toast { position: absolute; left: 26px; right: 26px; bottom: -18px; background: #284d5c; color: #fff; padding: 12px 16px; border-radius: var(--radius-sm); font-size: 0.85rem; box-shadow: 0 14px 30px -12px rgba(40,77,92,0.4); opacity: 0; transform: translateY(8px); pointer-events: none; transition: all 0.3s; }
 .toast.show { opacity: 1; transform: translateY(28px); }
 
-/* ===== AGENDA TU CITA: tarjeta horizontal amplia ===== */
-.organic-booker-card {
-  width: 100%; max-width: 1500px; margin: 0 auto; padding: 28px 36px 28px 48px;
-  /* Muesca circular en el borde izquierdo (a la altura del ícono): un círculo transparente
-     tallado en el fondo con radial-gradient, en vez de un borde recto. */
-  background: radial-gradient(circle at 0 60px, transparent 13px, #ffffff 14px);
-  border-radius: 16px;
-  /* drop-shadow (no box-shadow) para que la sombra seguido dibuje también el contorno de la muesca */
-  filter: drop-shadow(0 16px 32px rgba(28, 214, 146, 0.16));
-  display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: start; position: relative;
-}
-.card-graphic-container { width: 64px; height: 64px; background: rgba(168, 224, 220, 0.45); border-radius: 14px; border: 1px dashed var(--teal-start); display: flex; align-items: center; justify-content: center; flex: none; }
-.card-graphic-container svg { width: 28px; height: 28px; stroke: var(--teal-start); }
-.card-info-content { display: flex; flex-direction: column; flex: 1; }
-.organic-card-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-.organic-card-head h4 { font-size: 1.05rem; font-weight: 700; color: #284d5c; }
-.demo-badge { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; color: var(--teal-start); background: rgba(168, 224, 220, 0.5); padding: 4px 12px; border-radius: 100px; }
+/* ===== AGENDA TU CITA: campos reutilizados por el panel de la pestaña en Hero.tsx =====
+   (la tarjeta con muesca circular que usaba esto vivía en el CitaModal, ya no existe;
+   estas reglas quedaron porque .cita-tab-panel reusa las mismas clases del formulario) */
 .booking-row { display: flex; flex-wrap: wrap; gap: 24px 32px; margin-top: 14px; }
 .booking-field { display: flex; flex-direction: column; gap: 6px; flex: 1 1 180px; min-width: 140px; }
 .booking-field .booker-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.09em; color: #6b7280; font-weight: 600; margin: 0; }
-.organic-booker-card .chip { border-color: #d1d5db; color: #1f2937; font-size: 0.75rem; padding: 6px 14px; }
-.organic-booker-card .chip:hover { border-color: var(--teal-start); }
-.organic-booker-card .chip.active { background: var(--teal-start); border-color: var(--teal-start); color: #fff; }
-.organic-booker-card .day { border-color: #d1d5db; padding: 6px 0 6px; min-width: 40px; }
-.organic-booker-card .day:hover { border-color: var(--teal-start); }
-.organic-booker-card .day.active { background: var(--teal-start); border-color: var(--teal-start); }
-.organic-booker-card .day.active .dname, .organic-booker-card .day.active .dnum { color: #fff; }
 .card-summary-block { margin-top: 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-top: 14px; border-top: 1px solid rgba(168, 224, 220, 0.55); }
 .summary-left { display: flex; flex-direction: column; }
 .summary-left .info-tagline { font-size: 12px; font-weight: 600; color: #6b7280; }
@@ -404,21 +376,7 @@ img, svg { display: block; max-width: 100%; }
 .card-pill-btn { font-family: var(--font-family); background: linear-gradient(135deg, var(--teal-start), var(--teal-end)); color: #ffffff; border: none; padding: 12px 32px; border-radius: 9999px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background-color 0.2s ease, transform 0.1s ease; box-shadow: 0 8px 20px rgba(28, 214, 146, 0.25); flex-shrink: 0; }
 .card-pill-btn:hover { background: linear-gradient(135deg, #17b378, #1f3d49); transform: translateY(-1px); }
 .card-pill-btn:active { transform: scale(0.98); }
-.organic-booker-card .toast { left: 48px; right: 36px; background: #284d5c; color: #fff; padding: 10px 18px; border-radius: var(--radius-sm); font-size: 0.85rem; box-shadow: 0 14px 30px -12px rgba(40, 77, 92, 0.4); opacity: 0; transform: translateY(8px); pointer-events: none; transition: all 0.3s; }
-.organic-booker-card .toast.show { opacity: 1; transform: translateY(28px); }
-@media (max-width: 820px) {
-  /* El grid pasa a una sola columna (ícono arriba); la muesca deja de tener sentido posicional */
-  .organic-booker-card { padding: 24px; grid-template-columns: 1fr; background: #ffffff; }
-  .card-graphic-container { width: 52px; height: 52px; }
-  .booking-row { flex-direction: column; gap: 16px; }
-  .booking-field { flex: 1 1 auto; min-width: unset; }
-  .card-summary-block { flex-direction: column; align-items: flex-start; }
-  .card-pill-btn { width: 100%; justify-content: center; }
-  .organic-booker-card .toast { left: 24px; right: 24px; }
-}
 @media (max-width: 480px) {
-  .organic-booker-card { padding: 20px 18px; grid-template-columns: 1fr; gap: 16px; }
-  .organic-card-head { flex-direction: column; align-items: flex-start; }
   .day-strip { flex-wrap: wrap; }
   .day { flex: 0 0 auto; min-width: 36px; }
 }
@@ -630,7 +588,7 @@ img, svg { display: block; max-width: 100%; }
 .footer-links { display: flex; gap: 24px; font-size: 0.85rem; color: #4b5563; }
 .footer-links a:hover { color: var(--teal-start); }
 
-/* ===== MODAL: AGENDA TU CITA ===== */
+/* ===== OVERLAY DE MODAL (base compartida por EmergencyModal) ===== */
 .cita-modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(40, 77, 92, 0.55); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
 .cita-modal-overlay.open { opacity: 1; visibility: visible; }
 .cita-modal { position: relative; width: 100%; max-width: 900px; max-height: 90vh; overflow-y: auto; transform: translateY(16px) scale(0.98); transition: transform 0.3s ease; }
@@ -654,7 +612,6 @@ img, svg { display: block; max-width: 100%; }
 
 /* ===== REVEAL (estado inicial; la animación la controla GSAP/ScrollTrigger en ScrollEffects) ===== */
 [data-reveal], [data-reveal-name] { opacity: 0; }
-.no-scroll-fx [data-reveal], .no-scroll-fx [data-reveal-name] { opacity: 1; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 980px) {
@@ -662,7 +619,6 @@ img, svg { display: block; max-width: 100%; }
   .burger { display: flex; }
 }
 @media (max-width: 640px) {
-  .organic-card-head { flex-direction: column; align-items: flex-start; gap: 8px; }
   .day-strip { flex-wrap: wrap; }
   .footer { flex-direction: column; text-align: center; }
 }
