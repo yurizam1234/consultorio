@@ -3,15 +3,15 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 
-interface CitaModalContextValue {
+interface EmergencyModalContextValue {
   isOpen: boolean;
   open: () => void;
   close: () => void;
 }
 
-const CitaModalContext = createContext<CitaModalContextValue | null>(null);
+const EmergencyModalContext = createContext<EmergencyModalContextValue | null>(null);
 
-export function CitaModalProvider({ children }: { children: ReactNode }) {
+export function EmergencyModalProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -30,16 +30,16 @@ export function CitaModalProvider({ children }: { children: ReactNode }) {
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen]);
 
-  const value = useMemo<CitaModalContextValue>(
+  const value = useMemo<EmergencyModalContextValue>(
     () => ({ isOpen, open: () => setIsOpen(true), close: () => setIsOpen(false) }),
     [isOpen]
   );
 
-  return <CitaModalContext.Provider value={value}>{children}</CitaModalContext.Provider>;
+  return <EmergencyModalContext.Provider value={value}>{children}</EmergencyModalContext.Provider>;
 }
 
-export function useCitaModal() {
-  const ctx = useContext(CitaModalContext);
-  if (!ctx) throw new Error("useCitaModal debe usarse dentro de CitaModalProvider");
+export function useEmergencyModal() {
+  const ctx = useContext(EmergencyModalContext);
+  if (!ctx) throw new Error("useEmergencyModal debe usarse dentro de EmergencyModalProvider");
   return ctx;
 }

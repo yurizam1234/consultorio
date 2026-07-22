@@ -11,9 +11,7 @@ import { Equipo } from "@/presentation/organisms/Equipo";
 import { Testimonios } from "@/presentation/organisms/Testimonios";
 import { Contacto } from "@/presentation/organisms/Contacto";
 import { Footer } from "@/presentation/organisms/Footer";
-import { EmergencyFloat } from "@/presentation/organisms/EmergencyFloat";
-import { FloatAgendarButton } from "@/presentation/organisms/FloatAgendarButton";
-import { CitaModal } from "@/presentation/organisms/CitaModal";
+import { EmergencyModal } from "@/presentation/organisms/EmergencyModal";
 import { ScrollEffects } from "@/presentation/organisms/ScrollEffects";
 
 export function LandingTemplate() {
@@ -44,9 +42,7 @@ export function LandingTemplate() {
         <Footer />
       </div>
 
-      <EmergencyFloat />
-      <FloatAgendarButton />
-      <CitaModal />
+      <EmergencyModal />
     </>
   );
 }

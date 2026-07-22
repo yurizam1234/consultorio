@@ -1,13 +1,13 @@
 import { LandingTemplate } from "@/presentation/templates/LandingTemplate";
-import { CitaModalProvider } from "@/presentation/hooks/useCitaModal";
+import { EmergencyModalProvider } from "@/presentation/hooks/useEmergencyModal";
 import { LanguageProvider } from "@/presentation/hooks/useLanguage";
 
 export default function Home() {
   return (
     <LanguageProvider>
-      <CitaModalProvider>
+      <EmergencyModalProvider>
         <LandingTemplate />
-      </CitaModalProvider>
+      </EmergencyModalProvider>
     </LanguageProvider>
   );
 }

@@ -93,7 +93,7 @@ img, svg { display: block; max-width: 100%; }
   background: radial-gradient(circle at 18% -10%, rgba(255, 255, 255, 0.65) 0%, transparent 45%);
 }
 .nav-logo { display: flex; align-items: center; gap: 12px; }
-.nav-logo img { height: 34px; width: auto; }
+.nav-logo img { height: 46px; width: auto; }
 .logo-icon { width: 28px; height: 28px; border-radius: 6px; background: linear-gradient(135deg, var(--teal-start), var(--teal-end)); }
 .nav-brand { font-weight: 600; font-size: 1.1rem; color: #284d5c; }
 .nav-links { display: flex; align-items: center; gap: 32px; }
@@ -165,6 +165,118 @@ img, svg { display: block; max-width: 100%; }
   letter-spacing: -0.02em;
 }
 .hero-video-title em { color: var(--teal-start); font-style: normal; }
+
+/* Cards de accion rapida (Agendar cita / Contactanos), ancladas al fondo del hero;
+   GSAP las anima (opacity/x/y) hacia el final del tramo fijado del video, ver ScrollEffects.tsx */
+.hero-action-cards {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(28px, 6vh, 64px);
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 0 24px;
+}
+.hero-action-cards > * { opacity: 0; }
+.hero-action-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 260px;
+  padding: 16px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.08) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 20px 45px -20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+.hero-action-card:hover { transform: translateY(-4px); background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.12) 100%); }
+.hero-action-icon { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 14px; flex: none; background: linear-gradient(135deg, var(--teal-start), var(--teal-end)); }
+.hero-action-icon svg { width: 22px; height: 22px; stroke: #fff; }
+.hero-action-card-urgent .hero-action-icon { background: linear-gradient(135deg, #e0655d, #b23a33); }
+.hero-action-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.hero-action-text strong { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+.hero-action-text span { font-size: 0.8rem; color: rgba(255, 255, 255, 0.78); }
+@media (max-width: 640px) {
+  .hero-action-cards { bottom: 22px; flex-direction: column; align-items: stretch; }
+  .hero-action-card { min-width: 0; }
+}
+
+/* ===== PESTAÑA "AGENDAR CITA": pestaña vertical pegada al borde derecho del hero
+   (mismo timing de aparición que la card de arriba, ver ScrollEffects.tsx). Al hacer
+   click se despliega horizontalmente un panel con el formulario, sin modal centrado. */
+.cita-tab-wrap {
+  position: absolute;
+  top: 58%; /* <- ajusta este % si la pestaña queda muy cerca del nav o de las cards de abajo */
+  right: 0;
+  z-index: 4;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  opacity: 0; /* GSAP controla la entrada, ver ScrollEffects.tsx */
+}
+.cita-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 68px; /* <- ANCHO de la pestaña: sube o baja este número para agrandarla/achicarla */
+  padding: 28px 0; /* <- ALTO de la pestaña: el primer número (arriba/abajo) controla qué tan larga se ve */
+  border: none;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  background: linear-gradient(180deg, var(--teal-start), var(--teal-end));
+  color: #fff;
+  cursor: pointer;
+  box-shadow: -10px 12px 30px -10px rgba(0, 0, 0, 0.4);
+  flex: none;
+  transition: padding 0.2s ease;
+}
+.cita-tab:hover { padding-left: 4px; }
+.cita-tab svg { width: 24px; height: 24px; stroke: #fff; flex: none; } /* <- tamaño del ícono del calendario */
+.cita-tab-label { writing-mode: vertical-rl; transform: rotate(180deg); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.02em; white-space: nowrap; } /* <- tamaño del texto vertical */
+.cita-tab-panel {
+  width: 0;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  box-shadow: -10px 12px 30px -10px rgba(0, 0, 0, 0.3);
+  transition: width 0.4s ease;
+}
+.cita-tab-wrap.open .cita-tab-panel { width: min(90vw, 380px); }
+.cita-tab-panel-inner {
+  position: relative;
+  width: min(90vw, 380px);
+  max-height: min(74vh, 620px);
+  overflow-y: auto;
+  padding: 28px 24px;
+  box-sizing: border-box;
+}
+.cita-tab-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+.cita-tab-panel-head h4 { font-size: 1.05rem; font-weight: 700; color: #284d5c; }
+.cita-tab-panel-close { background: none; border: none; font-size: 1.4rem; line-height: 1; cursor: pointer; color: #6b7280; flex: none; }
+.cita-tab-panel-close:hover { color: #d6473f; }
+.cita-tab-panel .booking-row { flex-direction: column; gap: 16px; margin-top: 10px; }
+.cita-tab-panel .booking-field { min-width: unset; }
+.cita-tab-panel .card-summary-block { flex-direction: column; align-items: flex-start; gap: 12px; }
+.cita-tab-panel .card-pill-btn { width: 100%; justify-content: center; }
+.cita-tab-panel .toast { left: 24px; right: 24px; }
+@media (prefers-reduced-motion: reduce) {
+  .cita-tab-wrap { opacity: 1; transform: translateY(-50%); }
+}
+@media (max-width: 640px) {
+  .cita-tab { width: 56px; padding: 22px 0; }
+  .cita-tab-label { font-size: 0.85rem; }
+}
 
 /* ===== NOMBRE DE SECCIÓN: grande, en mayúscula y centrado en TODO el ancho de la sección; aparece primero al llegar por scroll (el resto sigue a la izquierda) =====
    Ajuste manual: para achicar cuánto ocupa el centrado, agrega aquí un "max-width" (ej. 900px) y "margin: 0 auto 24px;"
@@ -311,23 +423,13 @@ img, svg { display: block; max-width: 100%; }
   .day { flex: 0 0 auto; min-width: 36px; }
 }
 
-/* ===== URGENCIAS ===== */
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.55); } 70% { box-shadow: 0 0 0 10px rgba(255,255,255,0); } 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
-/* Se queda a la altura del hero, no sigue el scroll */
-.emergency-float { position: absolute; top: 100px; right: 24px; z-index: 95; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
-.emergency-btn { display: flex; align-items: center; gap: 8px; padding: 12px 18px; background: #d6473f; color: #fff; border: none; border-radius: 9999px; font-family: var(--font-family); font-weight: 600; font-size: 0.85rem; cursor: pointer; box-shadow: 0 14px 26px -8px rgba(214,71,63,0.5); transition: transform 0.2s ease, box-shadow 0.2s ease; }
-.emergency-btn:hover { transform: scale(1.03); }
-.emergency-pulse { width: 9px; height: 9px; border-radius: 50%; background: #fff; animation: pulse 1.6s infinite; flex: none; }
-.emergency-menu { display: flex; flex-direction: column; gap: 8px; max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.35s ease, opacity 0.3s ease; width: 250px; }
-.emergency-float.open .emergency-menu { max-height: 170px; opacity: 1; }
+/* ===== URGENCIAS (opciones dentro de EmergencyModal) ===== */
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(214,71,63,0.4); } 70% { box-shadow: 0 0 0 10px rgba(214,71,63,0); } 100% { box-shadow: 0 0 0 0 rgba(214,71,63,0); } }
+.emergency-pulse { width: 9px; height: 9px; border-radius: 50%; background: #d6473f; animation: pulse 1.6s infinite; flex: none; }
 .emergency-option { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px; padding: 12px 14px; font-size: 0.82rem; font-weight: 500; color: #1f2937; box-shadow: 0 10px 24px rgba(0,0,0,0.08); transition: border-color 0.2s ease, transform 0.15s ease; }
 .emergency-option:hover { border-color: #d6473f; transform: translateX(-2px); }
 .emergency-option .ic { width: 30px; height: 30px; border-radius: 50%; background: rgba(214,71,63,0.1); display: flex; align-items: center; justify-content: center; flex: none; }
 .emergency-option .ic svg { width: 14px; height: 14px; stroke: #d6473f; }
-@media (max-width: 640px) {
-  .emergency-float { top: 90px; right: 16px; }
-  .emergency-btn { padding: 11px 16px; font-size: 0.78rem; }
-}
 
 /* ===== SECTION HEAD ===== */
 .section-head { max-width: 640px; margin-bottom: 44px; }
@@ -447,6 +549,36 @@ img, svg { display: block; max-width: 100%; }
   .testi-quote { font-size: 0.95rem; }
 }
 
+/* ===== CONTACTO: video de fondo con scroll-scrub (igual técnica que el hero) + card que se levanta =====
+   El pin/scrub/reveal lo maneja ScrollEffects.tsx sobre estas clases. */
+.contacto-video-wrap {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
+  background: var(--teal-end); /* respaldo mientras carga o si el video falla */
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.contacto-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.contacto-video-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(40, 77, 92, 0.1) 0%, rgba(40, 77, 92, 0.05) 40%, rgba(40, 77, 92, 0.65) 100%);
+}
+.contacto-card-slot { position: relative; z-index: 3; padding-bottom: clamp(24px, 6vh, 64px); }
+/* Estado inicial antes de que GSAP tome el control: solo opacity (NUNCA mezclar aquí
+   un transform en % con el yPercent que aplica GSAP — el navegador resuelve el % de
+   CSS contra la altura en ese instante y GSAP arrastra ese valor "congelado" en vez
+   de recalcularlo, dejando la card mal posicionada al terminar de subir). El GSAP de
+   ScrollEffects.tsx aplica la posición real (yPercent) desde el primer frame. */
+.contacto-rise-card { opacity: 0.2; }
+@media (prefers-reduced-motion: reduce) {
+  .contacto-rise-card { opacity: 1; }
+}
+
 /* ===== CONTACTO ===== */
 .contact-container { position: relative; width: 100%; min-height: 480px; background: #e6f7f5; border-radius: var(--radius-lg); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); padding: 50px; overflow: hidden; border: 1px solid rgba(0, 0, 0, 0.02); display: flex; flex-direction: column; }
 .map-background-layer { position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(168, 224, 220, 0.6) 1px, transparent 1px) 0 0 / 40px 40px, linear-gradient(0deg, rgba(168, 224, 220, 0.6) 1px, transparent 1px) 0 0 / 40px 40px, linear-gradient(45deg, rgba(40, 77, 92, 0.04) 1px, transparent 1px) 0 0 / 60px 60px; }
@@ -498,11 +630,6 @@ img, svg { display: block; max-width: 100%; }
 .footer-links { display: flex; gap: 24px; font-size: 0.85rem; color: #4b5563; }
 .footer-links a:hover { color: var(--teal-start); }
 
-/* ===== FLOTANTE: AGENDAR CITA ===== */
-.float-agendar { position: fixed; bottom: 24px; right: 24px; z-index: 90; display: flex; align-items: center; gap: 10px; padding: 16px 24px; border: none; border-radius: 9999px; background: linear-gradient(135deg, var(--teal-start), var(--teal-end)); color: #fff; font-family: var(--font-family); font-weight: 600; font-size: 0.9rem; cursor: pointer; box-shadow: 0 14px 30px -8px rgba(28, 214, 146, 0.45); transition: transform 0.2s ease, box-shadow 0.2s ease; }
-.float-agendar:hover { transform: scale(1.04); box-shadow: 0 16px 34px -8px rgba(28, 214, 146, 0.55); }
-.float-agendar svg { width: 20px; height: 20px; flex: none; }
-
 /* ===== MODAL: AGENDA TU CITA ===== */
 .cita-modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(40, 77, 92, 0.55); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
 .cita-modal-overlay.open { opacity: 1; visibility: visible; }
@@ -511,8 +638,18 @@ img, svg { display: block; max-width: 100%; }
 .cita-modal-close { position: absolute; top: -14px; right: -14px; width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 1px solid rgba(0, 0, 0, 0.08); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); font-size: 1.4rem; line-height: 1; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; color: #284d5c; transition: color 0.2s ease, transform 0.2s ease; }
 .cita-modal-close:hover { color: #d6473f; transform: rotate(90deg); }
 @media (max-width: 640px) {
-  .float-agendar { font-size: 0.82rem; padding: 14px 18px; }
   .cita-modal-close { top: 8px; right: 8px; }
+}
+
+/* ===== MODAL: CONTACTANOS / URGENCIA ===== */
+.cita-modal.emergency-modal { max-width: 420px; }
+.emergency-modal-card { background: #fff; border-radius: var(--radius-lg); padding: 32px 28px; box-shadow: 0 24px 60px -20px rgba(0,0,0,0.25); }
+.emergency-modal-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.emergency-modal-head h4 { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.01em; color: #1f2937; }
+.emergency-modal-sub { color: #6b7280; font-size: 0.9rem; margin: 0 0 20px; }
+.emergency-modal-options { display: flex; flex-direction: column; gap: 10px; }
+@media (max-width: 480px) {
+  .emergency-modal-card { padding: 26px 20px; }
 }
 
 /* ===== REVEAL (estado inicial; la animación la controla GSAP/ScrollTrigger en ScrollEffects) ===== */
@@ -532,6 +669,7 @@ img, svg { display: block; max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   [data-reveal], [data-reveal-name] { opacity: 1; transform: none; transition: none; }
   .ecg-divider { display: none; }
+  .hero-action-cards > * { opacity: 1; transform: none; }
 }
 
 /* ===== ONDA ECG ENTRE SECCIONES ===== */
