@@ -5,15 +5,66 @@ import { useLanguage } from "@/presentation/hooks/useLanguage";
 import { cn } from "@/shared/lib/utils";
 
 const MIN_VISIBLE_MS = 700;
-const MAX_WAIT_MS = 7000;
+// Techo duro para no atrapar a alguien con muy mala conexión en la pantalla de
+// carga: si se cumple sin que el video haya terminado de descargarse, el propio
+// scroll-scrub (ver clampToBuffered en ScrollEffects.tsx) recorta cada salto al
+// rango ya bufferizado, así que nunca se ve un frame roto — sólo avanza más
+// lento hasta que el resto del archivo termine de llegar en segundo plano.
+const MAX_WAIT_MS = 6000;
+
+// ¿Ya se descargó el archivo completo (no sólo "puede reproducirse desde el
+// inicio")? El scroll-scrub salta a cualquier punto del video de golpe; con
+// "canplaythrough" (que sólo garantiza reproducción LINEAL sin cortes desde la
+// posición actual) el video puede quedarse "pegado" en el último frame
+// decodificado si el usuario hace scroll hacia una parte que aún no llegó —
+// visible sobre todo en la primera carga (caché vacía), y por eso al recargar
+// (con el archivo ya en caché del navegador) se ve fluido de inmediato.
+function isFullyBuffered(video: HTMLVideoElement) {
+  if (!video.duration || Number.isNaN(video.duration)) return false;
+  const { buffered } = video;
+  if (buffered.length === 0) return false;
+  return buffered.end(buffered.length - 1) >= video.duration - 0.2;
+}
+
+function waitForFullDownload(maybeVideo: HTMLVideoElement | null, onDone: () => void) {
+  if (!maybeVideo) {
+    onDone();
+    return () => {};
+  }
+  const video = maybeVideo;
+  if (isFullyBuffered(video)) {
+    onDone();
+    return () => {};
+  }
+
+  let done = false;
+  const check = () => {
+    if (done || !isFullyBuffered(video)) return;
+    done = true;
+    cleanup();
+    onDone();
+  };
+  // "progress" se dispara repetidas veces mientras el navegador sigue
+  // descargando el archivo (gracias a preload="auto"); en cuanto el rango
+  // bufferizado alcanza la duración total, se considera listo.
+  video.addEventListener("progress", check);
+  video.addEventListener("loadedmetadata", check);
+  video.addEventListener("canplaythrough", check);
+  function cleanup() {
+    video.removeEventListener("progress", check);
+    video.removeEventListener("loadedmetadata", check);
+    video.removeEventListener("canplaythrough", check);
+  }
+  return cleanup;
+}
 
 // Pantalla de carga: fondo blanco + logo + un "barrido" de electrocardiograma en
 // bucle. Se ve desde el HTML servido por el servidor (sin depender de JS) para
-// evitar cualquier parpadeo; mientras tanto el resto del árbol (Hero, video...)
-// ya está montado detrás y cargando en segundo plano. JS solo decide CUÁNDO
-// desvanecerla: cuando el video del hero está listo para reproducirse sin
-// cortes, con un mínimo (para que no sea un parpadeo) y un máximo (para no
-// dejar a alguien con conexión lenta atrapado en la pantalla de carga).
+// evitar cualquier parpadeo; mientras tanto el resto del árbol (Hero, Contacto,
+// videos...) ya está montado detrás y descargando en segundo plano. JS sólo
+// decide CUÁNDO desvanecerla: cuando los videos de scroll-scrub (hero y
+// contacto) ya se descargaron por completo, con un mínimo (para que no sea un
+// parpadeo) y un máximo (para no dejar a alguien con conexión lenta atrapado).
 export function Preloader() {
   const { t } = useLanguage();
   const [ready, setReady] = useState(false);
@@ -24,29 +75,42 @@ export function Preloader() {
 
     const start = Date.now();
     let settled = false;
+    let heroDone = false;
+    let contactoDone = false;
 
-    const finish = () => {
-      if (settled) return;
+    const finishIfDone = () => {
+      if (settled || !heroDone || !contactoDone) return;
       settled = true;
       window.clearTimeout(maxTimer);
       const elapsed = Date.now() - start;
       window.setTimeout(() => setReady(true), Math.max(0, MIN_VISIBLE_MS - elapsed));
     };
 
-    const maxTimer = window.setTimeout(finish, MAX_WAIT_MS);
-    const heroVideo = document.querySelector<HTMLVideoElement>(".hero-video");
+    const forceFinish = () => {
+      if (settled) return;
+      settled = true;
+      const elapsed = Date.now() - start;
+      window.setTimeout(() => setReady(true), Math.max(0, MIN_VISIBLE_MS - elapsed));
+    };
 
-    if (!heroVideo || heroVideo.readyState >= 3) {
-      finish();
-    } else {
-      heroVideo.addEventListener("canplaythrough", finish, { once: true });
-      heroVideo.addEventListener("loadeddata", finish, { once: true });
-    }
+    const maxTimer = window.setTimeout(forceFinish, MAX_WAIT_MS);
+
+    const heroVideo = document.querySelector<HTMLVideoElement>(".hero-video");
+    const contactoVideo = document.querySelector<HTMLVideoElement>(".contacto-video");
+
+    const cleanupHero = waitForFullDownload(heroVideo, () => {
+      heroDone = true;
+      finishIfDone();
+    });
+    const cleanupContacto = waitForFullDownload(contactoVideo, () => {
+      contactoDone = true;
+      finishIfDone();
+    });
 
     return () => {
       window.clearTimeout(maxTimer);
-      heroVideo?.removeEventListener("canplaythrough", finish);
-      heroVideo?.removeEventListener("loadeddata", finish);
+      cleanupHero();
+      cleanupContacto();
     };
   }, []);
 

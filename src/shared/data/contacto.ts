@@ -1,6 +1,9 @@
 export const contactoInfo = {
   nombreHospital: "Hospital Arboledas",
   direccion: "16 Poniente Norte #436, Col. Bonampak, Tuxtla Gutiérrez, CP 29030",
+  // Referencia visual para quien va en coche/a pie, en el idioma que corresponda.
+  // Edita este texto si el punto de referencia real es otro.
+  referencia: { es: "Junto a Óptica Arboledas, a una cuadra del Boulevard Belisario Domínguez", en: "Next to Óptica Arboledas, one block from Belisario Domínguez Boulevard" },
   telefonoUrgencias: "(961) 602-9586",
   telefonoUrgenciasHref: "+529616029586",
   whatsappHref: "https://wa.me/529616029586",
@@ -9,6 +12,14 @@ export const contactoInfo = {
   cofepris: "COFEPRIS 253301201A0303",
   licenciaSanitaria: "Lic. San. 24AM071010011",
 };
+
+// URL del <iframe> de Google Maps (Maps Embed sin API key, vía "output=embed") y del
+// deep link "Cómo llegar" (Directions API por URL: funciona igual en el navegador de
+// escritorio, en Android y en iOS — Safari lo resuelve a través de Google Maps o del
+// mapa web si la app no está instalada, sin necesitar un botón aparte para Apple Maps).
+const direccionQuery = encodeURIComponent(`${contactoInfo.nombreHospital}, ${contactoInfo.direccion}`);
+export const mapsEmbedSrc = `https://www.google.com/maps?q=${direccionQuery}&output=embed`;
+export const mapsDirectionsHref = `https://www.google.com/maps/dir/?api=1&destination=${direccionQuery}`;
 
 export const especialidades = [
   "Oftalmología",

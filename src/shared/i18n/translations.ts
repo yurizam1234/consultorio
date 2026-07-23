@@ -61,6 +61,9 @@ export const translations = {
     "equipo.eyebrow": "Nuestro equipo",
     "equipo.title": "Las personas detrás de tu atención",
     "equipo.desc": "Médicos con amplia experiencia y vocación de servicio.",
+    "equipo.view_profile": "Ver perfil",
+    "equipo.profile_exp_label": "Experiencia",
+    "equipo.profile_credentials_label": "Formación y certificaciones",
 
     "testimonios.eyebrow": "Testimonios",
     "testimonios.title": "Qué piensan los pacientes de nosotros",
@@ -76,6 +79,8 @@ export const translations = {
     "contact.submit": "Enviar mensaje",
     "contact.submit_loading": "Enviando...",
     "contact.submit_success": "Mensaje enviado ✓",
+    "contact.directions_cta": "Cómo llegar",
+    "contact.map_title": "Ubicación de {name} en el mapa",
 
     "footer.desc":
       "Hospital y centro de diagnóstico en Tuxtla Gutiérrez, Chiapas. Atención integral, urgencias 24/7 e imagenología de alta precisión.",
@@ -88,9 +93,9 @@ export const translations = {
 
     "modal.title": "Agenda tu cita",
     "modal.demo_badge": "DEMO",
-    "modal.step1_label": "1 · Especialidad",
-    "modal.step2_label": "2 · Fecha",
-    "modal.step3_label": "3 · Horario",
+    "modal.step1_label": "Especialidad",
+    "modal.step2_label": "Fecha",
+    "modal.step3_label": "Horario",
     "modal.tagline": "Tu cita",
     "modal.confirm_btn": "Confirmar cita",
     "modal.confirm_btn_loading": "Agendando...",
@@ -166,6 +171,9 @@ export const translations = {
     "equipo.eyebrow": "Our Team",
     "equipo.title": "The people behind your care",
     "equipo.desc": "Doctors with extensive experience and a vocation for service.",
+    "equipo.view_profile": "View profile",
+    "equipo.profile_exp_label": "Experience",
+    "equipo.profile_credentials_label": "Education & certifications",
 
     "testimonios.eyebrow": "Testimonials",
     "testimonios.title": "What our patients think of us",
@@ -181,6 +189,8 @@ export const translations = {
     "contact.submit": "Send message",
     "contact.submit_loading": "Sending...",
     "contact.submit_success": "Message sent ✓",
+    "contact.directions_cta": "Get directions",
+    "contact.map_title": "{name} location on the map",
 
     "footer.desc":
       "Hospital and diagnostic center in Tuxtla Gutiérrez, Chiapas. Comprehensive care, 24/7 emergency services, and high-precision imaging.",
@@ -193,9 +203,9 @@ export const translations = {
 
     "modal.title": "Book your appointment",
     "modal.demo_badge": "DEMO",
-    "modal.step1_label": "1 · Specialty",
-    "modal.step2_label": "2 · Date",
-    "modal.step3_label": "3 · Time",
+    "modal.step1_label": "Specialty",
+    "modal.step2_label": "Date",
+    "modal.step3_label": "Time",
     "modal.tagline": "Your appointment",
     "modal.confirm_btn": "Confirm appointment",
     "modal.confirm_btn_loading": "Booking...",

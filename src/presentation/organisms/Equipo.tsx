@@ -1,11 +1,13 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Reveal } from "@/presentation/atoms/Reveal";
 import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { DoctorSlide } from "@/presentation/molecules/DoctorSlide";
+import { DoctorModal } from "@/presentation/organisms/DoctorModal";
 import { useCarousel } from "@/presentation/hooks/useCarousel";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
-import { doctores } from "@/shared/data/doctores";
+import { doctores, type Doctor } from "@/shared/data/doctores";
 import { cn } from "@/shared/lib/utils";
 
 export function Equipo() {
@@ -14,6 +16,23 @@ export function Equipo() {
     autoplayMs: 5000,
   });
   const { t } = useLanguage();
+  const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
+
+  useEffect(() => {
+    document.body.style.overflow = selectedDoctor ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedDoctor]);
+
+  useEffect(() => {
+    if (!selectedDoctor) return;
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") setSelectedDoctor(null);
+    }
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [selectedDoctor]);
 
   return (
     <section id="equipo">
@@ -29,7 +48,12 @@ export function Equipo() {
         <Reveal className="team-slideshow" onMouseEnter={pause} onMouseLeave={resume}>
           <div className="slides-track">
             {doctores.map((doctor, index) => (
-              <DoctorSlide key={doctor.name} doctor={doctor} active={index === activeIndex} />
+              <DoctorSlide
+                key={doctor.name}
+                doctor={doctor}
+                active={index === activeIndex}
+                onOpenProfile={() => setSelectedDoctor(doctor)}
+              />
             ))}
           </div>
         </Reveal>
@@ -53,6 +77,8 @@ export function Equipo() {
           </button>
         </div>
       </div>
+
+      <DoctorModal doctor={selectedDoctor} onClose={() => setSelectedDoctor(null)} />
     </section>
   );
 }

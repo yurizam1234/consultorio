@@ -1,5 +1,6 @@
 import type { NavLink } from "@/shared/data/navegacion";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
+import { LangSwitch } from "@/presentation/molecules/LangSwitch";
 import { cn } from "@/shared/lib/utils";
 
 interface NavLinksListProps {
@@ -9,7 +10,7 @@ interface NavLinksListProps {
 }
 
 export function NavLinksList({ links, mobileOpen, onLinkClick }: NavLinksListProps) {
-  const { lang, setLang, t } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <nav className={cn("nav-links", mobileOpen && "mobile-open")}>
@@ -18,22 +19,7 @@ export function NavLinksList({ links, mobileOpen, onLinkClick }: NavLinksListPro
           {t(link.labelKey)}
         </a>
       ))}
-      <div className="lang-switch">
-        <button
-          type="button"
-          className={cn("lang-btn", lang === "es" && "active")}
-          onClick={() => setLang("es")}
-        >
-          ES
-        </button>
-        <button
-          type="button"
-          className={cn("lang-btn", lang === "en" && "active")}
-          onClick={() => setLang("en")}
-        >
-          EN
-        </button>
-      </div>
+      <LangSwitch />
     </nav>
   );
 }

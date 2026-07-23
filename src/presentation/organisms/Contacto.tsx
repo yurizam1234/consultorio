@@ -5,11 +5,11 @@ import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { ContactInfoRow } from "@/presentation/molecules/ContactInfoRow";
 import { useContactForm } from "@/presentation/hooks/useContactForm";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
-import { contactoInfo } from "@/shared/data/contacto";
+import { contactoInfo, mapsEmbedSrc, mapsDirectionsHref } from "@/shared/data/contacto";
 
 export function Contacto() {
   const { nombre, setNombre, telefono, setTelefono, mensaje, setMensaje, status, handleSubmit } = useContactForm();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const submitLabel =
     status === "success" ? t("contact.submit_success") : status === "loading" ? t("contact.submit_loading") : t("contact.submit");
@@ -33,12 +33,13 @@ export function Contacto() {
 
         <div className="wrap contacto-card-slot">
           <div className="contact-container contacto-rise-card">
-            <div className="map-background-layer" />
-
-            <div className="map-location-pin">
-              <div className="pin-glow-effect" />
-              <Icon name="pin" fill="var(--teal-start)" stroke="none" />
-            </div>
+            <iframe
+              className="map-embed-layer"
+              src={mapsEmbedSrc}
+              title={t("contact.map_title", { name: contactoInfo.nombreHospital })}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
 
             <div className="contact-content">
               <header className="form-header-block">
@@ -99,10 +100,15 @@ export function Contacto() {
                 <div className="glass-addr">
                   <b>{contactoInfo.nombreHospital}</b>
                   <span>{contactoInfo.direccion}</span>
+                  <span className="glass-addr-ref">{contactoInfo.referencia[lang]}</span>
                 </div>
                 <ContactInfoRow icon="phone">{contactoInfo.telefonoUrgencias}, 24/7</ContactInfoRow>
                 <ContactInfoRow icon="chat">{contactoInfo.telefonoConmutador}</ContactInfoRow>
                 <ContactInfoRow icon="mail">{contactoInfo.email}</ContactInfoRow>
+                <a className="directions-btn" href={mapsDirectionsHref} target="_blank" rel="noopener noreferrer">
+                  <Icon name="pin" strokeWidth={2} />
+                  {t("contact.directions_cta")}
+                </a>
               </div>
             </div>
           </div>

@@ -4,7 +4,6 @@ import { Icon } from "@/presentation/atoms/Icon";
 import { Chip } from "@/presentation/atoms/Chip";
 import { useEmergencyModal } from "@/presentation/hooks/useEmergencyModal";
 import { useCitaBooking } from "@/presentation/hooks/useCitaBooking";
-import { useDisclosure } from "@/presentation/hooks/useDisclosure";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
 import { especialidades, diasDisponibles, horariosDisponibles } from "@/shared/data/contacto";
 import { cn } from "@/shared/lib/utils";
@@ -12,7 +11,6 @@ import { cn } from "@/shared/lib/utils";
 export function Hero() {
   const { t } = useLanguage();
   const { open: openEmergency } = useEmergencyModal();
-  const { open: panelOpen, toggle: togglePanel, close: closePanel, ref: panelRef } = useDisclosure();
   const { especialidad, setEspecialidad, dia, setDia, horario, setHorario, status, confirmar, summary } =
     useCitaBooking();
 
@@ -44,33 +42,24 @@ export function Hero() {
           </button>
         </div>
 
-        {/* Pestaña vertical "Agendar cita": pegada al borde derecho, se despliega
-            horizontalmente al hacer click (revela el formulario sin taparse con
-            ningún modal centrado). Aparece con el mismo timing que la card de arriba. */}
-        <div ref={panelRef} className={cn("cita-tab-wrap", panelOpen && "open")}>
-          <button
-            className="cita-tab"
-            type="button"
-            aria-haspopup="true"
-            aria-expanded={panelOpen}
-            onClick={() => togglePanel()}
-          >
-            <Icon name="calendar-hours" strokeWidth={1.8} />
-            <span className="cita-tab-label">{t("float.agendar")}</span>
-          </button>
-
-          <div className="cita-tab-panel">
-            <div className="cita-tab-panel-inner">
-              <div className="cita-tab-panel-head">
+        {/* Card "Agendar cita": vidrio esmerilado, siempre visible, se desliza desde
+            el costado derecho (mismo timing que la card de arriba, ver ScrollEffects.tsx). */}
+        <div className="cita-card-wrap">
+          <div className="cita-card">
+            <div className="cita-card-inner">
+              <div className="cita-card-head">
+                <span className="cita-card-icon">
+                  <Icon name="calendar-hours" strokeWidth={1.8} />
+                </span>
                 <h4>{t("modal.title")}</h4>
-                <button className="cita-tab-panel-close" aria-label={t("modal.close")} onClick={closePanel}>
-                  ×
-                </button>
               </div>
 
-              <div className="booking-row">
-                <div className="booking-field">
-                  <p className="booker-label">{t("modal.step1_label")}</p>
+              <div className="cita-steps">
+                <div className="cita-step">
+                  <p className="cita-step-label">
+                    <span className="cita-step-num">1</span>
+                    {t("modal.step1_label")}
+                  </p>
                   <div className="chip-row">
                     {especialidades.map((spec) => (
                       <Chip key={spec} active={spec === especialidad} onClick={() => setEspecialidad(spec)}>
@@ -80,8 +69,11 @@ export function Hero() {
                   </div>
                 </div>
 
-                <div className="booking-field">
-                  <p className="booker-label">{t("modal.step2_label")}</p>
+                <div className="cita-step">
+                  <p className="cita-step-label">
+                    <span className="cita-step-num">2</span>
+                    {t("modal.step2_label")}
+                  </p>
                   <div className="day-strip">
                     {diasDisponibles.map((d) => (
                       <div
@@ -96,8 +88,11 @@ export function Hero() {
                   </div>
                 </div>
 
-                <div className="booking-field">
-                  <p className="booker-label">{t("modal.step3_label")}</p>
+                <div className="cita-step">
+                  <p className="cita-step-label">
+                    <span className="cita-step-num">3</span>
+                    {t("modal.step3_label")}
+                  </p>
                   <div className="chip-row">
                     {horariosDisponibles.map((time) => (
                       <Chip key={time} active={time === horario} onClick={() => setHorario(time)}>
@@ -108,13 +103,14 @@ export function Hero() {
                 </div>
               </div>
 
-              <div className="card-summary-block">
-                <div className="summary-left">
-                  <span className="info-tagline">{t("modal.tagline")}</span>
-                  <h2 className="info-main-date">{summary}</h2>
-                </div>
-                <button className="card-pill-btn" onClick={confirmar} disabled={status === "loading"}>
+              <div className="cita-divider" />
+
+              <div className="cita-summary">
+                <span className="cita-summary-tag">{t("modal.tagline")}</span>
+                <strong className="cita-summary-value">{summary}</strong>
+                <button className="cita-confirm-btn" onClick={confirmar} disabled={status === "loading"}>
                   {status === "loading" ? t("modal.confirm_btn_loading") : t("modal.confirm_btn")}
+                  <Icon name="arrow-right" strokeWidth={2.2} />
                 </button>
               </div>
 
