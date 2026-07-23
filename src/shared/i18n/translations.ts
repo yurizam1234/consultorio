@@ -97,6 +97,8 @@ export const translations = {
     "modal.toast": "✓ Cita agendada — confirmación enviada por WhatsApp",
     "modal.close": "Cerrar",
 
+    "preloader.loading": "Cargando",
+
     "aria.open_menu": "Abrir menú",
     "aria.view_doctor": "Ver a {name}",
     "aria.view_testimonial": "Ver testimonio de {name}",
@@ -199,6 +201,8 @@ export const translations = {
     "modal.confirm_btn_loading": "Booking...",
     "modal.toast": "✓ Appointment booked — confirmation sent via WhatsApp",
     "modal.close": "Close",
+
+    "preloader.loading": "Loading",
 
     "aria.open_menu": "Open menu",
     "aria.view_doctor": "View {name}",
