@@ -1,6 +1,7 @@
 "use client";
 
 import { Reveal } from "@/presentation/atoms/Reveal";
+import { SplitChars } from "@/presentation/atoms/SplitChars";
 import { TrustPointItem } from "@/presentation/molecules/TrustPointItem";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
 
@@ -37,7 +38,9 @@ export function TrustIntro() {
 
           <div className="trust-content">
             <Reveal style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              <h2>{t("nosotros.h2")}</h2>
+              <h2 aria-label={t("nosotros.h2")}>
+                <SplitChars text={t("nosotros.h2")} />
+              </h2>
               <p className="trust-lead">{t("nosotros.lead")}</p>
               <ul className="trust-points">
                 <TrustPointItem text={t("nosotros.point1")} />

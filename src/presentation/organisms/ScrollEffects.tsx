@@ -94,6 +94,7 @@ export function ScrollEffects() {
         // ===== HERO: video de fondo controlado por el scroll (se fija y el video avanza cuadro a cuadro) =====
         const heroVideoWrap = document.querySelector<HTMLElement>(".hero-video-wrap");
         const heroTitle = document.querySelector<HTMLElement>(".hero-video-title");
+        const heroCitaTeaser = document.querySelector<HTMLElement>(".hero-cita-teaser");
         const heroActionCards = document.querySelector<HTMLElement>(".hero-action-cards");
         const citaCardWrap = document.querySelector<HTMLElement>(".cita-card-wrap");
 
@@ -121,6 +122,13 @@ export function ScrollEffects() {
               gsap.set(heroTitle, { opacity: 1 - p, y: -30 * p });
             }
 
+            // El teaser de "Agenda tu cita" aparece y desaparece junto con el
+            // título (misma curva) — la card grande de abajo no se toca.
+            if (heroCitaTeaser) {
+              const p = gsap.utils.clamp(0, 1, progress / 0.35);
+              gsap.set(heroCitaTeaser, { opacity: 1 - p, y: -30 * p });
+            }
+
             // Las cards "Contáctanos" y "Agendar cita" entran hacia el final del tramo
             // fijado (55%→90%) — siempre terminan de aparecer ANTES de que el pin se
             // libere (100%) y entre la siguiente sección.
@@ -135,6 +143,11 @@ export function ScrollEffects() {
             }
           };
 
+          // El dock flotante usa onLeave/onEnterBack de este MISMO trigger en vez
+          // de uno nuevo con start:"bottom top": sobre un elemento ya pineado, un
+          // segundo trigger posicional propio no calculaba bien el final del
+          // pin-spacer. (El navbar usa su propio trigger sobre #nosotros, más abajo.)
+          const floatingDock = document.querySelector<HTMLElement>(".floating-dock");
           const heroTrigger = ScrollTrigger.create({
             trigger: heroVideoWrap,
             start: "top top",
@@ -142,7 +155,36 @@ export function ScrollEffects() {
             pin: true,
             scrub: 0.5,
             onUpdate: (self) => syncHero(self.progress),
+            onLeave: () => floatingDock?.classList.add("visible"),
+            onEnterBack: () => floatingDock?.classList.remove("visible"),
           });
+
+          // Estado inicial explícito: si la página carga con el scroll ya pasado
+          // el hero (ej. recarga con la posición guardada), onLeave nunca se
+          // dispara porque no hubo cruce — sin esto, el dock quedaría oculto
+          // aunque ya estemos después del hero.
+          if (heroTrigger.progress >= 1) {
+            floatingDock?.classList.add("visible");
+          }
+
+          // El navbar se expande justo al llegar a "Nuestra Historia" (justo
+          // después del hero, ya sin el video en pantalla) — se crea DESPUÉS
+          // del pin de arriba, mismo motivo que el comentario de más arriba.
+          const nosotrosSection = document.querySelector<HTMLElement>("#nosotros");
+          const navbarEl = document.querySelector<HTMLElement>(".navbar");
+          if (nosotrosSection) {
+            ScrollTrigger.create({
+              trigger: nosotrosSection,
+              start: "top top",
+              onEnter: () => navbarEl?.classList.add("expanded"),
+              onLeaveBack: () => navbarEl?.classList.remove("expanded"),
+            });
+            // Estado inicial explícito (misma razón que arriba): si la página ya
+            // carga con "Nuestra Historia" en la parte superior de la pantalla.
+            if (nosotrosSection.getBoundingClientRect().top <= 0) {
+              navbarEl?.classList.add("expanded");
+            }
+          }
 
           // Ver el comentario junto a "resyncHero" más arriba: sin esto, si el video
           // aún no tenía metadata/buffer suficiente en el último scroll, se queda
@@ -199,16 +241,6 @@ export function ScrollEffects() {
           contactoVideo.addEventListener("progress", resyncContacto);
         }
 
-        // ===== AURORA DE FONDO: los tonos de la paleta se revelan a lo largo de todo el scroll =====
-        const aurora = document.querySelector(".scroll-aurora");
-        if (aurora) {
-          gsap.to(aurora, {
-            backgroundPosition: "100% 100%",
-            ease: "none",
-            scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 1 },
-          });
-        }
-
         // ===== DIVISORES ECG ENTRE SECCIONES =====
         document.querySelectorAll<HTMLElement>(".ecg-divider").forEach((divider) => {
           const path = divider.querySelector<SVGPathElement>(".ecg-path");
@@ -224,16 +256,49 @@ export function ScrollEffects() {
           });
         });
 
+        // ===== DIRECCIÓN DE ENTRADA POR SECCIÓN =====
+        // Por defecto todo entra desde la izquierda (x negativo → 0), como siempre.
+        // Estas 4 secciones entran desde la derecha (x positivo → 0) a pedido: dan
+        // variedad visual al recorrido sin tocar el resto de secciones.
+        const rightEntrySectionIds = ["servicios", "por-que-escogernos", "equipo", "contacto"];
+        const revealDir = (el: Element) => {
+          const section = el.closest("section[id]");
+          return section && rightEntrySectionIds.includes(section.id) ? 1 : -1;
+        };
+
         // ===== NOMBRE DE SECCIÓN: aparece primero, grande, antes que el resto del contenido =====
         document.querySelectorAll("[data-reveal-name]").forEach((el) => {
+          const dir = revealDir(el);
           gsap.fromTo(
             el,
-            { x: -50, opacity: 0 },
+            { x: 50 * dir, opacity: 0 },
             {
               x: 0,
               opacity: 1,
               ease: "power2.out",
               scrollTrigger: { trigger: el, start: "top 92%", end: "top 68%", scrub: 0.6 },
+            }
+          );
+        });
+
+        // ===== TÍTULOS DE SECCIÓN: cascada letra por letra (ver SplitChars.tsx) =====
+        // Stagger y duración cortos a propósito: con títulos largos (40+ letras),
+        // un stagger/duración generosos dejaban una ventana larga (~1.3s) en la
+        // que el usuario, scrolleando a ritmo normal, veía letras a medio camino
+        // (opacidad/posición intermedias) — se leía como "palabras troceadas".
+        // Con esto el peor caso (título más largo) termina en ~0.6s.
+        document.querySelectorAll<HTMLElement>(".split-chars").forEach((wrapper) => {
+          const chars = wrapper.querySelectorAll(".split-char");
+          gsap.fromTo(
+            chars,
+            { opacity: 0, y: 8 },
+            {
+              opacity: 1,
+              y: 0,
+              stagger: 0.008,
+              ease: "power1.out",
+              duration: 0.3,
+              scrollTrigger: { trigger: wrapper, start: "top 92%", toggleActions: "play none none reverse" },
             }
           );
         });
@@ -246,10 +311,11 @@ export function ScrollEffects() {
           const container = document.querySelector(sel);
           if (!container) return;
           groupContainers.push(container);
+          const dir = revealDir(container);
           const items = Array.from(container.children);
           gsap.fromTo(
             items,
-            { x: -70, opacity: 0 },
+            { x: 70 * dir, opacity: 0 },
             {
               x: 0,
               opacity: 1,
@@ -266,9 +332,10 @@ export function ScrollEffects() {
           if (el.closest(".contacto-video-wrap")) return;
           if (groupContainers.some((c) => c.contains(el) || c === el)) return;
 
+          const dir = revealDir(el);
           gsap.fromTo(
             el,
-            { x: -60, opacity: 0 },
+            { x: 60 * dir, opacity: 0 },
             {
               x: 0,
               opacity: 1,

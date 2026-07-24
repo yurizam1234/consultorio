@@ -1,12 +1,12 @@
 import { LocalCitaRepository } from "./repositories/LocalCitaRepository";
-import { LocalContactRepository } from "./repositories/LocalContactRepository";
+import { LocalEncuestaRepository } from "./repositories/LocalEncuestaRepository";
 import { CrearCitaUseCase } from "@/application/citas/CrearCitaUseCase";
-import { EnviarMensajeUseCase } from "@/application/contacto/EnviarMensajeUseCase";
+import { EnviarEncuestaUseCase } from "@/application/encuesta/EnviarEncuestaUseCase";
 
 const citaRepository = new LocalCitaRepository();
-const contactRepository = new LocalContactRepository();
+const encuestaRepository = new LocalEncuestaRepository();
 
 export const container = {
   crearCita: new CrearCitaUseCase(citaRepository),
-  enviarMensaje: new EnviarMensajeUseCase(contactRepository),
+  enviarEncuesta: new EnviarEncuestaUseCase(encuestaRepository),
 };

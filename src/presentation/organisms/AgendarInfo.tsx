@@ -1,6 +1,7 @@
 "use client";
 
 import { Reveal } from "@/presentation/atoms/Reveal";
+import { SplitChars } from "@/presentation/atoms/SplitChars";
 import { Icon } from "@/presentation/atoms/Icon";
 import { StepCard } from "@/presentation/molecules/StepCard";
 import { agendaSteps } from "@/shared/data/contacto";
@@ -10,13 +11,15 @@ export function AgendarInfo() {
   const { t } = useLanguage();
 
   return (
-    <section className="band glass-section" id="agendar-info">
+    <section className="band" id="agendar-info">
       <div className="wrap">
         <span className="feature-badge-pill" data-reveal-name>
           {t("agendar.badge")}
         </span>
         <Reveal className="feature-intro">
-          <h2 className="feature-title">{t("agendar.title")}</h2>
+          <h2 className="feature-title" aria-label={t("agendar.title")}>
+            <SplitChars text={t("agendar.title")} />
+          </h2>
           <p className="feature-desc">{t("agendar.desc")}</p>
         </Reveal>
 

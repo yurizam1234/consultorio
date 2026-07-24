@@ -1,6 +1,7 @@
 "use client";
 
 import { Reveal } from "@/presentation/atoms/Reveal";
+import { SplitChars } from "@/presentation/atoms/SplitChars";
 import { Icon } from "@/presentation/atoms/Icon";
 import { ReasonFeatureItem } from "@/presentation/molecules/ReasonFeatureItem";
 import { DiamondImage } from "@/presentation/molecules/DiamondImage";
@@ -23,7 +24,9 @@ export function PorQueEscogernos() {
         <div className="reasons-grid">
           <div className="reasons-content">
             <Reveal style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              <h2 className="reasons-title">{t("reasons.title")}</h2>
+              <h2 className="reasons-title" aria-label={t("reasons.title")}>
+                <SplitChars text={t("reasons.title")} />
+              </h2>
               <p className="reasons-desc">{t("reasons.desc")}</p>
 
               <div className="reasons-features">

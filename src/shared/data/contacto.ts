@@ -21,14 +21,6 @@ const direccionQuery = encodeURIComponent(`${contactoInfo.nombreHospital}, ${con
 export const mapsEmbedSrc = `https://www.google.com/maps?q=${direccionQuery}&output=embed`;
 export const mapsDirectionsHref = `https://www.google.com/maps/dir/?api=1&destination=${direccionQuery}`;
 
-export const especialidades = [
-  "Oftalmología",
-  "Imagenología",
-  "Laboratorio",
-  "Medicina General",
-  "Urgencias",
-];
-
 export const diasDisponibles = [
   { label: "Jue 17", dname: "Jue", dnum: "17" },
   { label: "Vie 18", dname: "Vie", dnum: "18" },

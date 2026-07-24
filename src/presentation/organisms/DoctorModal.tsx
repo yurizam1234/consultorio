@@ -27,13 +27,13 @@ export function DoctorModal({ doctor, onClose }: DoctorModalProps) {
 
           <div className="doctor-modal-card">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="doctor-modal-img" src={doctor.img} alt={doctor.name} />
+            <img className="doctor-modal-img" src={doctor.img} alt={doctor.name ?? t("equipo.name_pending")} />
 
             <div className="doctor-modal-body">
-              <span className="doctor-modal-badge">{doctor.exp[lang]}</span>
-              <h4 id="doctorModalTitle">{doctor.name}</h4>
-              <p className="doctor-modal-specialty">{doctor.specialty[lang]}</p>
-              <p className="doctor-modal-desc">{doctor.desc[lang]}</p>
+              {doctor.exp && <span className="doctor-modal-badge">{doctor.exp[lang]}</span>}
+              <h4 id="doctorModalTitle">{doctor.name ?? t("equipo.name_pending")}</h4>
+              <p className="doctor-modal-specialty">{doctor.specialty?.[lang] ?? t("equipo.specialty_pending")}</p>
+              <p className="doctor-modal-desc">{doctor.desc?.[lang] ?? t("equipo.desc_pending")}</p>
 
               <div className="doctor-modal-divider" />
 
@@ -43,14 +43,39 @@ export function DoctorModal({ doctor, onClose }: DoctorModalProps) {
                 </span>
                 {t("equipo.profile_credentials_label")}
               </p>
-              <ul className="doctor-modal-credentials">
-                {doctor.credentials[lang].map((item) => (
-                  <li key={item}>
-                    <Icon name="check-circle" strokeWidth={1.8} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+              {doctor.credentials ? (
+                <ul className="doctor-modal-credentials">
+                  {doctor.credentials[lang].map((item) => (
+                    <li key={item}>
+                      <Icon name="check-circle" strokeWidth={1.8} />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="doctor-modal-desc">{t("equipo.credentials_pending")}</p>
+              )}
+
+              <div className="doctor-modal-divider" />
+
+              <div className="doctor-modal-cedulas">
+                <span>
+                  <b>{t("equipo.cedula_profesional_label")}:</b> {doctor.cedulaProfesional ?? t("equipo.cedula_pending")}
+                </span>
+                <span>
+                  <b>{t("equipo.cedula_especialidad_label")}:</b> {doctor.cedulaEspecialidad ?? t("equipo.cedula_pending")}
+                </span>
+                {doctor.cedulaProfesional && (
+                  <a
+                    className="doctor-modal-cedula-verify"
+                    href="https://cedulaprofesional.sep.gob.mx"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {t("equipo.cedula_verify_link")}
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>

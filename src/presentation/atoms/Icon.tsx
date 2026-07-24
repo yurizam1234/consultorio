@@ -13,7 +13,14 @@ export type IconName =
   | "chat"
   | "mail"
   | "layers"
-  | "pin";
+  | "pin"
+  | "video"
+  | "star"
+  | "facebook"
+  | "instagram"
+  | "tiktok"
+  | "whatsapp"
+  | "menu";
 
 const paths: Record<IconName, React.ReactNode> = {
   calendar: (
@@ -83,6 +90,37 @@ const paths: Record<IconName, React.ReactNode> = {
     </>
   ),
   pin: <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />,
+  video: (
+    <>
+      <rect x="3" y="6" width="13" height="12" rx="2" />
+      <path d="m16 10 5-3v10l-5-3Z" />
+    </>
+  ),
+  star: <path d="m12 3 2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 17l-5.6 3.1 1.4-6.3-4.8-4.3 6.4-.6L12 3Z" />,
+  facebook: <path d="M14 9h3V6h-3c-1.66 0-3 1.34-3 3v2H9v3h2v7h3v-7h3l1-3h-4v-2c0-.55.45-1 1-1Z" />,
+  instagram: (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <path d="M17.5 6.5h.01" />
+    </>
+  ),
+  tiktok: (
+    <path d="M15 3v10.5a2.75 2.75 0 1 1-2.75-2.75c.26 0 .51.03.75.09V7.7a5.75 5.75 0 1 0 5 5.7V9.2A6.3 6.3 0 0 0 21 10.5V7.4a4 4 0 0 1-3-1.3A4 4 0 0 1 17 3h-2Z" />
+  ),
+  whatsapp: (
+    <>
+      <path d="M3 21l1.65-4.95A8.5 8.5 0 1 1 8.9 19.4L3 21Z" />
+      <path d="M8.5 9.3c.3 2.7 2.5 4.9 5.2 5.2.5.05 1-.2 1.2-.7l.25-.6a.75.75 0 0 0-.4-.95l-1.3-.55a.75.75 0 0 0-.85.2l-.3.35a5.5 5.5 0 0 1-2.15-2.15l.35-.3a.75.75 0 0 0 .2-.85l-.55-1.3a.75.75 0 0 0-.95-.4l-.6.25a1 1 0 0 0-.7 1.2Z" />
+    </>
+  ),
+  menu: (
+    <>
+      <line x1="4" y1="7" x2="20" y2="7" />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <line x1="4" y1="17" x2="20" y2="17" />
+    </>
+  ),
 };
 
 interface IconProps {

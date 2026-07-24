@@ -5,58 +5,96 @@ export interface Instalacion {
   title: Record<Lang, string>;
   desc: Record<Lang, string>;
   tag: Record<Lang, string>;
-  img: string;
+  // Opcional: si aún no hay foto real del área, se muestra un fondo neutro
+  // en vez de una imagen (ver DiagonalPanelItem.tsx).
+  img?: string;
+  galeria: string[];
 }
 
 export const instalaciones: Instalacion[] = [
   {
     num: "01",
-    title: { es: "Consultorios privados", en: "Private offices" },
-    desc: {
-      es: "Espacios acogedores para una atención personalizada y confidencial.",
-      en: "Welcoming spaces for personalized, confidential care.",
-    },
-    tag: { es: "🔬 Diagnóstico", en: "🔬 Diagnostics" },
-    img: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&q=80",
-  },
-  {
-    num: "02",
-    title: { es: "Área de diagnóstico", en: "Diagnostics area" },
+    title: { es: "Áreas diagnósticas", en: "Diagnostic areas" },
     desc: {
       es: "Equipos de última generación para estudios precisos y rápidos.",
       en: "Latest-generation equipment for precise, fast studies.",
     },
     tag: { es: "📡 Imagenología", en: "📡 Imaging" },
-    img: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&q=80",
+    img: "/instalaciones/areas-diagnosticas/usg.jpg",
+    galeria: [
+      "/instalaciones/areas-diagnosticas/usg.jpg",
+      "/instalaciones/areas-diagnosticas/usg2.jpg",
+      "/instalaciones/areas-diagnosticas/estudio.jpeg",
+      "/instalaciones/areas-diagnosticas/reso3.jpg",
+      "/instalaciones/areas-diagnosticas/reso4.jpeg",
+      "/instalaciones/areas-diagnosticas/tac2.jpeg",
+      "/instalaciones/areas-diagnosticas/urgencia.jpeg",
+    ],
+  },
+  {
+    num: "02",
+    title: { es: "Consultorios", en: "Private offices" },
+    desc: {
+      es: "Espacios acogedores para una atención personalizada y confidencial.",
+      en: "Welcoming spaces for personalized, confidential care.",
+    },
+    tag: { es: "🩺 Consulta", en: "🩺 Consultation" },
+    img: "/instalaciones/consultorios/con1.jpg",
+    galeria: [
+      "/instalaciones/consultorios/con1.jpg",
+      "/instalaciones/consultorios/con2.JPG",
+      "/instalaciones/consultorios/con3.webp",
+      "/instalaciones/consultorios/con4.webp",
+      "/instalaciones/consultorios/con5.jpg",
+      "/instalaciones/consultorios/dr3.webp",
+      "/instalaciones/consultorios/dr5.jpeg",
+    ],
   },
   {
     num: "03",
-    title: { es: "Sala de espera", en: "Waiting room" },
+    title: { es: "Hospitalización", en: "Inpatient care" },
     desc: {
-      es: "Ambiente relajante con luz natural, áreas verdes y confort.",
-      en: "Relaxing atmosphere with natural light, green areas, and comfort.",
+      es: "Ambiente cómodo y tranquilo para tu recuperación.",
+      en: "A comfortable, calm environment for your recovery.",
     },
-    tag: { es: "🛋️ Confort", en: "🛋️ Comfort" },
-    img: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80",
+    tag: { es: "🛏️ Hospitalización", en: "🛏️ Inpatient care" },
+    img: "/instalaciones/habitaciones/hs1.jpeg",
+    galeria: [
+      "/instalaciones/habitaciones/hs1.jpeg",
+      "/instalaciones/habitaciones/hs2.jpg",
+      "/instalaciones/habitaciones/hs5.jpeg",
+      "/instalaciones/habitaciones/hs6.jpeg",
+      "/instalaciones/habitaciones/enf3.jpeg",
+    ],
   },
   {
     num: "04",
     title: { es: "Quirófanos", en: "Operating rooms" },
     desc: {
-      es: "Cinco quirófanos totalmente equipados con tecnología de punta.",
-      en: "Five fully equipped operating rooms with cutting-edge technology.",
+      es: "Quirófanos totalmente equipados con tecnología de punta.",
+      en: "Fully equipped operating rooms with cutting-edge technology.",
     },
     tag: { es: "🏥 Cirugía", en: "🏥 Surgery" },
-    img: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=80",
+    img: "/instalaciones/quirofanos/qx2.jpg",
+    galeria: [
+      "/instalaciones/quirofanos/qx2.jpg",
+      "/instalaciones/quirofanos/qx1.webp",
+      "/instalaciones/quirofanos/qx3.jpg",
+      "/instalaciones/quirofanos/qx4.jpg",
+      "/instalaciones/quirofanos/qx5.png",
+      "/instalaciones/quirofanos/qx6.webp",
+      "/instalaciones/quirofanos/qx7.webp",
+    ],
   },
   {
     num: "05",
-    title: { es: "Urgencias 24/7", en: "24/7 Emergency care" },
+    title: { es: "Aseguradora", en: "Insurance office" },
     desc: {
-      es: "Personal capacitado y área equipada disponible todos los días del año.",
-      en: "Trained staff and equipped area available every day of the year.",
+      es: "Atención y gestión de trámites con tu aseguradora.",
+      en: "Assistance and paperwork with your insurance provider.",
     },
-    tag: { es: "🚨 Atención inmediata", en: "🚨 Immediate care" },
-    img: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80",
+    tag: { es: "📋 Trámites", en: "📋 Paperwork" },
+    // Sin foto real todavía (agregar cuando exista una foto del área/oficina).
+    galeria: [],
   },
 ];
