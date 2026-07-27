@@ -24,7 +24,6 @@ export function LandingTemplate() {
       <div className="landing-wrapper">
         <Navbar />
         <Hero />
-        <EcgDivider />
         <TrustIntro />
         <EcgDivider />
         <ServiciosSlider />

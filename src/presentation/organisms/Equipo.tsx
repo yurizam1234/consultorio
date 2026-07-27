@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { LucideIcon } from "lucide-react";
-import { Stethoscope, HeartPulse, Scissors, ConciergeBell, ShieldCheck, ScanLine, SprayCan } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Reveal } from "@/presentation/atoms/Reveal";
 import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { DoctorModal } from "@/presentation/organisms/DoctorModal";
@@ -25,22 +24,17 @@ const departamentos: Departamento[] = [
   "intendencia",
 ];
 
-const deptIcons: Record<Departamento, LucideIcon> = {
-  medicos: Stethoscope,
-  enfermeria: HeartPulse,
-  quirofano: Scissors,
-  recepcion: ConciergeBell,
-  aseguradora: ShieldCheck,
-  imagenologia: ScanLine,
-  intendencia: SprayCan,
-};
+// Foto de prueba (recorte tipo "cutout"): ninguno de los integrantes reales tiene
+// todavía una foto en este formato (las de doctores.ts/equipoOtrasAreas.ts son
+// fotos de estudio normales, usadas en el carrusel de abajo) — se usa la misma
+// para todos mientras tanto, sólo para ver terminado el nuevo diseño.
+const FOTO_RECORTE_PRUEBA = "/doctor-cutout-demo.png";
 
 export function Equipo() {
   const { t, lang } = useLanguage();
   const [dept, setDept] = useState<Departamento>("medicos");
   const [activeIndex, setActiveIndex] = useState(0);
   const [modalDoctor, setModalDoctor] = useState<Doctor | null>(null);
-  const [deptMenuOpen, setDeptMenuOpen] = useState(false);
 
   const isMedicos = dept === "medicos";
   const items: { img: string }[] = isMedicos ? doctores : equipoOtrasAreas[dept];
@@ -51,6 +45,14 @@ export function Equipo() {
   function handleSelectDept(next: Departamento) {
     setDept(next);
     setActiveIndex(0);
+  }
+
+  function goPrev() {
+    setActiveIndex((current) => (current - 1 + items.length) % items.length);
+  }
+
+  function goNext() {
+    setActiveIndex((current) => (current + 1) % items.length);
   }
 
   useEffect(() => {
@@ -87,114 +89,94 @@ export function Equipo() {
     return () => window.removeEventListener("equipo:seleccionar", handleSeleccionar);
   }, []);
 
-  useEffect(() => {
-    if (!deptMenuOpen) return;
-    function handleEscape(event: KeyboardEvent) {
-      if (event.key === "Escape") setDeptMenuOpen(false);
-    }
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [deptMenuOpen]);
-
   return (
     <section id="equipo">
       <div className="wrap">
         <SectionHead eyebrow={t("equipo.eyebrow")} />
       </div>
 
-      <div className="wrap">
-        <Reveal className="equipo-showcase full-bleed">
-          <div className="equipo-hero" style={{ backgroundImage: `url(${active.img})` }}>
-            <div className="equipo-hero-scrim" />
-
-            <div className="equipo-dept-nav">
-              <button
-                type="button"
-                className="equipo-dept-toggle"
-                onClick={() => setDeptMenuOpen((open) => !open)}
-                aria-label={t("aria.equipo_dept_menu")}
-                aria-expanded={deptMenuOpen}
-              >
-                <Icon name="menu" strokeWidth={2} />
-              </button>
-
-              {deptMenuOpen && (
-                <>
-                  <div className="equipo-dept-backdrop" onClick={() => setDeptMenuOpen(false)} />
-                  <nav className="equipo-dept-menu">
-                    {departamentos.map((d) => {
-                      const DeptIcon = deptIcons[d];
-                      return (
-                        <button
-                          key={d}
-                          type="button"
-                          className={cn("equipo-dept-tab", d === dept && "active")}
-                          onClick={() => {
-                            handleSelectDept(d);
-                            setDeptMenuOpen(false);
-                          }}
-                        >
-                          <DeptIcon size={20} strokeWidth={1.8} />
-                          <span>{t(`equipo.dept.${d}`)}</span>
-                        </button>
-                      );
-                    })}
-                  </nav>
-                </>
-              )}
-            </div>
-
-            <div className="equipo-hero-content">
-              {isMedicos ? (
-                <>
-                  {activeDoctor?.exp && <span className="equipo-hero-badge">{activeDoctor.exp[lang]}</span>}
-                  <h3 className="equipo-hero-name">{activeDoctor?.name ?? t("equipo.name_pending")}</h3>
-                  <p className="equipo-hero-specialty">
-                    {activeDoctor?.specialty?.[lang] ?? t("equipo.specialty_pending")}
-                  </p>
-                  <div className="equipo-hero-cedulas">
-                    <span>
-                      {t("equipo.cedula_profesional_label")}: {activeDoctor?.cedulaProfesional ?? t("equipo.cedula_pending")}
-                    </span>
-                    <span>
-                      {t("equipo.cedula_especialidad_label")}: {activeDoctor?.cedulaEspecialidad ?? t("equipo.cedula_pending")}
-                    </span>
-                  </div>
-                  <button type="button" className="equipo-hero-cta" onClick={() => setModalDoctor(activeDoctor)}>
-                    {t("equipo.view_profile")}
-                    <Icon name="arrow-right" strokeWidth={2.2} />
+      <div className="equipo-v2-fade full-bleed">
+        <div className="wrap">
+          <Reveal className="equipo-v2-card">
+            <header className="equipo-v2-header">
+              <nav className="equipo-v2-nav" aria-label={t("aria.equipo_dept_menu")}>
+                {departamentos.map((d) => (
+                  <button
+                    key={d}
+                    type="button"
+                    className={cn("equipo-v2-nav-link", d === dept && "active")}
+                    onClick={() => handleSelectDept(d)}
+                  >
+                    {t(`equipo.dept.${d}`)}
                   </button>
-                </>
-              ) : (
-                <>
-                  {activeMiembro?.esJefe && <span className="equipo-hero-badge">{t("equipo.jefe_badge")}</span>}
-                  <h3 className="equipo-hero-name">{activeMiembro?.role ?? t("equipo.role_pending")}</h3>
-                </>
-              )}
-            </div>
-          </div>
+                ))}
+              </nav>
+            </header>
 
-          <aside className="equipo-sidebar">
-            <div className="equipo-sidebar-scroll">
+            <main className="equipo-v2-main">
+              <div className="equipo-v2-arrows">
+                <button type="button" className="equipo-v2-arrow" onClick={goPrev} aria-label={t("aria.prev_doctor")}>
+                  <ChevronLeft size={18} strokeWidth={2} />
+                </button>
+                <button type="button" className="equipo-v2-arrow" onClick={goNext} aria-label={t("aria.next_doctor")}>
+                  <ChevronRight size={18} strokeWidth={2} />
+                </button>
+              </div>
+
+              <div className="equipo-v2-info">
+                {isMedicos ? (
+                  <>
+                    {activeDoctor?.exp && <span className="equipo-v2-badge">{activeDoctor.exp[lang]}</span>}
+                    <h3 className="equipo-v2-name">{activeDoctor?.name ?? t("equipo.name_pending")}</h3>
+                    <p className="equipo-v2-role">{activeDoctor?.specialty?.[lang] ?? t("equipo.specialty_pending")}</p>
+                    {activeDoctor?.desc && <p className="equipo-v2-bio">{activeDoctor.desc[lang]}</p>}
+                    <div className="equipo-v2-cedulas">
+                      <span>
+                        {t("equipo.cedula_profesional_label")}: {activeDoctor?.cedulaProfesional ?? t("equipo.cedula_pending")}
+                      </span>
+                      <span>
+                        {t("equipo.cedula_especialidad_label")}: {activeDoctor?.cedulaEspecialidad ?? t("equipo.cedula_pending")}
+                      </span>
+                    </div>
+                    <button type="button" className="equipo-v2-cta" onClick={() => setModalDoctor(activeDoctor)}>
+                      {t("equipo.view_profile")}
+                      <Icon name="arrow-right" strokeWidth={2.2} />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {activeMiembro?.esJefe && <span className="equipo-v2-badge">{t("equipo.jefe_badge")}</span>}
+                    <h3 className="equipo-v2-name">{activeMiembro?.role ?? t("equipo.role_pending")}</h3>
+                  </>
+                )}
+              </div>
+
+              <div className="equipo-v2-photo-col">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={FOTO_RECORTE_PRUEBA} alt="" className="equipo-v2-photo" />
+              </div>
+            </main>
+
+            <aside className="equipo-v2-team-bar">
               {items.map((item, index) => (
                 <button
                   key={item.img}
                   type="button"
-                  className={cn("equipo-thumb", index === activeIndex && "active")}
+                  className={cn("equipo-v2-team-item", index === activeIndex && "active")}
                   onClick={() => setActiveIndex(index)}
-                  aria-label={
-                    isMedicos
-                      ? (item as Doctor).name ?? t("equipo.name_pending")
-                      : (item as MiembroOtraArea).role ?? t("equipo.role_pending")
-                  }
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={item.img} alt="" loading="lazy" />
+                  <span className="equipo-v2-avatar">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={item.img} alt="" loading="lazy" />
+                  </span>
+                  <span className="equipo-v2-member-name">
+                    {isMedicos ? (item as Doctor).name ?? t("equipo.name_pending") : (item as MiembroOtraArea).role ?? t("equipo.role_pending")}
+                  </span>
                 </button>
               ))}
-            </div>
-          </aside>
-        </Reveal>
+            </aside>
+          </Reveal>
+        </div>
       </div>
 
       <DoctorModal doctor={modalDoctor} onClose={() => setModalDoctor(null)} />

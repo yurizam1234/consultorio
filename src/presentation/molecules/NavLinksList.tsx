@@ -2,6 +2,7 @@ import type { NavLink } from "@/shared/data/navegacion";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
 import { LangSwitch } from "@/presentation/molecules/LangSwitch";
 import { ComplianceBadge } from "@/presentation/molecules/ComplianceBadge";
+import { PanelAccessButton } from "@/presentation/molecules/PanelAccessButton";
 import { cn } from "@/shared/lib/utils";
 
 interface NavLinksListProps {
@@ -22,6 +23,7 @@ export function NavLinksList({ links, mobileOpen, onLinkClick }: NavLinksListPro
       ))}
       <LangSwitch />
       <ComplianceBadge />
+      <PanelAccessButton />
     </nav>
   );
 }

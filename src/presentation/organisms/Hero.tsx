@@ -23,6 +23,7 @@ export function Hero() {
           aria-hidden="true"
         />
         <div className="hero-video-scrim" />
+        <div className="hero-video-fade" aria-hidden="true" />
 
         {/* Aparece y desaparece junto con el título (misma curva 0→35% del
             scroll del hero, ver syncHero() en ScrollEffects.tsx). Abre el

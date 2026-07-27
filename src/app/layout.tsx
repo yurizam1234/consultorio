@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { LanguageProvider } from "@/presentation/hooks/useLanguage";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,7 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es-MX" className={`${inter.variable}`}>
-      <body>{children}</body>
+      <body>
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
@@ -372,7 +372,18 @@ export function ScrollEffects() {
   }, []);
 
   // El idioma cambia el largo de los textos (y por tanto las alturas): reajusta los triggers.
+  // Se salta la PRIMERA vez (el montaje) a propósito: ese refresh ya lo hace "runSetup" en
+  // cuanto termina de crear los pines, y disparar este OTRO refresh global justo en el mismo
+  // instante — encima con React Strict Mode montando el efecto dos veces en dev — competía
+  // con esa construcción y GSAP terminaba revirtiendo un pin-spacer que ya no era hijo de su
+  // nodo esperado ("insertBefore" roto). A partir de un cambio de idioma real (ya con todo
+  // estable) no hay ese conflicto.
+  const isFirstLangRun = useRef(true);
   useEffect(() => {
+    if (isFirstLangRun.current) {
+      isFirstLangRun.current = false;
+      return;
+    }
     const id = requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => cancelAnimationFrame(id);
   }, [lang]);
