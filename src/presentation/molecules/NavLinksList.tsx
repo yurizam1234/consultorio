@@ -22,7 +22,6 @@ export function NavLinksList({ links, mobileOpen, onLinkClick }: NavLinksListPro
         </a>
       ))}
       <LangSwitch />
-      <ComplianceBadge />
       <PanelAccessButton />
     </nav>
   );

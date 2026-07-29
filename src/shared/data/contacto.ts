@@ -1,3 +1,6 @@
+const cofeprisNumero = "253301201A0303";
+const licenciaSanitariaNumero = "24AM071010011";
+
 export const contactoInfo = {
   nombreHospital: "Hospital Arboledas",
   direccion: "16 Poniente Norte #436, Col. Bonampak, Tuxtla Gutiérrez, CP 29030",
@@ -9,8 +12,12 @@ export const contactoInfo = {
   whatsappHref: "https://wa.me/529616029586",
   telefonoConmutador: "(961) 404-7409",
   email: "sharboledas@gmail.com",
-  cofepris: "COFEPRIS 253301201A0303",
-  licenciaSanitaria: "Lic. San. 24AM071010011",
+  // Forma corta, usada en el badge chico del footer (".foot-badges").
+  cofepris: `COFEPRIS ${cofeprisNumero}`,
+  licenciaSanitaria: `Lic. San. ${licenciaSanitariaNumero}`,
+  // Forma completa, sin abreviar, usada en <ComplianceBadge /> del hero.
+  cofeprisCompleto: `COFEPRIS: ${cofeprisNumero}`,
+  licenciaSanitariaCompleta: `Licencia Sanitaria: ${licenciaSanitariaNumero}`,
 };
 
 // URL del <iframe> de Google Maps (Maps Embed sin API key, vía "output=embed") y del

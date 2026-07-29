@@ -19,7 +19,7 @@ export function Navbar() {
       <NavLinksList links={navLinks} mobileOpen={mobileOpen} onLinkClick={() => setMobileOpen(false)} />
 
       <button
-        className="burger"
+        className={`burger${mobileOpen ? " open" : ""}`}
         aria-label={t("aria.open_menu")}
         onClick={() => setMobileOpen((prev) => !prev)}
       >

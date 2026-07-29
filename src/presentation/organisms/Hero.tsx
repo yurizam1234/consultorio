@@ -5,6 +5,7 @@ import { useEmergencyModal } from "@/presentation/hooks/useEmergencyModal";
 import { useCitaModal } from "@/presentation/hooks/useCitaModal";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
 import { CitaBookingForm } from "@/presentation/molecules/CitaBookingForm";
+import { ComplianceBadge } from "../molecules/ComplianceBadge";
 
 export function Hero() {
   const { t } = useLanguage();
@@ -33,9 +34,15 @@ export function Hero() {
           {t("float.agendar")}
         </button>
 
+
+
         <h1 className="hero-video-title">
-          {t("hero.h1_pre")} <em>{t("hero.h1_em")}</em>
+          {t("hero.h1_pre")}<br /><em>{t("hero.h1_em")}</em>
         </h1>
+
+        <div className="hero-compliance-badge">
+          <ComplianceBadge />
+        </div>
 
         <div className="hero-action-cards">
           <button className="hero-action-card hero-action-card-urgent" onClick={openEmergency}>
@@ -56,6 +63,7 @@ export function Hero() {
             <CitaBookingForm />
           </div>
         </div>
+
       </div>
     </section>
   );

@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { EcgDivider } from "@/presentation/atoms/EcgDivider";
 import { Navbar } from "@/presentation/organisms/Navbar";
 import { Hero } from "@/presentation/organisms/Hero";
@@ -11,12 +12,22 @@ import { Testimonios } from "@/presentation/organisms/Testimonios";
 import { Contacto } from "@/presentation/organisms/Contacto";
 import { Encuesta } from "@/presentation/organisms/Encuesta";
 import { Footer } from "@/presentation/organisms/Footer";
-import { EmergencyModal } from "@/presentation/organisms/EmergencyModal";
-import { CitaModal } from "@/presentation/organisms/CitaModal";
-import { FloatingDock } from "@/presentation/organisms/FloatingDock";
 import { ScrollEffects } from "@/presentation/organisms/ScrollEffects";
+import { LandingOverlays } from "@/presentation/pages/LandingOverlays";
+import { ComplianceBadge } from "../molecules/ComplianceBadge";
 
-export function LandingTemplate() {
+const DIVIDED_SECTIONS = [
+  ServiciosSlider,
+  AgendarInfo,
+  PorQueEscogernos,
+  Instalaciones,
+  Equipo,
+  Testimonios,
+  Contacto,
+  Encuesta,
+];
+
+export function LandingPage() {
   return (
     <>
       <ScrollEffects />
@@ -25,28 +36,18 @@ export function LandingTemplate() {
         <Navbar />
         <Hero />
         <TrustIntro />
-        <EcgDivider />
-        <ServiciosSlider />
-        <EcgDivider />
-        <AgendarInfo />
-        <EcgDivider />
-        <PorQueEscogernos />
-        <EcgDivider />
-        <Instalaciones />
-        <EcgDivider />
-        <Equipo />
-        <EcgDivider />
-        <Testimonios />
-        <EcgDivider />
-        <Contacto />
-        <EcgDivider />
-        <Encuesta />
+
+        {DIVIDED_SECTIONS.map((Section, index) => (
+          <Fragment key={index}>
+            <EcgDivider />
+            <Section />
+          </Fragment>
+        ))}
+
         <Footer />
       </div>
 
-      <EmergencyModal />
-      <CitaModal />
-      <FloatingDock />
+      <LandingOverlays />
     </>
   );
 }

@@ -3,7 +3,7 @@
 Sitio web de SH Arboledas — hospital y centro de diagnóstico en Tuxtla Gutiérrez, Chiapas.
 
 Construido con Next.js (App Router) + TypeScript, siguiendo **Clean Architecture** (`domain` / `application` /
-`infrastructure`) y **Atomic Design** (`presentation/atoms` → `molecules` → `organisms` → `templates`).
+`infrastructure`) y **Atomic Design** (`presentation/atoms` → `molecules` → `organisms` → `pages`).
 
 ```
 src/
@@ -14,7 +14,7 @@ src/
 │   ├── atoms/           # Icon, Button, Chip, Reveal...
 │   ├── molecules/        # SectionHead, StepCard, TestimonialCardItem...
 │   ├── organisms/        # Navbar, Hero, Contacto, ScrollEffects, EmergencyModal...
-│   ├── templates/        # LandingTemplate
+│   ├── pages/            # LandingPage (compone las secciones/organisms de cada página)
 │   └── hooks/            # useCitaBooking, useContactForm, useCarousel... (únicos que importan `container`)
 ├── shared/             # data estática del sitio + utils
 └── app/                # rutas de Next.js (App Router)

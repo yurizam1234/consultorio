@@ -97,6 +97,8 @@ export function ScrollEffects() {
         const heroCitaTeaser = document.querySelector<HTMLElement>(".hero-cita-teaser");
         const heroActionCards = document.querySelector<HTMLElement>(".hero-action-cards");
         const citaCardWrap = document.querySelector<HTMLElement>(".cita-card-wrap");
+        const heroBadge = document.querySelector<HTMLElement>(".hero-compliance-badge");
+        const floatBadge = document.querySelector<HTMLElement>(".compliance-float-badge");
 
         if (heroVideo && heroVideoWrap) {
           heroVideo.pause();
@@ -122,11 +124,24 @@ export function ScrollEffects() {
               gsap.set(heroTitle, { opacity: 1 - p, y: -30 * p });
             }
 
-            // El teaser de "Agenda tu cita" aparece y desaparece junto con el
-            // título (misma curva) — la card grande de abajo no se toca.
+            // El teaser de "Agenda tu cita" y el badge COFEPRIS aparecen y desaparecen
+            // junto con el título (misma curva) — la card grande de abajo no se toca.
             if (heroCitaTeaser) {
               const p = gsap.utils.clamp(0, 1, progress / 0.35);
               gsap.set(heroCitaTeaser, { opacity: 1 - p, y: -30 * p });
+            }
+
+            // Badge COFEPRIS del hero: se desvanece con el título al primer scroll.
+            // En cuanto termina de desvanecerse (p >= 1, progress > 35%) el badge
+            // flotante aparece; si el usuario regresa (p < 1) se oculta de nuevo.
+            if (heroBadge) {
+              const p = gsap.utils.clamp(0, 1, progress / 0.35);
+              gsap.set(heroBadge, { opacity: 1 - p, y: -20 * p });
+              if (p >= 1) {
+                floatBadge?.classList.add("compliance-float-visible");
+              } else {
+                floatBadge?.classList.remove("compliance-float-visible");
+              }
             }
 
             // Las cards "Contáctanos" y "Agendar cita" entran hacia el final del tramo
@@ -143,10 +158,10 @@ export function ScrollEffects() {
             }
           };
 
-          // El dock flotante usa onLeave/onEnterBack de este MISMO trigger en vez
-          // de uno nuevo con start:"bottom top": sobre un elemento ya pineado, un
-          // segundo trigger posicional propio no calculaba bien el final del
-          // pin-spacer. (El navbar usa su propio trigger sobre #nosotros, más abajo.)
+          // El dock flotante y el badge COFEPRIS flotante usan onLeave/onEnterBack
+          // de este MISMO trigger en vez de uno nuevo con start:"bottom top": sobre
+          // un elemento ya pineado, un segundo trigger posicional propio no calculaba
+          // bien el final del pin-spacer. (El navbar usa su propio trigger sobre #nosotros.)
           const floatingDock = document.querySelector<HTMLElement>(".floating-dock");
           const heroTrigger = ScrollTrigger.create({
             trigger: heroVideoWrap,
@@ -155,16 +170,23 @@ export function ScrollEffects() {
             pin: true,
             scrub: 0.5,
             onUpdate: (self) => syncHero(self.progress),
-            onLeave: () => floatingDock?.classList.add("visible"),
-            onEnterBack: () => floatingDock?.classList.remove("visible"),
+            onLeave: () => {
+              floatingDock?.classList.add("visible");
+              floatBadge?.classList.add("compliance-float-visible");
+            },
+            onEnterBack: () => {
+              floatingDock?.classList.remove("visible");
+              floatBadge?.classList.remove("compliance-float-visible");
+            },
           });
 
           // Estado inicial explícito: si la página carga con el scroll ya pasado
           // el hero (ej. recarga con la posición guardada), onLeave nunca se
-          // dispara porque no hubo cruce — sin esto, el dock quedaría oculto
-          // aunque ya estemos después del hero.
+          // dispara porque no hubo cruce — sin esto, el dock y el badge quedarían
+          // ocultos aunque ya estemos después del hero.
           if (heroTrigger.progress >= 1) {
             floatingDock?.classList.add("visible");
+            floatBadge?.classList.add("compliance-float-visible");
           }
 
           // El navbar se expande justo al llegar a "Nuestra Historia" (justo
