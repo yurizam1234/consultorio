@@ -26,7 +26,7 @@ export function Footer() {
           </div>
           <div className="footer-links">
             {navLinks
-              .filter((link) => link.href !== "#agendar-info")
+              .filter((link) => link.href !== "/#agendar-info")
               .map((link) => (
                 <a key={link.href} href={link.href}>
                   {t(link.labelKey)}

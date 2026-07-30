@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
+import { FlagMX, FlagUS } from "@/presentation/atoms/FlagIcon";
 import { cn } from "@/shared/lib/utils";
 
 const languages = [
-  { code: "es" as const, flag: "🇲🇽", label: "Español" },
-  { code: "en" as const, flag: "🇺🇸", label: "English" },
+  { code: "es" as const, Flag: FlagMX, label: "Español" },
+  { code: "en" as const, Flag: FlagUS, label: "English" },
 ];
 
 export function LangSwitch() {
@@ -32,7 +33,7 @@ export function LangSwitch() {
         aria-expanded={open}
         aria-label={t("aria.lang_menu")}
       >
-        <span className="lang-flag">{current.flag}</span>
+        <current.Flag className="lang-flag" />
         <span className="lang-code">{current.code.toUpperCase()}</span>
       </button>
 
@@ -50,7 +51,7 @@ export function LangSwitch() {
                   setOpen(false);
                 }}
               >
-                <span className="lang-flag">{option.flag}</span>
+                <option.Flag className="lang-flag" />
                 {option.label}
               </button>
             ))}

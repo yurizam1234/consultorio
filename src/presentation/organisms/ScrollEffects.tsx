@@ -203,31 +203,35 @@ export function ScrollEffects() {
             floatBadge?.classList.add("compliance-float-visible");
           }
 
-          // El navbar se expande justo al llegar a "Nuestra Historia" (justo
-          // después del hero, ya sin el video en pantalla) — se crea DESPUÉS
-          // del pin de arriba, mismo motivo que el comentario de más arriba.
-          const nosotrosSection = document.querySelector<HTMLElement>("#nosotros");
-          const navbarEl = document.querySelector<HTMLElement>(".navbar");
-          if (nosotrosSection) {
-            ScrollTrigger.create({
-              trigger: nosotrosSection,
-              start: "top top",
-              onEnter: () => navbarEl?.classList.add("expanded"),
-              onLeaveBack: () => navbarEl?.classList.remove("expanded"),
-            });
-            // Estado inicial explícito (misma razón que arriba): si la página ya
-            // carga con "Nuestra Historia" en la parte superior de la pantalla.
-            if (nosotrosSection.getBoundingClientRect().top <= 0) {
-              navbarEl?.classList.add("expanded");
-            }
-          }
-
           // Ver el comentario junto a "resyncHero" más arriba: sin esto, si el video
           // aún no tenía metadata/buffer suficiente en el último scroll, se queda
           // pegado hasta el PRÓXIMO scroll del usuario en vez de ponerse al día solo.
           resyncHero = () => syncHero(heroTrigger.progress);
           heroVideo.addEventListener("loadedmetadata", resyncHero);
           heroVideo.addEventListener("progress", resyncHero);
+        }
+
+        // El navbar se expande justo al llegar a "Nuestra Historia" en la landing
+        // (justo después del hero, ya sin el video en pantalla) — o, en páginas
+        // sin hero (ej. /historia), en cuanto se llega a su propio marcador
+        // ".navbar-expand-trigger". Fuera del bloque del hero a propósito: en
+        // páginas sin video no habría pin-spacer que esperar, y este trigger debe
+        // existir igual. Cuando SÍ hay hero, se crea después de su pin (mismo
+        // motivo que el resto de triggers posicionales de este archivo).
+        const navbarExpandSection = document.querySelector<HTMLElement>("#nosotros, .navbar-expand-trigger");
+        const navbarEl = document.querySelector<HTMLElement>(".navbar");
+        if (navbarExpandSection) {
+          ScrollTrigger.create({
+            trigger: navbarExpandSection,
+            start: "top top",
+            onEnter: () => navbarEl?.classList.add("expanded"),
+            onLeaveBack: () => navbarEl?.classList.remove("expanded"),
+          });
+          // Estado inicial explícito (misma razón que el resto de estos casos): si
+          // la página ya carga con esa sección en la parte superior de la pantalla.
+          if (navbarExpandSection.getBoundingClientRect().top <= 0) {
+            navbarEl?.classList.add("expanded");
+          }
         }
 
         // ===== CONTACTO: video de fondo con scroll-scrub + card que "se levanta" desde abajo al final =====

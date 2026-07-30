@@ -452,7 +452,7 @@ section[id] { scroll-margin-top: 110px; }
   font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em; color: var(--teal-end); transition: background 0.2s ease;
 }
 .lang-switch-toggle:hover { background: rgba(var(--shade-rgb), 0.55); }
-.lang-flag { font-size: 1.05rem; line-height: 1; }
+.lang-flag { width: 18px; height: 12px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(var(--black-rgb), 0.12); flex-shrink: 0; display: block; }
 .lang-switch-backdrop { position: fixed; inset: 0; z-index: 98; }
 .lang-switch-menu {
   position: absolute; top: calc(100% + 10px); right: 0; z-index: 99; display: flex; flex-direction: column; gap: 2px;
@@ -1537,6 +1537,15 @@ section[id] { scroll-margin-top: 110px; }
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .panel-access-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 22px -6px rgba(var(--teal-start-rgb), 0.6); }
+/* Especificidad extra: sin esto, ".nav-links a:hover" (desktop) y
+   ".nav-links.mobile-open a:hover" (móvil) le ganan al color base del botón
+   y el texto se pinta teal/gris oscuro al pasar el cursor en vez de blanco. */
+.nav-links a.panel-access-btn,
+.nav-links a.panel-access-btn:hover,
+.nav-links.mobile-open a.panel-access-btn,
+.nav-links.mobile-open a.panel-access-btn:hover {
+  color: var(--white);
+}
 
 /* ===== PANEL DE PACIENTE: login ===== */
 .panel-auth-page { width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
@@ -1861,12 +1870,10 @@ section[id] { scroll-margin-top: 110px; }
   .panel-auth-card { padding: 32px 24px; }
 }
 
-/* ===== PANEL DE PACIENTE: foco de teclado consistente (accesibilidad + acabado premium) =====
+/* ===== FOCO DE TECLADO CONSISTENTE, EN TODO EL SITIO (accesibilidad + acabado premium) =====
    Anillo de dos capas (blanco + verde) para que se note igual sobre cualquier fondo/color
-   de botón — cubre todo lo interactivo del panel, del login y de los modales del panel. */
-.panel-shell-page :is(button, a, input):focus-visible,
-.panel-auth-page :is(button, a, input):focus-visible,
-.imaging-modal :is(button, a, input):focus-visible {
+   de botón — landing, /historia, el panel, el login y los modales, todos por igual. */
+:is(button, a, input):focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px var(--white), 0 0 0 4px var(--teal-start);
 }
@@ -2019,4 +2026,93 @@ section[id] { scroll-margin-top: 110px; }
   .servicio-parallax-card { height: 52vh; }
   .servicio-parallax-content { padding: 22px 20px; gap: 8px; }
   .servicio-parallax-desc { font-size: 13px; }
+}
+
+/* ===== HISTORIA: página "Nuestra Historia" (/historia) — mismo nav/footer y
+   mismo fondo aurora del resto del sitio (heredado, ver body::before). Contenido
+   genérico por ahora, listo para reemplazar por la información real. ===== */
+/* Banner de presentación: imagen grande a todo lo ancho con el título encima
+   (mismo lenguaje visual que .hero-video-wrap del Hero de la landing, pero a
+   menor altura — esta es una portada de sección, no el hero principal). */
+.historia-hero {
+  position: relative;
+  min-height: 62vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+  padding: 0;
+  margin-bottom: -26px;
+}
+.historia-hero-media {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100%;
+}
+.historia-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.historia-hero-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(var(--teal-end-rgb), 0.55) 0%, rgba(var(--teal-end-rgb), 0.35) 45%, rgba(var(--teal-end-rgb), 0.7) 100%);
+}
+.historia-hero-fade {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: clamp(90px, 14vh, 180px);
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(var(--bg-hero-fade-rgb), 0.55) 55%, var(--bg-hero-fade) 100%);
+}
+.historia-hero-content { position: relative; z-index: 2; padding: 120px 24px 0; }
+.historia-hero-title { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; color: #ffffff; letter-spacing: -0.02em; line-height: 1.1; margin: 4px 0 18px; }
+.historia-hero-subtitle { font-size: 1.1rem; color: rgba(var(--white-rgb), 0.88); max-width: 620px; margin: 0 auto; text-shadow: 0 2px 14px rgba(0, 0, 0, 0.25); }
+
+.historia-intro { padding: 40px 0; }
+.historia-intro-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: center; }
+.historia-intro-photos { height: 420px; }
+.historia-intro-content { display: flex; flex-direction: column; gap: 14px; }
+.historia-intro-content h2 { font-size: clamp(1.6rem, 2.6vw, 2.2rem); font-weight: 800; color: var(--teal-end); letter-spacing: -0.01em; line-height: 1.2; }
+.historia-intro-content p { font-size: 1rem; line-height: 1.7; color: var(--text-muted); }
+
+.historia-eyebrow-small { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal-start); }
+
+.historia-mission { padding: 20px 0 40px; }
+.historia-mission-card {
+  max-width: 760px; margin: 0 auto; text-align: center; padding: 48px 44px; border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(var(--white-rgb), 0.6) 0%, rgba(var(--white-rgb), 0.36) 100%);
+  backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(var(--white-rgb), 0.5); box-shadow: 0 20px 50px -25px rgba(15, 35, 45, 0.25);
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.historia-mission-card h2 { font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 800; color: var(--teal-end); letter-spacing: -0.01em; }
+.historia-mission-card p { font-size: 1rem; line-height: 1.7; color: var(--text-muted); max-width: 560px; }
+
+.historia-values { padding: 40px 0 70px; }
+.historia-values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 12px; }
+.historia-value-card {
+  display: flex; flex-direction: column; gap: 10px; padding: 26px 22px; border-radius: var(--radius-md);
+  background: linear-gradient(180deg, rgba(var(--white-rgb), 0.55) 0%, rgba(var(--white-rgb), 0.3) 100%);
+  backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(var(--white-rgb), 0.5); box-shadow: 0 16px 36px -22px rgba(15, 35, 45, 0.25);
+  transition: transform 0.25s ease;
+}
+.historia-value-card:hover { transform: translateY(-4px); }
+.historia-value-icon {
+  width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--teal-start), var(--teal-end)); color: var(--white);
+}
+.historia-value-card h4 { font-size: 1rem; font-weight: 800; color: var(--teal-end); }
+.historia-value-card p { font-size: 0.86rem; line-height: 1.55; color: var(--text-muted); }
+
+@media (max-width: 900px) {
+  .historia-hero { min-height: 52vh; }
+  .historia-hero-content { padding-top: 100px; }
+  .historia-intro-grid { grid-template-columns: 1fr; gap: 32px; }
+  .historia-intro-photos { height: 320px; }
+  .historia-values-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .historia-mission-card { padding: 32px 24px; }
+  .historia-values-grid { grid-template-columns: 1fr; }
 }

@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { Reveal } from "@/presentation/atoms/Reveal";
 import { SplitChars } from "@/presentation/atoms/SplitChars";
+import { Icon } from "@/presentation/atoms/Icon";
 import { TrustPointItem } from "@/presentation/molecules/TrustPointItem";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
 
@@ -47,6 +49,10 @@ export function TrustIntro() {
                 <TrustPointItem text={t("nosotros.point2")} />
                 <TrustPointItem text={t("nosotros.point3")} />
               </ul>
+              <Link href="/historia" className="reasons-cta-btn">
+                {t("nosotros.more_cta")}
+                <Icon name="arrow-right" strokeWidth={2.2} />
+              </Link>
             </Reveal>
           </div>
         </div>

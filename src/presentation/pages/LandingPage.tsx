@@ -14,7 +14,6 @@ import { Encuesta } from "@/presentation/organisms/Encuesta";
 import { Footer } from "@/presentation/organisms/Footer";
 import { ScrollEffects } from "@/presentation/organisms/ScrollEffects";
 import { LandingOverlays } from "@/presentation/pages/LandingOverlays";
-import { ComplianceBadge } from "../molecules/ComplianceBadge";
 
 const DIVIDED_SECTIONS = [
   ServiciosSlider,
