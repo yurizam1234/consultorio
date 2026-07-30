@@ -235,9 +235,14 @@ section[id] { scroll-margin-top: 110px; }
     inset 0 -1px 0 rgba(var(--white-rgb), 0.12);
 }
 /* Tras pasar el hero (llegar a "Nuestra Historia"): se expande ocupando todo el
-   ancho, manteniendo exactamente el mismo glass (blur/gradiente) del inicio. */
+   ancho y pasa de cristal translúcido a blanco sólido — ya no hay video detrás
+   que justifique el glassmorphism, y un fondo sólido da más contraste con el
+   contenido de la página al quedar fijo arriba mientras se hace scroll. */
 .navbar.expanded {
   top: 0; left: 0; right: 0; max-width: 100%; border-radius: 0; padding: 14px 40px;
+  background: var(--white);
+  border-color: var(--border-light);
+  box-shadow: 0 4px 20px rgba(var(--dark-shadow-rgb), 0.12);
 }
 /* Brillo sutil en la esquina superior izquierda, como luz reflejándose en el vidrio */
 .navbar::before {
