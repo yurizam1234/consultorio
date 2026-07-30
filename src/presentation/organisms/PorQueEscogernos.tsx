@@ -4,9 +4,16 @@ import { Reveal } from "@/presentation/atoms/Reveal";
 import { SplitChars } from "@/presentation/atoms/SplitChars";
 import { Icon } from "@/presentation/atoms/Icon";
 import { ReasonFeatureItem } from "@/presentation/molecules/ReasonFeatureItem";
-import { DiamondImage } from "@/presentation/molecules/DiamondImage";
+import { PhotoStack } from "@/presentation/molecules/PhotoStack";
 import { reasonFeatureIcons } from "@/shared/data/contacto";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
+
+const REASONS_IMAGES = [
+  { src: "/instalaciones/quirofanos/qx1.webp", alt: "Quirófano SH Arboledas" },
+  { src: "/instalaciones/quirofanos/qx5.png", alt: "Quirófano SH Arboledas" },
+  { src: "/instalaciones/quirofanos/qx6.webp", alt: "Quirófano SH Arboledas" },
+  { src: "/instalaciones/quirofanos/qx7.webp", alt: "Quirófano SH Arboledas" },
+];
 
 export function PorQueEscogernos() {
   const { t } = useLanguage();
@@ -43,21 +50,7 @@ export function PorQueEscogernos() {
           </div>
 
           <Reveal className="reasons-collage">
-            <DiamondImage
-              position={1}
-              src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=500&q=80"
-              alt="Especialistas SH Arboledas"
-            />
-            <DiamondImage
-              position={2}
-              src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=500&q=80"
-              alt="Tecnología de diagnóstico"
-            />
-            <DiamondImage
-              position={3}
-              src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=500&q=80"
-              alt="Instalaciones SH Arboledas"
-            />
+            <PhotoStack images={REASONS_IMAGES} />
           </Reveal>
         </div>
       </div>

@@ -3,6 +3,14 @@
 /* ===== RESET Y VARIABLES ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* El "root scroller" real es <html>, no <body>: poner overflow-x sólo en body
+   (más abajo) no basta en algunos navegadores móviles, que igual agrandan el
+   viewport de layout para acomodar contenido ancho (ej. el slider de
+   Servicios, un carrusel 100vw arrastrable) aunque ese contenido esté
+   clippeado por un ancestro — el navegador decide el ancho del viewport ANTES
+   de aplicar ese clip. Clip en <html> es lo que de verdad lo evita. */
+html { overflow-x: clip; }
+
 /* ======================================================================
    PALETA DE COLORES — ÚNICA FUENTE DE VERDAD PARA TODA LA WEB.
    Para cambiar el esquema de colores de toda la página, edita SOLO los
@@ -150,7 +158,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-x: hidden;
+  /* "clip" y no "hidden": un contenedor con overflow:hidden sigue siendo
+     técnicamente "scrolleable" (scrollLeft funciona) y algunos navegadores
+     móviles igual consideran el ancho de ese contenido clippeado al decidir
+     si el viewport de layout necesita ser más ancho que el dispositivo —
+     "clip" descarta ese contenido por completo de esa cuenta. */
+  overflow-x: clip;
   /* Sin padding-bottom a propósito: el footer ahora es una banda oscura (ver
      .footer-band) con su propio padding — dejar el de aquí mostraba una franja
      del fondo claro justo debajo del footer, como si la página "siguiera". */
@@ -1115,7 +1128,7 @@ section[id] { scroll-margin-top: 110px; }
   .card-action-block { flex-direction: row; margin-top: 12px; }
 }
 
-/* ===== POR QUÉ ESCOGERNOS: collage de rombos ===== */
+/* ===== POR QUÉ ESCOGERNOS: collage de fotos (mismo estilo que "Nuestra Historia") ===== */
 .reasons-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
 .reasons-content { display: flex; flex-direction: column; gap: 20px; }
 .reasons-tagline-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 24px; }
@@ -1130,30 +1143,48 @@ section[id] { scroll-margin-top: 110px; }
 .reasons-cta-btn { align-self: flex-start; margin-top: 6px; display: inline-flex; align-items: center; gap: 10px; padding: 13px 28px; border: 1px solid var(--teal-start); border-radius: 9999px; color: var(--teal-start); font-weight: 600; font-size: 0.88rem; transition: all 0.3s ease; }
 .reasons-cta-btn:hover { background: var(--teal-start); color: var(--white); transform: translateX(3px); }
 .reasons-cta-btn svg { width: 15px; height: 15px; flex: none; }
-.reasons-collage { position: relative; width: 100%; max-width: 460px; height: 440px; }
+/* overflow:hidden + padding: el padding reserva el espacio donde "asoman" las
+   fotos de atrás del stack (arriba y a la derecha del frente); overflow:hidden
+   garantiza que, sea cual sea el tamaño de pantalla, ninguna foto trasladada
+   pueda sobresalir de este contenedor y forzar overflow horizontal de toda la
+   página (en móvil eso hace que el navegador "aleje el zoom" para que quepa,
+   deformando el resto del sitio — ver ScrollEffects.tsx, mismo motivo por el
+   que ".full-bleed" no se anima con "x"). */
+.reasons-collage { width: 100%; max-width: 460px; height: 380px; padding: 40px 40px 0 0; box-sizing: border-box; overflow: hidden; }
 
-/* Rombos grandes y superpuestos entre sí, como piezas de rompecabezas encajadas */
-.diamond-card { position: absolute; width: 250px; height: 250px; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); overflow: hidden; box-shadow: 0 20px 40px rgba(var(--teal-end-rgb), 0.12); transition: transform 0.3s ease; }
-.diamond-card:hover { transform: scale(1.04); z-index: 10; }
-.diamond-card img { width: 100%; height: 100%; object-fit: cover; }
-
-.diamond-1 { top: 0; left: 0; z-index: 3; }
-.diamond-2 { top: 70px; left: 180px; z-index: 2; }
-.diamond-3 { top: 170px; left: 90px; z-index: 1; }
+/* ===== PHOTO STACK: pila de fotos en abanico, la de "profundidad" 0 se ve completa
+   al frente y el resto asoma detrás; click en cualquiera la trae al frente (ver
+   PhotoStack.tsx, que sólo reordena la variable --depth por foto). ===== */
+.photo-stack { position: relative; width: 100%; height: 100%; }
+.photo-stack-item {
+  position: absolute;
+  inset: 0;
+  border: none;
+  padding: 0;
+  background: none;
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 20px 45px rgba(var(--teal-end-rgb), 0.18);
+  transform: translate(calc(var(--depth) * 12px), calc(var(--depth) * -12px)) rotate(calc(var(--depth) * 1.5deg)) scale(calc(1 - var(--depth) * 0.07));
+  z-index: calc(10 - var(--depth));
+  opacity: calc(1 - var(--depth) * 0.14);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s ease, opacity 0.5s ease;
+}
+.photo-stack-item img { width: 100%; height: 100%; object-fit: cover; }
+.photo-stack-item:hover {
+  transform: translate(calc(var(--depth) * 12px), calc(var(--depth) * -12px - 6px)) rotate(calc(var(--depth) * 1.5deg)) scale(calc(1 - var(--depth) * 0.07 + 0.02));
+  box-shadow: 0 26px 55px rgba(var(--teal-end-rgb), 0.3);
+}
+.photo-stack-item[aria-current="true"] { cursor: default; }
+.photo-stack-item[aria-current="true"]:hover { transform: translate(0, 0) scale(1); }
 
 @media (max-width: 900px) {
   .reasons-grid { grid-template-columns: 1fr; gap: 40px; }
-  .reasons-collage { height: 380px; max-width: 380px; margin: 0 auto; }
-  .diamond-card { width: 210px; height: 210px; }
-  .diamond-2 { top: 60px; left: 150px; }
-  .diamond-3 { top: 145px; left: 75px; }
+  .reasons-collage { height: 340px; max-width: 460px; margin: 0 auto; }
 }
 @media (max-width: 560px) {
-  .reasons-features { grid-template-columns: 1fr; }
-  .reasons-collage { height: 300px; max-width: 300px; }
-  .diamond-card { width: 165px; height: 165px; }
-  .diamond-2 { top: 45px; left: 115px; }
-  .diamond-3 { top: 115px; left: 58px; }
+  .reasons-collage { height: 300px; gap: 10px; padding: 28px 28px 0 0; }
 }
 
 /* ===== EQUIPO: compartido con Testimonios (carrusel de controles/puntos) ===== */
@@ -1963,7 +1994,7 @@ section[id] { scroll-margin-top: 110px; }
    ServiciosSlider.tsx), arrastrable con el puntero; ver el mismo componente para
    el cálculo de "offset" que centra la card activa. */
 #servicios .feature-badge-pill { margin-bottom: 6px; }
-.servicios-slider-wrap { position: relative; width: 100vw; overflow: hidden; padding: 4px 0 8px; }
+.servicios-slider-wrap { position: relative; width: 100vw; overflow: clip; padding: 4px 0 8px; }
 .servicios-slider-track {
   display: flex; align-items: center; gap: 24px; padding: 0 8vw; cursor: grab; touch-action: pan-y;
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform;

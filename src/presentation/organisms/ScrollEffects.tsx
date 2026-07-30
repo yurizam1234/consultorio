@@ -31,7 +31,21 @@ export function ScrollEffects() {
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) return;
+
+    // Con reduced-motion no se arma el scroll-scrub ni los reveals (son decorativos),
+    // pero los videos de fondo son contenido, no decoración: sin este bloque se
+    // quedarían congelados en el frame 0 para siempre, porque el scrub normal es lo
+    // único que los mueve. Se reproducen en bucle, sin depender del scroll.
+    if (prefersReducedMotion) {
+      const heroVideo = document.querySelector<HTMLVideoElement>(".hero-video");
+      const contactoVideo = document.querySelector<HTMLVideoElement>(".contacto-video");
+      [heroVideo, contactoVideo].forEach((video) => {
+        if (!video) return;
+        video.loop = true;
+        video.play().catch(() => {});
+      });
+      return;
+    }
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -353,6 +367,24 @@ export function ScrollEffects() {
           if (el.closest(".hero")) return;
           if (el.closest(".contacto-video-wrap")) return;
           if (groupContainers.some((c) => c.contains(el) || c === el)) return;
+
+          // ".full-bleed" (ej. el slider de Servicios) mide 100vw: si se le anima "x"
+          // como al resto, el translateX empuja su borde más allá del viewport y
+          // algunos navegadores móviles reaccionan alejando el zoom para que quepa
+          // ese contenido — deformando TODA la página (no sólo esta sección) mientras
+          // dura la animación. Estos sólo se desvanecen (opacity), sin desplazamiento.
+          if (el.classList.contains("full-bleed")) {
+            gsap.fromTo(
+              el,
+              { opacity: 0 },
+              {
+                opacity: 1,
+                ease: "power2.out",
+                scrollTrigger: { trigger: el, start: "top 68%", end: "top 30%", scrub: 0.6 },
+              }
+            );
+            return;
+          }
 
           const dir = revealDir(el);
           gsap.fromTo(
