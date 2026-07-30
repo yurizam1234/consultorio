@@ -57,10 +57,16 @@ export function Hero() {
         </div>
 
         {/* Card "Agendar cita": vidrio esmerilado, siempre visible, se desliza desde
-            el costado derecho (mismo timing que la card de arriba, ver ScrollEffects.tsx). */}
-        <div className="cita-card-wrap">
-          <div className="cita-card">
-            <CitaBookingForm />
+            el costado derecho (mismo timing que la card de arriba, ver ScrollEffects.tsx).
+            ".cita-card-center" solo centra horizontalmente (estático, GSAP no lo toca);
+            ".cita-card-wrap" es el que anima ScrollEffects.tsx (opacity + x) — si el
+            centrado viviera en el mismo elemento que anima GSAP, el x-slide de GSAP
+            pisaría el translateX(-50%) del centrado en cada frame. */}
+        <div className="cita-card-center">
+          <div className="cita-card-wrap">
+            <div className="cita-card">
+              <CitaBookingForm />
+            </div>
           </div>
         </div>
 

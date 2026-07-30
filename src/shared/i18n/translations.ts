@@ -146,6 +146,10 @@ export const translations = {
     "aria.panel_nav": "Menú del panel",
     "aria.remove_file": "Quitar archivo adjunto",
     "aria.go_back": "Volver al paso anterior",
+    "aria.date_picker": "Elegir fecha de la cita",
+    "aria.time_picker": "Elegir horario de la cita",
+    "aria.prev_month": "Mes anterior",
+    "aria.next_month": "Mes siguiente",
 
     "panel.nav.login": "Iniciar sesión",
     "panel.nav.my_panel": "Mi panel",
@@ -393,6 +397,10 @@ export const translations = {
     "aria.panel_nav": "Panel menu",
     "aria.remove_file": "Remove attached file",
     "aria.go_back": "Go back to the previous step",
+    "aria.date_picker": "Choose appointment date",
+    "aria.time_picker": "Choose appointment time",
+    "aria.prev_month": "Previous month",
+    "aria.next_month": "Next month",
 
     "panel.nav.login": "Log in",
     "panel.nav.my_panel": "My panel",

@@ -16,6 +16,8 @@ export type IconName =
   | "pin"
   | "video"
   | "star"
+  | "chevron-left"
+  | "chevron-right"
   | "facebook"
   | "instagram"
   | "tiktok"
@@ -97,6 +99,8 @@ const paths: Record<IconName, React.ReactNode> = {
     </>
   ),
   star: <path d="m12 3 2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 17l-5.6 3.1 1.4-6.3-4.8-4.3 6.4-.6L12 3Z" />,
+  "chevron-left": <polyline points="15 6 9 12 15 18" />,
+  "chevron-right": <polyline points="9 6 15 12 9 18" />,
   facebook: <path d="M14 9h3V6h-3c-1.66 0-3 1.34-3 3v2H9v3h2v7h3v-7h3l1-3h-4v-2c0-.55.45-1 1-1Z" />,
   instagram: (
     <>
