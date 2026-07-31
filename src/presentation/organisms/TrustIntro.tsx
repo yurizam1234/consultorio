@@ -12,41 +12,37 @@ export function TrustIntro() {
 
   return (
     <section id="nosotros" style={{ padding: "20px 0 56px" }}>
-      <div className="wrap">
-        <p className="eyebrow" data-reveal-name>
-          {t("nosotros.eyebrow")}
-        </p>
-        <div className="trust-intro">
-          <Reveal className="trust-visual">
-            <div className="trust-badge-float">
-              <b>+15</b>
-              <span>{t("nosotros.badge")}</span>
-            </div>
-            <div className="trust-photo-frame">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/instalaciones/consultorios/dr3.webp" alt="Equipo médico SH Arboledas" />
-            </div>
-          </Reveal>
-
-          <div className="trust-content">
-            <Reveal style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              <h2 aria-label={t("nosotros.h2")}>
-                <SplitChars text={t("nosotros.h2")} />
-              </h2>
-              <p className="trust-lead">{t("nosotros.lead")}</p>
-              <ul className="trust-points">
-                <TrustPointItem text={t("nosotros.point1")} />
-                <TrustPointItem text={t("nosotros.point2")} />
-                <TrustPointItem text={t("nosotros.point3")} />
-              </ul>
-              <Link href="/historia" className="reasons-cta-btn">
-                {t("nosotros.more_cta")}
-                <Icon name="arrow-right" strokeWidth={2.2} />
-              </Link>
-            </Reveal>
-          </div>
+      <Reveal className="trust-banner full-bleed">
+        <div className="trust-banner-media">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/servicios/urgencias-24hr.jpg" alt="" className="trust-banner-img" />
+          <div className="trust-banner-fade" />
+          <div className="trust-banner-bottom-fade" />
         </div>
-      </div>
+
+        <div className="trust-banner-content">
+          <p className="eyebrow" data-reveal-name>
+            {t("nosotros.eyebrow")}
+          </p>
+          <span className="trust-banner-badge">
+            <b>+15</b>
+            {t("nosotros.badge")}
+          </span>
+          <h2 aria-label={t("nosotros.h2")}>
+            <SplitChars text={t("nosotros.h2")} />
+          </h2>
+          <p className="trust-lead">{t("nosotros.lead")}</p>
+          <ul className="trust-points">
+            <TrustPointItem text={t("nosotros.point1")} />
+            <TrustPointItem text={t("nosotros.point2")} />
+            <TrustPointItem text={t("nosotros.point3")} />
+          </ul>
+          <Link href="/historia" className="reasons-cta-btn">
+            {t("nosotros.more_cta")}
+            <Icon name="arrow-right" strokeWidth={2.2} />
+          </Link>
+        </div>
+      </Reveal>
     </section>
   );
 }

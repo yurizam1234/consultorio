@@ -110,21 +110,6 @@ html { overflow-x: clip; }
   height: auto;
   animation: preloaderPulse 2.2s ease-in-out infinite;
 }
-.preloader-ecg { width: min(70vw, 340px); height: 50px; }
-.preloader-ecg svg { width: 100%; height: 100%; overflow: visible; }
-.preloader-ecg-track, .preloader-ecg-sweep {
-  fill: none;
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.preloader-ecg-track { stroke: rgba(var(--teal-start-rgb), 0.18); }
-.preloader-ecg-sweep {
-  stroke: var(--teal-start);
-  stroke-dasharray: 140 600; /* <- largo del segmento brillante que "viaja" por la línea */
-  animation: preloaderEcgSweep 1.6s linear infinite;
-  filter: drop-shadow(0 0 6px rgba(var(--teal-start-rgb), 0.6));
-}
 .preloader-label {
   font-family: var(--font-family);
   font-size: 0.75rem;
@@ -138,18 +123,8 @@ html { overflow-x: clip; }
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.045); }
 }
-@keyframes preloaderEcgSweep {
-  /* El salto de "from" a "to" debe ser EXACTAMENTE un período del patrón de
-     guiones (dash 140 + hueco 600 = 740): así el navegador reinicia el bucle
-     en una posición visualmente IDÉNTICA a la inicial y no se nota el salto.
-     Antes iba de 740 a -140 (salto de 880, no un múltiplo del período) — se
-     notaba un "brinco" cada 1.6s porque reiniciaba en una posición distinta. */
-  from { stroke-dashoffset: 740; }
-  to { stroke-dashoffset: 0; }
-}
 @media (prefers-reduced-motion: reduce) {
   .preloader-logo { animation: none; }
-  .preloader-ecg-sweep { animation: none; stroke-dasharray: none; }
 }
 
 body {
@@ -716,7 +691,7 @@ section[id] { scroll-margin-top: 110px; }
   gap: 20px;
   padding: 0 24px;
 }
-.hero-action-cards > * { opacity: 0; }
+.hero-action-cards > * { opacity: 0; pointer-events: none; }
 .hero-action-card {
   display: flex;
   align-items: center;
@@ -762,6 +737,11 @@ section[id] { scroll-margin-top: 110px; }
 .cita-card-wrap {
   transform: translateY(-50%);
   opacity: 0; /* GSAP controla la entrada (opacity + x), ver ScrollEffects.tsx */
+  /* Mientras está invisible, su caja (ya ocupa su lugar final, sólo transparente)
+     no debe interceptar clicks de lo que hay debajo — sin esto tapaba al botón
+     ".hero-cita-teaser" antes de que la card terminara de aparecer. GSAP
+     restaura "auto" en cuanto empieza a mostrarse (ver syncHero en ScrollEffects.tsx). */
+  pointer-events: none;
 }
 .cita-card {
   width: min(90vw, 520px);
@@ -1044,25 +1024,81 @@ section[id] { scroll-margin-top: 110px; }
 }
 
 
-/* ===== SH ARBOLEDAS (confianza) ===== */
-/* Layout tipo "página de libro académico": foto grande a la izquierda, texto
-   a la derecha en una columna más angosta. */
-.trust-intro { display: grid; grid-template-columns: 1.25fr 1fr; gap: 56px; align-items: center; }
-.trust-visual { position: relative; height: 560px; }
-.trust-photo-frame { position: relative; width: 100%; height: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 24px 50px rgba(var(--teal-end-rgb), 0.14); }
-.trust-photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
-.trust-badge-float { position: absolute; top: 24px; left: 24px; z-index: 3; background: rgba(var(--white-rgb), 0.9); backdrop-filter: blur(8px); border-radius: 16px; padding: 12px 18px; box-shadow: 0 10px 24px rgba(var(--black-rgb), 0.1); }
-.trust-badge-float b { display: block; font-size: 1.3rem; color: var(--teal-start); font-weight: 700; }
-.trust-badge-float span { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-.trust-content { display: flex; flex-direction: column; gap: 16px; }
-.trust-content h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 700; color: var(--teal-end); line-height: 1.15; }
-.trust-lead { color: var(--text-muted); font-size: 1.02rem; line-height: 1.65; }
-.trust-points { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+/* ===== SH ARBOLEDAS (confianza) =====
+   La foto (urgencias-24hr.jpg) es el fondo de toda la tarjeta; un degradado
+   horizontal la disuelve hacia el mismo tono de fondo de la página
+   (--bg-hero-fade) donde vive el texto — así el texto "se integra" sobre el
+   fondo real de la página en vez de ir en una caja/scrim aparte, y la foto
+   se ve nítida sólo del lado derecho. */
+.trust-banner {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+}
+.trust-banner-media { position: absolute; inset: 0; }
+.trust-banner-img { width: 100%; height: 100%; object-fit: cover; object-position: 78% 55%; }
+.trust-banner-fade {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--bg-hero-fade) 0%,
+    var(--bg-hero-fade) 40%,
+    rgba(var(--bg-hero-fade-rgb), 0.85) 50%,
+    rgba(var(--bg-hero-fade-rgb), 0.3) 62%,
+    transparent 76%
+  );
+}
+/* Disuelve el borde inferior de la foto hacia el fondo de la página, para que
+   la transición con "Áreas médicas" no sea un corte duro (mismo recurso que
+   ".hero-video-fade" en el Hero principal). */
+.trust-banner-bottom-fade {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: clamp(90px, 16vh, 170px);
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(var(--bg-hero-fade-rgb), 0.6) 55%, var(--bg-hero-fade) 100%);
+}
+.trust-banner-content {
+  position: relative; z-index: 2; display: flex; flex-direction: column; gap: 12px;
+  max-width: 620px; padding: 32px 40px;
+  /* Full-bleed (llega a los bordes del viewport): el texto mantiene el mismo
+     margen izquierdo que el resto del contenido (".wrap") en vez de quedar
+     pegado al borde real de la pantalla en monitores anchos. */
+  padding-left: max(40px, calc((100vw - var(--maxw)) / 2 + 24px));
+}
+.trust-banner-badge {
+  align-self: flex-start; display: inline-flex; align-items: baseline; gap: 6px;
+  background: rgba(var(--white-rgb), 0.75); backdrop-filter: blur(8px); border-radius: 9999px;
+  padding: 7px 16px; font-size: 0.72rem; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.04em; box-shadow: 0 8px 18px rgba(var(--black-rgb), 0.06);
+}
+.trust-banner-badge b { font-size: 1rem; color: var(--teal-start); font-weight: 800; text-transform: none; letter-spacing: normal; }
+/* ".eyebrow" por defecto es un título grande centrado a todo el ancho (pensado
+   para ir suelto dentro de ".wrap") — aquí vive dentro de la columna angosta
+   del banner, así que se reduce y se alinea a la izquierda para leerse como
+   un kicker por encima del h2, no como otro título compitiendo con él. */
+.trust-banner-content .eyebrow { text-align: center; white-space: nowrap; font-size: clamp(2rem, 3vw, 3rem); margin-bottom: 10px; }
+.trust-banner-content h2 { font-size: clamp(1.6rem, 2.4vw, 2.1rem); font-weight: 700; color: var(--teal-end); line-height: 1.15; }
+.trust-lead { color: var(--text-muted); font-size: 0.98rem; line-height: 1.55; }
+.trust-points { display: flex; flex-direction: column; gap: 8px; margin-top: 2px; }
 .trust-points li { display: flex; align-items: center; gap: 12px; color: var(--text-strong); font-size: 0.92rem; font-weight: 500; }
 .trust-points .check { width: 24px; height: 24px; border-radius: 50%; background: rgba(var(--shade-rgb), 0.55); color: var(--teal-start); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex: none; }
 @media (max-width: 900px) {
-  .trust-intro { grid-template-columns: 1fr; gap: 32px; }
-  .trust-visual { height: 340px; max-width: 460px; margin: 0 auto; width: 100%; }
+  /* En vertical no hay espacio para "texto a la izquierda, foto a la derecha"
+     — el degradado pasa a vertical (foto arriba, texto abajo sobre el fondo). */
+  .trust-banner { min-height: 0; }
+  .trust-banner-fade {
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(var(--bg-hero-fade-rgb), 0.94) 24%,
+      var(--bg-hero-fade) 34%,
+      var(--bg-hero-fade) 100%
+    );
+  }
+  .trust-banner-img { object-position: center 22%; }
+  .trust-banner-content { max-width: 100%; padding: 170px 16px 32px 40px; }
 }
 
 /* ===== FEATURE INTRO: encabezado de "Servicios" y "Cómo agendar" (solo texto, sin imagen) ===== */
@@ -1963,7 +1999,7 @@ section[id] { scroll-margin-top: 110px; }
   [data-reveal], [data-reveal-name] { opacity: 1; transform: none; transition: none; }
   .split-char { opacity: 1; transform: none; }
   .ecg-divider { display: none; }
-  .hero-action-cards > * { opacity: 1; transform: none; }
+  .hero-action-cards > * { opacity: 1; transform: none; pointer-events: auto; }
 }
 
 /* ===== ONDA ECG ENTRE SECCIONES ===== */

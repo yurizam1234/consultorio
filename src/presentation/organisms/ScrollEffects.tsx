@@ -163,12 +163,12 @@ export function ScrollEffects() {
             // libere (100%) y entre la siguiente sección.
             cardEls.forEach((card) => {
               const p = gsap.utils.clamp(0, 1, (progress - 0.55) / 0.35);
-              gsap.set(card, { opacity: p, x: 60 * (1 - p), y: 20 * (1 - p) });
+              gsap.set(card, { opacity: p, x: 60 * (1 - p), y: 20 * (1 - p), pointerEvents: p > 0.05 ? "auto" : "none" });
             });
 
             if (citaCardWrap) {
               const p = gsap.utils.clamp(0, 1, (progress - 0.55) / 0.35);
-              gsap.set(citaCardWrap, { opacity: p, x: 60 * (1 - p) });
+              gsap.set(citaCardWrap, { opacity: p, x: 60 * (1 - p), pointerEvents: p > 0.05 ? "auto" : "none" });
             }
           };
 
