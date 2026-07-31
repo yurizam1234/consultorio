@@ -22,19 +22,9 @@ export function TrustIntro() {
               <b>+15</b>
               <span>{t("nosotros.badge")}</span>
             </div>
-            <div className="trust-shape shape-1">
+            <div className="trust-photo-frame">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80"
-                alt="Equipo médico SH Arboledas"
-              />
-            </div>
-            <div className="trust-shape shape-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&q=80"
-                alt="Equipamiento de diagnóstico"
-              />
+              <img src="/instalaciones/consultorios/dr3.webp" alt="Equipo médico SH Arboledas" />
             </div>
           </Reveal>
 
