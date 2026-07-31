@@ -20,7 +20,7 @@ export function DiagonalPanelItem({ instalacion, onOpenGaleria }: DiagonalPanelI
         <img src={instalacion.img} alt={instalacion.title[lang]} loading="lazy" />
       ) : (
         <div className="diagonal-panel-placeholder">
-          <Icon name="building" strokeWidth={1.4} />
+          <Icon name="building" strokeWidth={1.8} />
         </div>
       )}
       <div className="diagonal-panel-content">

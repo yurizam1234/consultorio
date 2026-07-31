@@ -25,7 +25,7 @@ export function VideoTestimonialCard({ testimonio, active }: VideoTestimonialCar
       ) : (
         <div className="video-testimonial-empty">
           <span className="video-testimonial-empty-icon">
-            <Icon name="video" strokeWidth={1.6} />
+            <Icon name="video" strokeWidth={1.8} />
           </span>
           <p>{t("testimonios.placeholder")}</p>
           <span>{t("testimonios.placeholder_sub")}</span>

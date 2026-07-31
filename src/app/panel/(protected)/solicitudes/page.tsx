@@ -34,7 +34,7 @@ export default function PanelSolicitudesPage() {
       {solicitudes.length === 0 ? (
         <div className="panel-empty-state">
           <span className="panel-empty-state-icon">
-            <Inbox size={26} strokeWidth={1.6} />
+            <Inbox size={26} strokeWidth={1.8} />
           </span>
           <h4>{t("panel.solicitudes.empty")}</h4>
           <p>{t("panel.solicitudes.empty_hint")}</p>

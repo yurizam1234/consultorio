@@ -49,7 +49,7 @@ export function Encuesta() {
                     className={cn("star-btn", value <= calificacion && "active")}
                     onClick={() => setCalificacion(value)}
                   >
-                    <Icon name="star" fill={value <= calificacion ? "currentColor" : "none"} strokeWidth={1.6} />
+                    <Icon name="star" fill={value <= calificacion ? "currentColor" : "none"} strokeWidth={1.8} />
                   </button>
                 ))}
               </div>
@@ -71,7 +71,7 @@ export function Encuesta() {
 
           <button className="submit-pill-btn" type="submit" form="encuesta-form" disabled={status === "loading"}>
             {submitLabel}
-            <Icon name="arrow-right" strokeWidth={2.5} />
+            <Icon name="arrow-right" strokeWidth={2.2} />
           </button>
         </Reveal>
       </div>
