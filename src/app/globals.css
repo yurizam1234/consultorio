@@ -1203,7 +1203,12 @@ section[id] { scroll-margin-top: 110px; }
    foto recortada, flechas flotantes y barra de equipo abajo. Fade arriba Y abajo
    (a diferencia del hero, que sólo lo tiene abajo) para que toda la sección se
    sienta "flotando" sobre el fondo, sin bordes duros arriba ni abajo. ===== */
-.equipo-v2-fade { position: relative; padding: 56px 0 64px; }
+/* Más ancho que el ".wrap" estándar (1200px) para aprovechar mejor los
+   costados, pero con un tope que se ajusta al viewport (100vw - 200px) para
+   que la card nunca llegue a chocar con los botones flotantes fijos
+   (WhatsApp/Agendar/Contacto, a 24px del borde + 56px de ancho = 80px). */
+#equipo .wrap { max-width: min(1400px, calc(100vw - 200px)); }
+.equipo-v2-fade { position: relative; padding: 24px 0 28px; }
 .equipo-v2-fade::before {
   content: "";
   position: absolute; inset: 0; pointer-events: none;
@@ -1222,24 +1227,19 @@ section[id] { scroll-margin-top: 110px; }
 .equipo-v2-nav::-webkit-scrollbar { display: none; }
 .equipo-v2-nav-link {
   background: none; border: none; cursor: pointer; white-space: nowrap; font-family: inherit;
-  font-size: 0.85rem; font-weight: 600; color: var(--text-muted); padding-bottom: 6px;
+  font-size: 1.05rem; font-weight: 600; color: var(--text-muted); padding-bottom: 6px;
   border-bottom: 2px solid transparent; transition: color 0.2s ease, border-color 0.2s ease;
 }
 .equipo-v2-nav-link:hover { color: var(--teal-end); }
 .equipo-v2-nav-link.active { color: var(--teal-end); font-weight: 800; border-bottom-color: var(--teal-start); }
 
-.equipo-v2-main { position: relative; display: flex; align-items: center; gap: 40px; min-height: 420px; padding: 10px 54px; }
-.equipo-v2-arrows {
-  position: absolute; top: 50%; left: 6px; right: 6px; transform: translateY(-50%);
-  display: flex; justify-content: space-between; pointer-events: none; z-index: 5;
+/* La card en sí aprovecha el ancho extra de "#equipo .wrap" (para el fondo/fade
+   y la barra de equipo), pero el grupo nombre+foto se centra en un ancho más
+   angosto para que no quede el nombre pegado al borde izquierdo. */
+.equipo-v2-main {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  gap: 40px; min-height: 440px; padding: 10px 24px; max-width: 1320px; margin: 0 auto;
 }
-.equipo-v2-arrow {
-  pointer-events: auto; width: 42px; height: 42px; border-radius: 50%; border: none; cursor: pointer;
-  background: rgba(var(--white-rgb), 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--teal-end);
-  display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(var(--dark-shadow-rgb), 0.12);
-  transition: all 0.2s ease;
-}
-.equipo-v2-arrow:hover { background: var(--white); color: var(--teal-end); transform: scale(1.08); }
 
 .equipo-v2-info { flex: 1.1; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 .equipo-v2-badge {
@@ -1282,7 +1282,7 @@ section[id] { scroll-margin-top: 110px; }
 }
 
 .equipo-v2-team-bar {
-  display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 16px 12px; margin-top: 0;
+  display: flex; justify-content: center; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 12px 10px; margin-top: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border-radius: var(--radius-lg);
@@ -1293,18 +1293,18 @@ section[id] { scroll-margin-top: 110px; }
 }
 .equipo-v2-team-bar::-webkit-scrollbar { display: none; }
 .equipo-v2-team-item {
-  display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; flex: none;
-  width: 84px; padding: 6px; border: none; background: none; cursor: pointer; border-radius: 10px;
+  display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; flex: none;
+  width: 76px; padding: 4px; border: none; background: none; cursor: pointer; border-radius: 10px;
   transition: transform 0.2s ease;
 }
 .equipo-v2-team-item:hover { transform: translateY(-2px); }
 .equipo-v2-avatar {
-  width: 48px; height: 48px; border-radius: 50%; overflow: hidden; border: 2px solid transparent;
+  width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 2px solid transparent;
   box-shadow: 0 4px 10px rgba(var(--black-rgb), 0.1); transition: border-color 0.2s ease;
 }
 .equipo-v2-team-item.active .equipo-v2-avatar { border-color: var(--teal-start); }
 .equipo-v2-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.equipo-v2-member-name { font-size: 0.7rem; font-weight: 700; color: var(--teal-end); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.equipo-v2-member-name { font-size: 0.68rem; font-weight: 700; color: var(--teal-end); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
 @media (max-width: 900px) {
   .equipo-v2-main { flex-direction: column-reverse; gap: 24px; padding: 6px; min-height: 0; }
@@ -1314,7 +1314,6 @@ section[id] { scroll-margin-top: 110px; }
      nombre/CTA de abajo — hay que anularlo aquí. */
   .equipo-v2-photo-col { align-items: center; margin-bottom: 0; }
   .equipo-v2-photo { max-height: 260px; clip-path: none; transform: none; }
-  .equipo-v2-arrows { display: none; }
   .equipo-v2-info { align-items: center; text-align: center; }
   .equipo-v2-cta, .equipo-v2-badge { align-self: center; }
 }

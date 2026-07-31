@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Reveal } from "@/presentation/atoms/Reveal";
 import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { DoctorModal } from "@/presentation/organisms/DoctorModal";
@@ -45,14 +44,6 @@ export function Equipo() {
   function handleSelectDept(next: Departamento) {
     setDept(next);
     setActiveIndex(0);
-  }
-
-  function goPrev() {
-    setActiveIndex((current) => (current - 1 + items.length) % items.length);
-  }
-
-  function goNext() {
-    setActiveIndex((current) => (current + 1) % items.length);
   }
 
   useEffect(() => {
@@ -114,15 +105,6 @@ export function Equipo() {
             </header>
 
             <main className="equipo-v2-main">
-              <div className="equipo-v2-arrows">
-                <button type="button" className="equipo-v2-arrow" onClick={goPrev} aria-label={t("aria.prev_doctor")}>
-                  <ChevronLeft size={18} strokeWidth={2} />
-                </button>
-                <button type="button" className="equipo-v2-arrow" onClick={goNext} aria-label={t("aria.next_doctor")}>
-                  <ChevronRight size={18} strokeWidth={2} />
-                </button>
-              </div>
-
               <div className="equipo-v2-info">
                 {isMedicos ? (
                   <>
