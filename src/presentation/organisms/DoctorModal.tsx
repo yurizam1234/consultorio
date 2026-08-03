@@ -27,7 +27,7 @@ export function DoctorModal({ doctor, onClose }: DoctorModalProps) {
 
           <div className="doctor-modal-card">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="doctor-modal-img" src={doctor.img} alt={doctor.name ?? t("equipo.name_pending")} />
+            <img className="doctor-modal-img" src={doctor.img} alt={doctor.name ?? t("equipo.name_pending")} loading="lazy" />
 
             <div className="doctor-modal-body">
               {doctor.exp && <span className="doctor-modal-badge">{doctor.exp[lang]}</span>}

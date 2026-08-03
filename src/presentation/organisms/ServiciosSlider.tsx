@@ -69,9 +69,11 @@ export function ServiciosSlider() {
   return (
     <section id="servicios">
       <div className="wrap">
-        <span className="feature-badge-pill" data-reveal-name>
+        {/* Único texto tipo-título de esta sección — h2 real para navegación
+            por encabezados (lector de pantalla), no sólo un span estilizado. */}
+        <h2 className="feature-badge-pill" data-reveal-name>
           {t("servicios.badge")}
-        </span>
+        </h2>
       </div>
 
       <Reveal className="servicios-slider-wrap full-bleed" onMouseEnter={pause} onMouseLeave={resume}>

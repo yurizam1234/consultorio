@@ -135,7 +135,7 @@ export function Equipo() {
 
               <div className="equipo-v2-photo-col">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={FOTO_RECORTE_PRUEBA} alt="" className="equipo-v2-photo" />
+                <img src={FOTO_RECORTE_PRUEBA} alt="" className="equipo-v2-photo" loading="lazy" />
               </div>
             </main>
 

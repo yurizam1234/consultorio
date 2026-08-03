@@ -118,24 +118,37 @@ export default function PanelPerfilPage() {
         <form className="panel-personal-form" onSubmit={handleSubmit} noValidate>
           <label className="panel-field">
             <span className="panel-field-label">{t("panel.perfil.name_label")}</span>
-            <input className="input-field-element" value={nombre} onChange={(event) => setNombre(event.target.value)} />
+            <input
+              className={cn("input-field-element", errors.nombre && "has-error")}
+              value={nombre}
+              onChange={(event) => setNombre(event.target.value)}
+            />
             {errors.nombre && <span className="panel-field-error">{errors.nombre}</span>}
           </label>
           <label className="panel-field">
             <span className="panel-field-label">{t("panel.perfil.email_label")}</span>
-            <input type="email" className="input-field-element" value={email} onChange={(event) => setEmail(event.target.value)} />
+            <input
+              type="email"
+              className={cn("input-field-element", errors.email && "has-error")}
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
             {errors.email && <span className="panel-field-error">{errors.email}</span>}
           </label>
           <label className="panel-field">
             <span className="panel-field-label">{t("panel.perfil.phone_label")}</span>
-            <input className="input-field-element" value={telefono} onChange={(event) => setTelefono(event.target.value)} />
+            <input
+              className={cn("input-field-element", errors.telefono && "has-error")}
+              value={telefono}
+              onChange={(event) => setTelefono(event.target.value)}
+            />
             {errors.telefono && <span className="panel-field-error">{errors.telefono}</span>}
           </label>
           <label className="panel-field">
             <span className="panel-field-label">{t("panel.perfil.birthdate_label")}</span>
             <input
               type="date"
-              className="input-field-element"
+              className={cn("input-field-element", errors.fechaNacimiento && "has-error")}
               value={fechaNacimiento}
               onChange={(event) => setFechaNacimiento(event.target.value)}
             />
@@ -143,12 +156,24 @@ export default function PanelPerfilPage() {
           </label>
           <label className="panel-field">
             <span className="panel-field-label">{t("panel.perfil.age_label")}</span>
-            <input type="number" min={0} className="input-field-element" value={edad} onChange={(event) => setEdad(event.target.value)} />
+            <input
+              type="number"
+              min={0}
+              className={cn("input-field-element", errors.edad && "has-error")}
+              value={edad}
+              onChange={(event) => setEdad(event.target.value)}
+            />
             {errors.edad && <span className="panel-field-error">{errors.edad}</span>}
           </label>
           <label className="panel-field">
             <span className="panel-field-label">{t("panel.perfil.weight_label")}</span>
-            <input type="number" min={0} className="input-field-element" value={peso} onChange={(event) => setPeso(event.target.value)} />
+            <input
+              type="number"
+              min={0}
+              className={cn("input-field-element", errors.peso && "has-error")}
+              value={peso}
+              onChange={(event) => setPeso(event.target.value)}
+            />
             {errors.peso && <span className="panel-field-error">{errors.peso}</span>}
           </label>
 

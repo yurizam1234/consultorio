@@ -60,7 +60,7 @@ export function ImagingBookingModal() {
           ×
         </button>
 
-        <div className="imaging-modal-inner">
+        <div className="imaging-modal-inner cita-card">
           {step !== "area" && (
             <button type="button" className="imaging-back-btn" aria-label={t("aria.go_back")} onClick={back}>
               <ChevronLeft size={16} strokeWidth={2} />
@@ -101,10 +101,15 @@ export function ImagingBookingModal() {
                   </p>
                   <div className="day-strip">
                     {diasDisponibles.map((d) => (
-                      <div key={d.label} className={cn("day", d.label === dia && "active")} onClick={() => setDia(d.label)}>
+                      <button
+                        key={d.label}
+                        type="button"
+                        className={cn("day", d.label === dia && "active")}
+                        onClick={() => setDia(d.label)}
+                      >
                         <span className="dname">{d.dname}</span>
                         <span className="dnum">{d.dnum}</span>
-                      </div>
+                      </button>
                     ))}
                   </div>
                 </div>

@@ -635,13 +635,11 @@ section[id] { scroll-margin-top: 110px; }
 }
 .floating-dock .floating-btn svg { width: 24px; height: 24px; position: relative; z-index: 1; }
 .floating-dock.visible .floating-btn { opacity: 1; pointer-events: auto; }
+/* Sólo el glow (se quitó el "shine" en barrido): con los 3 botones flotantes
+   siempre a la vista + el pulso del divisor ECG entre secciones, tener
+   ADEMÁS un brillo en barrido en cada uno se sentía como demasiado
+   movimiento simultáneo — el glow solo ya transmite "vivo" sin saturar. */
 .floating-dock.visible .floating-btn { animation: floatBtnGlow 2.8s ease-in-out infinite; }
-.floating-dock .floating-btn::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(115deg, transparent 40%, rgba(var(--white-rgb), 0.55) 50%, transparent 60%);
-  background-size: 250% 250%; background-position: -60% -60%;
-}
-.floating-dock.visible .floating-btn::after { animation: floatBtnShine 3.6s ease-in-out infinite; }
 @keyframes floatBtnGlow {
   0%, 100% { box-shadow: 0 10px 24px rgba(var(--black-rgb), 0.18), 0 0 0 0 rgba(var(--white-rgb), 0); }
   50% { box-shadow: 0 10px 24px rgba(var(--black-rgb), 0.18), 0 0 22px 6px rgba(var(--white-rgb), 0.45); }
@@ -651,8 +649,7 @@ section[id] { scroll-margin-top: 110px; }
   70%, 100% { background-position: 160% 160%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .floating-dock.visible .floating-btn,
-  .floating-dock.visible .floating-btn::after { animation: none; }
+  .floating-dock.visible .floating-btn { animation: none; }
 }
 
 .floating-btn-whatsapp { left: 24px; top: 50%; transform: translateY(-50%) translateX(-20px); background: var(--whatsapp); color: var(--white); }
@@ -671,12 +668,10 @@ section[id] { scroll-margin-top: 110px; }
 .floating-dock.visible .floating-btn-contacto { transform: translateY(-50%) translateX(0); }
 .floating-btn-cita:hover, .floating-btn-contacto:hover { filter: brightness(1.05); }
 
-/* Retraso distinto por botón para que el brillo no sea sincrónico entre los 3 (especificidad
+/* Retraso distinto por botón para que el glow no sea sincrónico entre los 3 (especificidad
    igual a la regla ".floating-dock.visible .floating-btn" para poder pisar su animation-delay) */
 .floating-dock.visible .floating-btn-cita { animation-delay: 0.6s; }
 .floating-dock.visible .floating-btn-contacto { animation-delay: 1.2s; }
-.floating-dock.visible .floating-btn-cita::after { animation-delay: 0.6s; }
-.floating-dock.visible .floating-btn-contacto::after { animation-delay: 1.2s; }
 
 @media (max-width: 640px) {
   .floating-dock {
@@ -1452,6 +1447,10 @@ section[id] { scroll-margin-top: 110px; }
 .input-label-text { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-slate); }
 .input-field-element { font-family: var(--font-family); font-size: 14px; font-weight: 500; color: var(--teal-end); border: none; border-bottom: 2px solid var(--border-strong); background: transparent; padding: 6px 0; outline: none; transition: border-color 0.3s ease; width: 100%; }
 .input-field-element:focus { border-color: var(--teal-end); }
+/* Mismo indicador rojo de error que ".panel-field-control.has-error" (login),
+   pero para los inputs "subrayados" sin wrapper con ícono (perfil, encuesta) —
+   así cualquier formulario del sitio marca un campo inválido de la misma forma. */
+.input-field-element.has-error { border-color: var(--danger); }
 .star-rating { display: flex; align-items: center; gap: 6px; }
 .star-btn { background: none; border: none; padding: 2px; cursor: pointer; color: var(--border-strong); transition: color 0.2s ease, transform 0.15s ease; }
 .star-btn svg { width: 26px; height: 26px; }
@@ -1642,15 +1641,31 @@ section[id] { scroll-margin-top: 110px; }
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .panel-access-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 22px -6px rgba(var(--teal-start-rgb), 0.6); }
+
+/* Con sesión iniciada: mismo lugar del nav, ahora un avatar con la inicial en
+   vez del botón "Iniciar sesión" (ver PanelAccessButton.tsx). */
+.panel-access-avatar {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal-start), var(--teal-end)); color: var(--white);
+  font-weight: 800; font-size: 0.95rem; box-shadow: 0 8px 18px -6px rgba(var(--teal-start-rgb), 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.panel-access-avatar:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 12px 22px -6px rgba(var(--teal-start-rgb), 0.6); }
 /* Especificidad extra: sin esto, ".nav-links a:hover" (desktop) y
    ".nav-links.mobile-open a:hover" (móvil) le ganan al color base del botón
    y el texto se pinta teal/gris oscuro al pasar el cursor en vez de blanco. */
 .nav-links a.panel-access-btn,
 .nav-links a.panel-access-btn:hover,
 .nav-links.mobile-open a.panel-access-btn,
-.nav-links.mobile-open a.panel-access-btn:hover {
+.nav-links.mobile-open a.panel-access-btn:hover,
+.nav-links a.panel-access-avatar,
+.nav-links a.panel-access-avatar:hover,
+.nav-links.mobile-open a.panel-access-avatar,
+.nav-links.mobile-open a.panel-access-avatar:hover {
   color: var(--white);
 }
+.nav-links.mobile-open a.panel-access-avatar { align-self: flex-start; }
 
 /* ===== PANEL DE PACIENTE: login ===== */
 .panel-auth-page { width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
@@ -1717,7 +1732,7 @@ section[id] { scroll-margin-top: 110px; }
    también lo tiene. */
 .panel-shell-page { width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
 .panel-topbar { width: 100%; padding: 24px; display: flex; justify-content: center; }
-.panel-topbar-logo img { height: 36px; width: auto; }
+.panel-topbar-logo img { height: 48px; width: auto; }
 /* El panel usa un ancho propio (no el ".wrap" de 1200px de la landing): a propósito
    mucho más generoso, para que no queden esos márgenes laterales tan marcados contra
    el fondo. El footer (que se auto-envuelve en ".wrap") se alinea aparte, abajo. */
@@ -1919,7 +1934,11 @@ section[id] { scroll-margin-top: 110px; }
 
 /* ===== PANEL DE PACIENTE: modal "Agendar nuevo estudio" — selección de área ===== */
 .cita-modal.imaging-modal { max-width: 520px; }
-.imaging-modal-inner { position: relative; padding: 6px; }
+/* Reutiliza ".cita-card" (mismo vidrio esmerilado, borde con luz angular y
+   grano que la card de "Agendar cita" del Hero principal) — antes este modal
+   no tenía ningún fondo propio y el texto flotaba directo sobre el velo
+   oscuro del overlay. */
+.imaging-modal-inner.cita-card { width: 100%; padding: 30px 28px; }
 .imaging-modal-title { font-size: 1.25rem; font-weight: 800; color: var(--teal-end); margin-bottom: 6px; }
 .imaging-modal-hint { font-size: 0.86rem; color: var(--text-soft); margin-bottom: 22px; }
 .imaging-back-btn {

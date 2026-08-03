@@ -22,11 +22,18 @@ export function SectionHead({
   titleColor,
   descriptionColor,
 }: SectionHeadProps) {
+  // Cuando no hay "title", el eyebrow es el único texto que funciona como
+  // encabezado de la sección (ej. Equipo, Instalaciones) — debe ser un <h2>
+  // real para que aparezca en la navegación por encabezados de un lector de
+  // pantalla, no sólo un <p> con estilo grande. Con "title" presente, el
+  // eyebrow es sólo un kicker decorativo y el <h2> real es el título de abajo.
+  const EyebrowTag = title ? "p" : "h2";
+
   return (
     <>
-      <p className="eyebrow" data-reveal-name>
+      <EyebrowTag className="eyebrow" data-reveal-name>
         {eyebrow}
-      </p>
+      </EyebrowTag>
       {(title || description) && (
         <Reveal className={cn("section-head", className)} style={style}>
           {title && (

@@ -15,7 +15,7 @@ export function TrustIntro() {
       <Reveal className="trust-banner full-bleed">
         <div className="trust-banner-media">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/servicios/urgencias-24hr.jpg" alt="" className="trust-banner-img" />
+          <img src="/servicios/urgencias-24hr.jpg" alt="" className="trust-banner-img" loading="lazy" />
           <div className="brand-photo-tint" />
           <div className="trust-banner-fade" />
           <div className="trust-banner-bottom-fade" />

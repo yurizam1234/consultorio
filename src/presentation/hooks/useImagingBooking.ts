@@ -67,10 +67,14 @@ export function useImagingBooking() {
     setStatus("idle");
   }
 
-  // Sin backend todavía (ver patientMock.ts / useAuth.tsx): la confirmación se
-  // simula con un retraso, igual que el resto de los flujos mock del panel — y
-  // agrega la solicitud al historial (useSolicitudes.tsx) para que aparezca de
-  // inmediato en "Mis solicitudes".
+  // PUNTO DE INTEGRACIÓN: mismo patrón que "Agendar cita" del Hero
+  // (useCitaBooking.ts → container.crearCita, ver LocalCitaRepository.ts) —
+  // aquí falta seguirlo: crear CrearSolicitudEstudioUseCase + un
+  // ImagingRepository (domain/application/infrastructure) y llamarlo aquí en
+  // vez del setTimeout. Dos cosas a resolver al conectarlo:
+  //  1. "archivo" (la orden médica subida) no se envía a ningún lado todavía —
+  //     el backend real necesitará un endpoint multipart/form-data para el archivo.
+  //  2. El id "SOL-####" se genera aquí al azar; debe venir del backend.
   async function confirmar() {
     setStatus("loading");
     await new Promise((resolve) => setTimeout(resolve, 1200));

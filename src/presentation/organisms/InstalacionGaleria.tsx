@@ -72,7 +72,7 @@ function InstalacionGaleriaContent({ instalacion }: { instalacion: Instalacion }
 
       <div className="instalacion-modal-viewer">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={instalacion.galeria[index]} alt={`${instalacion.title[lang]} ${index + 1}`} />
+        <img src={instalacion.galeria[index]} alt={`${instalacion.title[lang]} ${index + 1}`} loading="lazy" />
         {total > 1 && (
           <>
             <button className="carousel-btn instalacion-modal-prev" aria-label={t("aria.galeria_prev")} onClick={prev}>
@@ -95,7 +95,7 @@ function InstalacionGaleriaContent({ instalacion }: { instalacion: Instalacion }
               onClick={() => setIndex(i)}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="" />
+              <img src={src} alt="" loading="lazy" />
             </button>
           ))}
         </div>

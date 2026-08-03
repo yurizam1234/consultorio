@@ -14,6 +14,18 @@ interface AuthContextValue {
   updatePatient: (patch: Partial<PatientProfile>) => void;
 }
 
+// ===== INTEGRACIÓN DE BACKEND (pendiente) =====
+// A diferencia de "Agendar cita" (ver useCitaBooking.ts → container.crearCita,
+// que ya sigue el patrón domain/application/infrastructure), este hook todavía
+// NO pasa por esa capa — habla directo con localStorage. Para conectarlo a un
+// backend real, seguir el MISMO patrón ya establecido en src/infrastructure/:
+//   1. src/domain/repositories/AuthRepository.ts — interfaz
+//      (login(email,password): Promise<PatientProfile>, updateProfile(patch): Promise<PatientProfile>)
+//   2. src/application/auth/LoginUseCase.ts / UpdateProfileUseCase.ts
+//   3. src/infrastructure/repositories/HttpAuthRepository.ts — implementación real
+//      (fetch/POST al endpoint de login, guardar el token que devuelva en vez del "1" actual)
+//   4. Registrar en src/infrastructure/container.ts junto a "crearCita"
+// Los 3 puntos donde hoy hay lógica de demo que reemplazar:
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 // Mismo patrón que useLanguage.tsx: localStorage es una fuente externa, se sincroniza
@@ -50,10 +62,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // prellenados al agendar un estudio) ve siempre el dato más reciente.
   const [patientOverrides, setPatientOverrides] = useState<Partial<PatientProfile>>({});
 
-  // Login simulado: todavía no hay backend (ver comentario en patientMock.ts) — cualquier
-  // correo/contraseña con formato válido "entra" como el paciente de demostración. El
-  // pequeño retraso simula una llamada de red real, para que el estado de carga del
-  // formulario se sienta igual que cuando se conecte al backend de verdad.
+  // PUNTO DE INTEGRACIÓN 1/3: login simulado — cualquier correo/contraseña con
+  // formato válido "entra" como el paciente de demostración. Reemplazar por
+  // `const patient = await container.auth.login(email, password)` y guardar
+  // el token/sesión que devuelva el backend (no un simple "1"). El retraso
+  // artificial se puede quitar: la llamada de red real ya tendrá su latencia.
   const login = useCallback(async (email: string, password: string) => {
     if (!email || !password) throw new Error("Missing credentials");
     await new Promise((resolve) => setTimeout(resolve, 700));
@@ -62,6 +75,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(() => writeAuth(false), []);
 
+  // PUNTO DE INTEGRACIÓN 2/3: guarda los cambios de "Mi perfil" sólo en memoria
+  // (se pierden al recargar) — falta un `container.auth.updateProfile(patch)`
+  // real (PATCH al backend) antes de aplicar el patch aquí.
   const updatePatient = useCallback((patch: Partial<PatientProfile>) => {
     setPatientOverrides((prev) => ({ ...prev, ...patch }));
   }, []);

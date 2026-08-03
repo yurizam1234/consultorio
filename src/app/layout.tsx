@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
 import { LanguageProvider } from "@/presentation/hooks/useLanguage";
+import { AuthProvider } from "@/presentation/hooks/useAuth";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -32,7 +33,12 @@ export default function RootLayout({
   return (
     <html lang="es-MX" className={`${nunito.variable}`}>
       <body suppressHydrationWarning>
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          {/* A nivel raíz (no sólo dentro de /panel) para que el nav de la
+              landing/Historia también sepa si hay sesión iniciada — ver
+              PanelAccessButton.tsx. */}
+          <AuthProvider>{children}</AuthProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

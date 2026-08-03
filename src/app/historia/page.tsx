@@ -53,6 +53,7 @@ export default function HistoriaPage() {
               src="/instalaciones/consultorios/con2.JPG"
               alt=""
               className="historia-hero-img"
+              fetchPriority="high"
             />
             <div className="historia-hero-scrim" />
             <div className="historia-hero-fade" />

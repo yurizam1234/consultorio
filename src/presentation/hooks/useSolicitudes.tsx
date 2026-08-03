@@ -14,6 +14,11 @@ const SolicitudesContext = createContext<SolicitudesContextValue | null>(null);
 // Estado compartido entre el modal de "Agendar nuevo estudio" (useImagingBooking.ts,
 // que agrega una solicitud al confirmar) y la vista "Mis solicitudes" (que las lista).
 // En memoria nada más (no localStorage): son datos de sesión, no hay backend todavía.
+// PUNTO DE INTEGRACIÓN: al conectar el backend, "solicitudesMock" inicial se
+// reemplaza por un fetch real (ej. `container.solicitudes.listar(patient.id)`
+// dentro de un useEffect al montar el provider), y "addSolicitud" pasa de sólo
+// actualizar el estado local a esperar la confirmación del backend antes de
+// insertarla (o revertir el optimistic-update si la petición falla).
 export function SolicitudesProvider({ children }: { children: ReactNode }) {
   const [solicitudes, setSolicitudes] = useState<Solicitud[]>(solicitudesMock);
 
