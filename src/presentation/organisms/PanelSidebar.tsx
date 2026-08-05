@@ -37,7 +37,16 @@ export function PanelSidebar() {
       </div>
 
       <nav className="panel-nav-list" aria-label={t("aria.panel_nav")}>
-        <button type="button" className="panel-nav-item panel-nav-item-cta" onClick={openAgendar}>
+        {/* aria-label además del <span>: en móvil el texto se oculta por CSS
+            (queda sólo el ícono) y "display:none" saca el <span> del árbol de
+            accesibilidad — sin esto, un lector de pantalla no tendría ningún
+            nombre para estos botones/links en esa vista. */}
+        <button
+          type="button"
+          className="panel-nav-item panel-nav-item-cta"
+          onClick={openAgendar}
+          aria-label={t("panel.sidebar.agendar")}
+        >
           <CalendarPlus size={18} strokeWidth={1.8} />
           <span>{t("panel.sidebar.agendar")}</span>
         </button>
@@ -46,7 +55,13 @@ export function PanelSidebar() {
           const ItemIcon = item.icon;
           const active = pathname === item.href;
           return (
-            <Link key={item.href} href={item.href} prefetch={false} className={cn("panel-nav-item", active && "active")}>
+            <Link
+              key={item.href}
+              href={item.href}
+              prefetch={false}
+              className={cn("panel-nav-item", active && "active")}
+              aria-label={t(item.labelKey)}
+            >
               <ItemIcon size={18} strokeWidth={1.8} />
               <span>{t(item.labelKey)}</span>
             </Link>

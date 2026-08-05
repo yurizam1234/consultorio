@@ -505,7 +505,11 @@ section[id] { scroll-margin-top: 110px; }
   padding-left: 24px;
   padding-right: 24px;
   gap: 4px;
-  background: rgba(255,255,255,0.82);
+  /* 82% dejaba pasar demasiado del fondo de atrás cuando es algo con mucho
+     contraste (ej. el video/foto del Hero) — los links se volvían casi
+     ilegibles encima. Con 97% + blur, el menú se lee sólido en cualquier
+     fondo sin perder del todo el efecto de vidrio en el borde. */
+  background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(32px) saturate(200%);
   -webkit-backdrop-filter: blur(32px) saturate(200%);
   border-bottom: 1px solid rgba(var(--teal-start-rgb), 0.15);
@@ -1123,7 +1127,9 @@ section[id] { scroll-margin-top: 110px; }
     );
   }
   .trust-banner-img { object-position: center 22%; }
-  .trust-banner-content { max-width: 100%; padding: 170px 16px 32px 40px; }
+  /* padding-bottom con más aire: el dock flotante (píldora fija abajo en
+     móvil) tapaba el botón "Más sobre nosotros", que es lo último de la card. */
+  .trust-banner-content { max-width: 100%; padding: 170px 16px 92px 40px; }
 }
 
 /* ===== FEATURE INTRO: encabezado de "Servicios" y "Cómo agendar" (solo texto, sin imagen) ===== */
@@ -1133,6 +1139,11 @@ section[id] { scroll-margin-top: 110px; }
 
 /* ===== BAND: franja destacada de fondo para "Cómo agendar" ===== */
 .band { padding: 24px 0 64px; }
+@media (max-width: 640px) {
+  /* El paso 3 ("Confirma y listo", lo último de la sección) quedaba tapado
+     por el dock flotante, ya vuelto píldora fija abajo en móvil. */
+  .band { padding-bottom: 116px; }
+}
 
 /* ===== FONDOS DE SECCIÓN CON EFECTO CRISTAL (glassmorphism pulido, con toques brillantes) ===== */
 /* ===== BOOKER: chips/días/toast del formulario "Agenda tu cita" (Hero.tsx) ===== */
@@ -1371,12 +1382,22 @@ section[id] { scroll-margin-top: 110px; }
 @media (max-width: 900px) {
   .equipo-v2-main { flex-direction: column-reverse; gap: 24px; padding: 6px; min-height: 0; }
   .equipo-v2-photo-col { align-items: center; margin-bottom: 0; }
-  .equipo-v2-photo { max-height: 260px; clip-path: none; transform: none; }
+  /* Un poco más compacta: en móvil todo el contenido de la card (foto + nombre +
+     bio + cédulas + CTA + barra de equipo) es más alto que una pantalla — achicar
+     la foto ayuda a que el CTA quede a la vista antes, sin tanto scroll. */
+  .equipo-v2-photo { max-height: 200px; clip-path: none; transform: none; }
   .equipo-v2-info { align-items: center; text-align: center; }
   .equipo-v2-cta, .equipo-v2-badge { align-self: center; }
 }
 @media (max-width: 560px) {
   .equipo-v2-nav { gap: 18px; justify-content: flex-start; }
+}
+@media (max-width: 640px) {
+  /* La barra de miembros (lo último de la card) quedaba tapada por el dock
+     flotante, ya vuelto píldora fija abajo en móvil — aire extra al final
+     de TODA la sección (no sólo un margen interno) para que al llegar
+     scrolleando al final de la card quede espacio real debajo del dock. */
+  .equipo-v2-fade { padding-bottom: 100px; }
 }
 
 /* ===== TESTIMONIOS (video) ===== */
@@ -1400,6 +1421,10 @@ section[id] { scroll-margin-top: 110px; }
 .video-testimonial-empty span { font-size: 0.85rem; color: var(--text-soft); }
 .testimonial-controls { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 28px; }
 .testimonios-consent-notice { max-width: 640px; margin: 20px auto 0; text-align: center; font-size: 0.72rem; line-height: 1.5; color: var(--text-muted); }
+@media (max-width: 640px) {
+  /* Lo último de la sección, tapado por la píldora fija del dock en móvil. */
+  .testimonios-consent-notice { margin-bottom: 76px; }
+}
 @media (max-width: 640px) {
   .testimonial-track { min-height: 340px; }
   .video-testimonial-empty { min-height: 340px; padding: 32px 24px; }
@@ -1507,6 +1532,14 @@ section[id] { scroll-margin-top: 110px; }
 .footer-band {
   background: linear-gradient(180deg, var(--footer-grad-start) 0%, var(--footer-grad-end) 100%);
   margin-top: 24px; padding: 56px 0 36px;
+}
+@media (max-width: 640px) {
+  /* El dock flotante (WhatsApp/Agendar/Contacto) se convierte en una píldora
+     fija abajo en móvil (ver ".floating-dock" en @media 640px más abajo) y
+     tapaba los links del footer, que son lo último de la página — se le da
+     aire extra abajo (el fondo oscuro del footer ya cubre ese espacio, así
+     que no se repite el bug de "la página sigue" bajo un footer claro). */
+  .footer-band { padding-bottom: 104px; }
 }
 .footer { width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
 .foot-brand p { color: rgba(var(--white-rgb), 0.65); font-size: 0.85rem; max-width: 280px; margin: 8px 0 12px; }
@@ -1986,7 +2019,12 @@ section[id] { scroll-margin-top: 110px; }
   .panel-sidebar { position: static; }
   .panel-nav-list { flex-direction: row; overflow-x: auto; scrollbar-width: none; }
   .panel-nav-list::-webkit-scrollbar { display: none; }
-  .panel-nav-item { flex: none; }
+  /* Antes se quedaba en "width: 100%" (heredado del desktop) — cada ícono
+     terminaba ocupando el ancho completo del sidebar y había que hacer swipe
+     horizontal para encontrar "Mis solicitudes"/"Servicios"/"Mi perfil", sin
+     ninguna pista visual de que seguían ahí. Ahora sí son botones-ícono
+     compactos, los 4 caben a la vista sin necesidad de scroll. */
+  .panel-nav-item { flex: none; width: 48px; height: 48px; padding: 0; justify-content: center; }
   .panel-nav-item span { display: none; }
   .panel-shell-wrap { padding: 0 20px; }
 }
@@ -2157,6 +2195,9 @@ section[id] { scroll-margin-top: 110px; }
   .servicio-parallax-card { height: 52vh; }
   .servicio-parallax-content { padding: 22px 20px; gap: 8px; }
   .servicio-parallax-desc { font-size: 13px; }
+  /* Aire extra abajo: el dock flotante (WhatsApp/Agendar/Contacto) se vuelve
+     una píldora fija abajo en móvil y quedaba encima de "Ver especialistas". */
+  .servicios-slider-wrap { padding-bottom: 76px; }
 }
 
 /* ===== HISTORIA: página "Nuestra Historia" (/historia) — mismo nav/footer y
