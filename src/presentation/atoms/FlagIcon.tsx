@@ -18,8 +18,11 @@ export function FlagUS({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 3 2" className={className} aria-hidden="true">
       <rect width="3" height="2" fill="#ffffff" />
+      {/* 13 franjas (7 rojas + 6 blancas) a lo alto de las 2 unidades del
+          viewBox — antes usaban la mitad de la altura de franja real, así
+          que sólo llenaban la mitad superior y se veía "cortada". */}
       {[0, 1, 2, 3, 4, 5, 6].map((i) => (
-        <rect key={i} x="0" y={(i * 2) / 13} width="3" height={1 / 13} fill="#b22234" />
+        <rect key={i} x="0" y={(i * 4) / 13} width="3" height={2 / 13} fill="#b22234" />
       ))}
       <rect width="1.2" height={(7 * 2) / 13} fill="#3c3b6e" />
     </svg>
