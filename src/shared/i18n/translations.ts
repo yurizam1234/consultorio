@@ -127,6 +127,7 @@ export const translations = {
     "preloader.loading": "Cargando",
 
     "aria.open_menu": "Abrir menú",
+    "aria.close_menu": "Cerrar menú",
     "aria.lang_menu": "Cambiar idioma",
     "aria.floating_cita": "Agendar cita",
     "aria.floating_contacto": "Contacto / Urgencias",
@@ -422,6 +423,7 @@ export const translations = {
     "preloader.loading": "Loading",
 
     "aria.open_menu": "Open menu",
+    "aria.close_menu": "Close menu",
     "aria.lang_menu": "Change language",
     "aria.floating_cita": "Book appointment",
     "aria.floating_contacto": "Contact / Emergency",

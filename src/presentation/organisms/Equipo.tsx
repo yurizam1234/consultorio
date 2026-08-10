@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { Reveal } from "@/presentation/atoms/Reveal";
 import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { DoctorModal } from "@/presentation/organisms/DoctorModal";
@@ -34,6 +35,16 @@ export function Equipo() {
   const [dept, setDept] = useState<Departamento>("medicos");
   const [activeIndex, setActiveIndex] = useState(0);
   const [modalDoctor, setModalDoctor] = useState<Doctor | null>(null);
+  // Sólo se usa en la versión móvil (ver ".equipo-v2-dept-select" en
+  // globals.css) — en desktop los departamentos se quedan como pestañas de
+  // texto en fila (".equipo-v2-nav"), que sí caben cómodas ahí.
+  const [deptMenuOpen, setDeptMenuOpen] = useState(false);
+  // Carrusel de la barra de equipo (móvil, ver ".equipo-v2-team-bar" en
+  // globals.css): teamBarRef mide el scroll para saber cuál circulito quedó
+  // centrado, teamItemRefs guarda cada botón para poder centrarlo con
+  // scrollIntoView al hacer click o al cambiar de departamento.
+  const teamBarRef = useRef<HTMLDivElement>(null);
+  const teamItemRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   const isMedicos = dept === "medicos";
   const items: { img: string }[] = isMedicos ? doctores : equipoOtrasAreas[dept];
@@ -44,7 +55,58 @@ export function Equipo() {
   function handleSelectDept(next: Departamento) {
     setDept(next);
     setActiveIndex(0);
+    setDeptMenuOpen(false);
   }
+
+  function handleSelectTeamItem(index: number) {
+    setActiveIndex(index);
+    teamItemRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  }
+
+  // Al cambiar de departamento la barra debe volver al inicio: si no se
+  // reinicia el scroll a mano, se queda mostrando el hueco donde estaba el
+  // integrante que se veía en el departamento anterior (activeIndex ya
+  // vuelve a 0 en handleSelectDept, pero eso no mueve el scroll por sí solo).
+  useEffect(() => {
+    teamBarRef.current?.scrollTo({ left: 0, behavior: "auto" });
+  }, [dept]);
+
+  // Carrusel móvil de "un integrante a la vez" (ver ".equipo-v2-team-bar" en
+  // globals.css, con scroll-snap): al deslizar con el dedo no hay ningún
+  // evento de click, así que este listener detecta cuál circulito quedó
+  // centrado en la barra y actualiza activeIndex para que la foto/nombre/bio
+  // de arriba cambien junto con el swipe.
+  useEffect(() => {
+    const bar = teamBarRef.current;
+    if (!bar) return;
+    let rafId = 0;
+    function syncActiveFromScroll() {
+      rafId = 0;
+      const barRect = bar!.getBoundingClientRect();
+      const barCenter = barRect.left + barRect.width / 2;
+      let closestIndex = 0;
+      let closestDistance = Infinity;
+      teamItemRefs.current.forEach((item, index) => {
+        if (!item) return;
+        const itemRect = item.getBoundingClientRect();
+        const distance = Math.abs(itemRect.left + itemRect.width / 2 - barCenter);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+      setActiveIndex((prev) => (prev === closestIndex ? prev : closestIndex));
+    }
+    function handleScroll() {
+      if (rafId) return;
+      rafId = requestAnimationFrame(syncActiveFromScroll);
+    }
+    bar.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      bar.removeEventListener("scroll", handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [items.length]);
 
   useEffect(() => {
     document.body.style.overflow = modalDoctor ? "hidden" : "";
@@ -52,6 +114,15 @@ export function Equipo() {
       document.body.style.overflow = "";
     };
   }, [modalDoctor]);
+
+  useEffect(() => {
+    if (!deptMenuOpen) return;
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") setDeptMenuOpen(false);
+    }
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [deptMenuOpen]);
 
   useEffect(() => {
     if (!modalDoctor) return;
@@ -102,6 +173,40 @@ export function Equipo() {
                   </button>
                 ))}
               </nav>
+
+              {/* Sólo visible en móvil (ver CSS): mismos departamentos, pero
+                  agrupados en un botón desplegable en vez de una fila de texto
+                  que competía por espacio con la foto y la barra de equipo. */}
+              <div className="equipo-v2-dept-select">
+                <button
+                  type="button"
+                  className="equipo-v2-dept-select-toggle"
+                  aria-label={t("aria.equipo_dept_menu")}
+                  aria-expanded={deptMenuOpen}
+                  onClick={() => setDeptMenuOpen((prev) => !prev)}
+                >
+                  {t(`equipo.dept.${dept}`)}
+                  <ChevronDown size={18} strokeWidth={2} className={cn("equipo-v2-dept-select-chevron", deptMenuOpen && "open")} />
+                </button>
+
+                {deptMenuOpen && (
+                  <>
+                    <div className="equipo-v2-dept-select-backdrop" onClick={() => setDeptMenuOpen(false)} />
+                    <div className="equipo-v2-dept-select-menu">
+                      {departamentos.map((d) => (
+                        <button
+                          key={d}
+                          type="button"
+                          className={cn("equipo-v2-dept-select-option", d === dept && "active")}
+                          onClick={() => handleSelectDept(d)}
+                        >
+                          {t(`equipo.dept.${d}`)}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
             </header>
 
             <main className="equipo-v2-main">
@@ -139,13 +244,16 @@ export function Equipo() {
               </div>
             </main>
 
-            <aside className="equipo-v2-team-bar">
+            <aside className="equipo-v2-team-bar" ref={teamBarRef}>
               {items.map((item, index) => (
                 <button
                   key={item.img}
                   type="button"
+                  ref={(el) => {
+                    teamItemRefs.current[index] = el;
+                  }}
                   className={cn("equipo-v2-team-item", index === activeIndex && "active")}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={() => handleSelectTeamItem(index)}
                 >
                   <span className="equipo-v2-avatar">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
