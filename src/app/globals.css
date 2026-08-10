@@ -310,16 +310,16 @@ section[id] { scroll-margin-top: 110px; }
 .compliance-float-badge {
   position: fixed;
   left: 24px;
-  top: calc(50% + 70px); /* justo debajo del botón de WhatsApp */
+  top: calc(50% + 36px); /* espejo de ".floating-btn-contacto" (+36px del centro) */
   z-index: 88;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(12px);
+  transform: translateY(-50%) translateY(12px);
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 .compliance-float-badge.compliance-float-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(-50%) translateY(0);
   pointer-events: auto;
 }
 
@@ -417,12 +417,23 @@ section[id] { scroll-margin-top: 110px; }
 .compliance-tooltip-row + .compliance-tooltip-row { margin-top: 8px; }
 .compliance-tooltip-row svg { width: 16px; height: 16px; stroke: var(--teal-start); flex-shrink: 0; }
 
-/* En móvil (floating-dock en barra inferior): el botón va encima de la barra */
-@media (max-width: 640px) {
+/* Mismo bug que ".floating-btn-whatsapp" (ver DOCK FLOTANTE más abajo): a la
+   izquierda a "top:50%" sólo tiene aire real pasados los ~1400px de ancho de
+   viewport — antes de eso quedaba encima del texto igual que el de
+   WhatsApp. Se reubica junto con el dock (bottom-left, por encima de la
+   píldora inferior) en todo ese mismo rango. */
+@media (max-width: 1400px) {
   .compliance-float-badge {
     left: 16px;
     top: auto;
     bottom: 88px;
+    /* Acá se posiciona con "bottom", no con "top" — el translateY(-50%) para
+       centrarlo junto a WhatsApp en escritorio no aplica en este layout, se
+       resetea a solo el desplazamiento vertical de la animación de entrada. */
+    transform: translateY(12px);
+  }
+  .compliance-float-badge.compliance-float-visible {
+    transform: translateY(0);
   }
   .compliance-float-btn { width: 48px; height: 48px; }
   .compliance-float-btn svg { width: 20px; height: 20px; }
@@ -666,7 +677,11 @@ section[id] { scroll-margin-top: 110px; }
   .floating-dock.visible .floating-btn { animation: none; }
 }
 
-.floating-btn-whatsapp { left: 24px; top: 50%; transform: translateY(-50%) translateX(-20px); background: var(--whatsapp); color: var(--white); }
+/* top: -36px del centro, espejo exacto de ".floating-btn-cita" (+36px del
+   centro a la derecha) — antes WhatsApp quedaba solo en el centro y el
+   badge de COFEPRIS colgaba suelto 70px más abajo sin simetría con el par
+   cita/contacto de la derecha, lo que generaba la inconsistencia visual. */
+.floating-btn-whatsapp { left: 24px; top: calc(50% - 36px); transform: translateY(-50%) translateX(-20px); background: var(--whatsapp); color: var(--white); }
 .floating-dock.visible .floating-btn-whatsapp { transform: translateY(-50%) translateX(0); }
 .floating-btn-whatsapp:hover { transform: translateY(-50%) translateY(-3px); }
 
@@ -687,7 +702,15 @@ section[id] { scroll-margin-top: 110px; }
 .floating-dock.visible .floating-btn-cita { animation-delay: 0.6s; }
 .floating-dock.visible .floating-btn-contacto { animation-delay: 1.2s; }
 
-@media (max-width: 640px) {
+/* El dock lateral (arriba, ".floating-btn-whatsapp" etc.) sólo tiene margen
+   real para no taparse con el contenido cuando ".wrap" (max-width:1200px)
+   deja aire de sobra a los costados — eso recién pasa cerca de los 1400px.
+   Entre 641px y 1400px (tablets y la mayoría de laptops, incluyendo
+   resoluciones tan comunes como 1280 o 1366) el botón de WhatsApp quedaba
+   literalmente encima del texto. Se extiende la píldora inferior (ya
+   probada en móvil) a todo ese rango en vez de dejar los botones laterales
+   sin espacio real donde vivir. */
+@media (max-width: 1400px) {
   .floating-dock {
     position: fixed; inset: auto 16px 16px 16px; height: auto; display: flex; justify-content: space-around;
     align-items: center; background: rgba(var(--white-rgb), 0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
@@ -698,6 +721,13 @@ section[id] { scroll-margin-top: 110px; }
   .floating-dock .floating-btn {
     position: static; width: 48px; height: 48px; opacity: 1; transform: none !important; pointer-events: auto;
   }
+}
+/* En celular (≤640px) la píldora de punta a punta ya se ve bien angosta —
+   pero estirada de borde a borde en una tablet/laptop ancha se vería como
+   una barra ridícula con los 3 botones muy separados. Sólo en ese rango
+   intermedio se limita su ancho y se centra como píldora compacta. */
+@media (min-width: 641px) and (max-width: 1400px) {
+  .floating-dock { max-width: 240px; margin: 0 auto; }
 }
 
 /* Cards de accion rapida (Agendar cita / Contactanos), ancladas al fondo del hero;
@@ -2287,7 +2317,7 @@ section[id] { scroll-margin-top: 110px; }
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform;
 }
 .servicios-slider-track.dragging { transition: none; cursor: grabbing; }
-.servicio-parallax-card { position: relative; flex: none; width: min(78vw, 760px); height: min(64vh, 560px); border-radius: 28px; overflow: hidden; box-shadow: 0 30px 60px -25px rgba(var(--black-rgb), 0.45); }
+.servicio-parallax-card { position: relative; flex: none; width: min(78vw, 760px); height: min(64vh, 560px); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 30px 60px -25px rgba(var(--black-rgb), 0.45); }
 .servicio-parallax-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
 .servicio-parallax-scrim { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(var(--scrim-dark-rgb), 0.9) 0%, rgba(var(--scrim-dark-rgb), 0.2) 55%, rgba(var(--scrim-dark-rgb), 0.05) 100%); }
 .servicio-parallax-content { position: absolute; left: 0; right: 0; bottom: 0; padding: 36px 40px; display: flex; flex-direction: column; gap: 10px; z-index: 1; }
