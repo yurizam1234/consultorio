@@ -1243,6 +1243,16 @@ section[id] { scroll-margin-top: 110px; }
 }
 
 /* ===== POR QUÉ ESCOGERNOS: collage de fotos (mismo estilo que "Nuestra Historia") ===== */
+/* Mismo problema que "#equipo .wrap" (ver ese comentario): con el ".wrap"
+   estándar (1200px) esta sección se veía como una isla angosta rodeada de
+   fondo vacío en monitores anchos, con el collage de fotos further capped
+   a 460px dejando aún más aire de sobra al lado derecho. Sólo en escritorio:
+   sin el "min-width" de abajo, "calc(100vw - 200px)" también se aplicaba en
+   móvil y aplastaba el ".wrap" a ~175px (mismo bug que tuvo "#equipo .wrap"
+   antes de acotarlo) — la versión móvil se queda tal como estaba. */
+@media (min-width: 901px) {
+  #por-que-escogernos .wrap { max-width: min(1600px, calc(100vw - 200px)); }
+}
 .reasons-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
 .reasons-content { display: flex; flex-direction: column; gap: 20px; }
 .reasons-tagline-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 24px; }
@@ -1266,6 +1276,14 @@ section[id] { scroll-margin-top: 110px; }
    deformando el resto del sitio — ver ScrollEffects.tsx, mismo motivo por el
    que ".full-bleed" no se anima con "x"). */
 .reasons-collage { width: 100%; max-width: 460px; height: 380px; padding: 40px 40px 0 0; box-sizing: border-box; overflow: hidden; }
+/* El texto ("reasons-title"/"reasons-desc") se queda en su ancho de lectura
+   cómodo a propósito, pero el collage de fotos sí puede crecer más en
+   pantallas grandes — es lo que más ayuda a llenar el espacio extra que
+   deja el ".wrap" más ancho de arriba, en vez de dejarlo como aire vacío
+   entre el texto y el borde de la sección. */
+@media (min-width: 1400px) {
+  .reasons-collage { max-width: 620px; height: 460px; }
+}
 
 /* ===== PHOTO STACK: pila de fotos en abanico, la de "profundidad" 0 se ve completa
    al frente y el resto asoma detrás; click en cualquiera la trae al frente (ver
@@ -1321,8 +1339,11 @@ section[id] { scroll-margin-top: 110px; }
 /* Más ancho que el ".wrap" estándar (1200px) para aprovechar mejor los
    costados, pero con un tope que se ajusta al viewport (100vw - 200px) para
    que la card nunca llegue a chocar con los botones flotantes fijos
-   (WhatsApp/Agendar/Contacto, a 24px del borde + 56px de ancho = 80px). */
-#equipo .wrap { max-width: min(1400px, calc(100vw - 200px)); }
+   (WhatsApp/Agendar/Contacto, a 24px del borde + 56px de ancho = 80px).
+   El tope de 1400px se sentía angosto en monitores muy anchos (>1800px):
+   dejaba franjas vacías enormes a los costados de la sección, como si
+   faltara contenido — se sube a 1700px para que aproveche más ese espacio. */
+#equipo .wrap { max-width: min(1700px, calc(100vw - 200px)); }
 .equipo-v2-fade { position: relative; padding: 24px 0 28px; }
 .equipo-v2-fade::before {
   content: "";
@@ -1378,14 +1399,37 @@ section[id] { scroll-margin-top: 110px; }
 .equipo-v2-dept-select-option.active { background: rgba(var(--teal-start-rgb), 0.14); color: var(--teal-end); }
 
 /* La card en sí aprovecha el ancho extra de "#equipo .wrap" (para el fondo/fade
-   y la barra de equipo), pero el grupo nombre+foto se centra en un ancho más
-   angosto para que no quede el nombre pegado al borde izquierdo. */
+   y la barra de equipo), pero el grupo nombre+foto se centra en un ancho algo
+   más angosto que "#equipo .wrap" para que no quede el nombre pegado al borde
+   izquierdo — subido de 1320 a 1600px junto con "#equipo .wrap" (ver arriba)
+   para que la foto/info también llenen más el espacio en monitores anchos. */
 .equipo-v2-main {
-  position: relative; display: flex; align-items: center; justify-content: center;
-  gap: 40px; min-height: 440px; padding: 10px 24px; max-width: 1320px; margin: 0 auto;
+  /* "width: 100%" es necesario: ".equipo-v2-main" es un flex item dentro de
+     ".equipo-v2-card" (flex-direction:column), y "margin: 0 auto" en el eje
+     cruzado de un flex item hace que el navegador NO lo estire (stretch) —
+     en vez de eso lo encoge a su contenido y lo centra con esos márgenes.
+     Sin esto, "max-width" nunca llegaba a ser el límite real: el bloque se
+     quedaba angosto (~850px) sin importar qué tan grande fuera el tope. */
+  position: relative; display: flex; align-items: center; justify-content: center; width: 100%;
+  gap: 40px; min-height: 440px; padding: 10px 24px; max-width: 1600px; margin: 0 auto;
 }
 
 .equipo-v2-info { flex: 1.1; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+/* En fila (escritorio) "flex-grow" (1.1/0.9 de arriba) hacía que el texto
+   reclamara más de la mitad de ".equipo-v2-main" aunque su contenido real
+   es mucho más angosto (tiene su propio límite de lectura, ver
+   ".equipo-v2-bio") — con ".equipo-v2-main" ya ensanchado (ver arriba) eso
+   dejaba un hueco enorme entre el texto y la foto. Sin "grow", cada
+   columna ocupa sólo lo que su contenido necesita y el par completo queda
+   centrado por el "justify-content: center" de ".equipo-v2-main". El
+   "flex: 1.1/0.9" original se mantiene sin tocar en móvil (≤900px, más
+   abajo cambia a columna y ahí sí regula el alto, no el ancho). El mismo
+   ajuste para ".equipo-v2-photo-col" está junto a SU propia definición más
+   abajo — puesto aquí, el ".flex:0.9" que aparece después en el archivo lo
+   pisaría de vuelta por orden de cascada. */
+@media (min-width: 901px) {
+  .equipo-v2-info { flex: none; }
+}
 .equipo-v2-badge {
   align-self: flex-start; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
   background: rgba(var(--teal-start-rgb), 0.14); border: 1px solid rgba(var(--teal-start-rgb), 0.3); color: var(--teal-end);
@@ -1412,6 +1456,12 @@ section[id] { scroll-margin-top: 110px; }
   z-index: 2;
   margin-bottom: -122px;
 }
+/* Ver comentario junto a ".equipo-v2-info" (arriba): sin "grow" en fila esta
+   columna también se encoge a su contenido (la foto) en vez de reclamar de
+   más y dejar la foto flotando lejos del texto. */
+@media (min-width: 901px) {
+  .equipo-v2-photo-col { flex: none; }
+}
 .equipo-v2-photo {
   display: block;
   width: min(100%, 380px);
@@ -1423,6 +1473,23 @@ section[id] { scroll-margin-top: 110px; }
   margin: 0;
   transform: translateY(24px);
   filter: drop-shadow(0 20px 24px rgba(var(--dark-shadow-rgb), 0.18));
+}
+/* El texto de la izquierda no necesita ganar ancho (ya tiene su propio
+   "max-width" para lectura cómoda, ver ".equipo-v2-bio"), así que al
+   ensanchar ".equipo-v2-main" (arriba) es la foto la que debe crecer para
+   llenar el espacio extra — si no, queda un hueco enorme entre el texto y
+   una foto que se mantiene chica en una columna ahora mucho más ancha. */
+/* Ancho fijo, no "min(100%, 380/520px)": desde 901px ".equipo-v2-photo-col"
+   ya no crece por flex (ver comentario junto a esa clase), así que su ancho
+   depende de su contenido — y ese contenido (esta misma imagen) depende del
+   ancho del contenedor si se deja en porcentaje, una referencia circular
+   que algunos navegadores resuelven colapsando la imagen a 0 (desaparece
+   por completo entre 901-1399px si no se corrige). */
+@media (min-width: 901px) {
+  .equipo-v2-photo { width: 380px; }
+}
+@media (min-width: 1400px) {
+  .equipo-v2-photo { width: 520px; }
 }
 
 .equipo-v2-team-bar {
