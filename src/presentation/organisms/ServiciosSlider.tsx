@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
+import Link from "next/link";
+import { Icon } from "@/presentation/atoms/Icon";
 import { Reveal } from "@/presentation/atoms/Reveal";
 import { AreaMedicaCard } from "@/presentation/molecules/AreaMedicaCard";
 import { useCarousel } from "@/presentation/hooks/useCarousel";
@@ -120,6 +122,13 @@ export function ServiciosSlider() {
           </button>
         </div>
       </Reveal>
+
+      <div className="wrap">
+        <Link href="/procedimientos" className="reasons-cta-btn servicios-catalogo-cta">
+          {t("procedimientos.cta")}
+          <Icon name="arrow-right" strokeWidth={2.2} />
+        </Link>
+      </div>
     </section>
   );
 }

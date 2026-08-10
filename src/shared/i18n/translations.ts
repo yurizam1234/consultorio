@@ -275,6 +275,18 @@ export const translations = {
     "historia.value3_desc": "Información clara sobre diagnósticos, costos y tiempos, sin sorpresas.",
     "historia.value4_title": "Compromiso",
     "historia.value4_desc": "Urgencias 24/7 y un equipo que responde cuando más lo necesitas.",
+
+    "procedimientos.eyebrow": "Catálogo de procedimientos",
+    "procedimientos.title": "Encuentra tu procedimiento",
+    "procedimientos.subtitle": "Busca por nombre o filtra por especialidad — cirugías, estudios y procedimientos que realizamos en SH Arboledas.",
+    "procedimientos.search_placeholder": "Buscar procedimiento o especialidad...",
+    "procedimientos.filter_all": "Todas",
+    "procedimientos.no_results": "No encontramos ningún procedimiento con ese nombre.",
+    "procedimientos.cta": "Ver catálogo completo de procedimientos",
+    "procedimientos.inquiry_message": "Hola, quiero información sobre: {procedimiento} ({especialidad}).",
+    "procedimientos.inquiry_aria": "Preguntar por WhatsApp sobre {procedimiento}",
+    "procedimientos.inquiry_hint": "Toca un procedimiento para preguntar por WhatsApp",
+    "areas.coming_soon_badge": "Próximamente",
   },
   en: {
     "nav.inicio": "Home",
@@ -548,6 +560,18 @@ export const translations = {
     "historia.value3_desc": "Clear information about diagnoses, costs, and timelines, no surprises.",
     "historia.value4_title": "Commitment",
     "historia.value4_desc": "24/7 emergency care and a team that responds when you need it most.",
+
+    "procedimientos.eyebrow": "Procedures catalog",
+    "procedimientos.title": "Find your procedure",
+    "procedimientos.subtitle": "Search by name or filter by specialty — surgeries, studies, and procedures we perform at SH Arboledas.",
+    "procedimientos.search_placeholder": "Search procedure or specialty...",
+    "procedimientos.filter_all": "All",
+    "procedimientos.no_results": "We couldn't find any procedure with that name.",
+    "procedimientos.cta": "See full procedures catalog",
+    "procedimientos.inquiry_message": "Hi, I'd like information about: {procedimiento} ({especialidad}).",
+    "procedimientos.inquiry_aria": "Ask about {procedimiento} on WhatsApp",
+    "procedimientos.inquiry_hint": "Tap a procedure to ask about it on WhatsApp",
+    "areas.coming_soon_badge": "Coming soon",
   },
 } as const satisfies Record<Lang, Record<string, string>>;
 

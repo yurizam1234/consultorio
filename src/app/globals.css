@@ -1215,6 +1215,7 @@ section[id] { scroll-margin-top: 110px; }
 .reasons-cta-btn { align-self: flex-start; margin-top: 6px; display: inline-flex; align-items: center; gap: 10px; padding: 13px 28px; border: 1px solid var(--teal-start); border-radius: 9999px; color: var(--teal-start); font-weight: 600; font-size: 0.88rem; transition: all 0.3s ease; }
 .reasons-cta-btn:hover { background: var(--teal-start); color: var(--white); transform: translateX(3px); }
 .reasons-cta-btn svg { width: 15px; height: 15px; flex: none; }
+.servicios-catalogo-cta { display: flex; width: fit-content; margin: 28px auto 0; }
 /* overflow:hidden + padding: el padding reserva el espacio donde "asoman" las
    fotos de atrás del stack (arriba y a la derecha del frente); overflow:hidden
    garantiza que, sea cual sea el tamaño de pantalla, ninguna foto trasladada
@@ -2186,6 +2187,13 @@ section[id] { scroll-margin-top: 110px; }
 .servicio-parallax-cta { align-self: flex-start; margin-top: 8px; padding: 12px 26px; background: rgba(var(--white-rgb), 0.08); border: 1px solid rgba(var(--white-rgb), 0.25); border-radius: 9999px; color: var(--white); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; transition: all 0.3s ease; }
 .servicio-parallax-cta:hover { background: rgba(var(--white-rgb), 0.16); border-color: var(--white); }
 .servicio-parallax-cta .btn-circle-icon { width: 14px; height: 14px; border: 2px solid currentColor; border-radius: 50%; display: inline-block; }
+/* Mismo hueco/tamaño que el CTA de al lado, pero sin aspecto clickeable
+   (sin cursor/hover) — para tarjetas "Próximamente" sin equipo asignado aún. */
+.servicio-parallax-badge {
+  align-self: flex-start; margin-top: 8px; padding: 12px 26px; border-radius: 9999px;
+  background: rgba(var(--warning-rgb), 0.16); border: 1px solid rgba(var(--warning-rgb), 0.4);
+  color: var(--white); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+}
 .servicios-slider-wrap .testimonial-controls { margin-top: 22px; }
 @media (max-width: 860px) {
   .servicio-parallax-card { width: 86vw; height: 60vh; }
@@ -2198,6 +2206,9 @@ section[id] { scroll-margin-top: 110px; }
   /* Aire extra abajo: el dock flotante (WhatsApp/Agendar/Contacto) se vuelve
      una píldora fija abajo en móvil y quedaba encima de "Ver especialistas". */
   .servicios-slider-wrap { padding-bottom: 76px; }
+  /* Mismo motivo: el botón "Ver catálogo completo" (después del carrusel, lo
+     último de la sección ahora) también quedaba tapado por esa píldora. */
+  .servicios-catalogo-cta { margin-bottom: 76px; }
 }
 
 /* ===== HISTORIA: página "Nuestra Historia" (/historia) — mismo nav/footer y
@@ -2291,4 +2302,79 @@ section[id] { scroll-margin-top: 110px; }
 @media (max-width: 560px) {
   .historia-mission-card { padding: 32px 24px; }
   .historia-values-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== /procedimientos: catálogo con buscador + filtro por especialidad =====
+   Sin hero de foto (a diferencia de /historia) — es una página utilitaria de
+   consulta, no editorial; el navbar igual se expande desde el inicio via
+   ".navbar-expand-trigger" (ver ScrollEffects.tsx). */
+.procedimientos-hero { padding: 150px 0 20px; text-align: center; }
+.procedimientos-hero .section-head { margin: 0 auto; text-align: center; }
+.procedimientos-hero .eyebrow { text-align: center; }
+.procedimientos-catalog { padding: 24px 0 72px; }
+
+.procedimientos-controls { display: flex; flex-direction: column; gap: 18px; margin-bottom: 36px; }
+.procedimientos-search {
+  display: flex; align-items: center; gap: 10px; max-width: 480px; width: 100%;
+  padding: 13px 20px; border-radius: 9999px; background: var(--white); border: 1px solid var(--border-light);
+  color: var(--text-soft); box-shadow: var(--shadow-sm); transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.procedimientos-search:focus-within { border-color: var(--teal-start); box-shadow: 0 0 0 3px rgba(var(--teal-start-rgb), 0.15); }
+.procedimientos-search svg { flex: none; color: var(--teal-start); }
+.procedimientos-search input {
+  flex: 1; min-width: 0; border: none; outline: none; background: transparent;
+  font-family: var(--font-family); font-size: 0.92rem; font-weight: 500; color: var(--text-strong);
+}
+.procedimientos-search input::placeholder { color: var(--text-faint); }
+
+.procedimientos-empty { color: var(--text-muted); font-size: 0.95rem; padding: 40px 0; text-align: center; }
+
+.procedimientos-groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.procedimientos-group {
+  padding: 26px 26px 22px; border-radius: var(--radius-md);
+  background:
+    linear-gradient(180deg, rgba(var(--white-rgb), 0.55) 0%, rgba(var(--white-rgb), 0.3) 100%) padding-box,
+    var(--edge-light) border-box;
+  backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid transparent; box-shadow: var(--shadow-sm);
+}
+.procedimientos-group-title {
+  font-size: 1.02rem; font-weight: 800; color: var(--teal-end); letter-spacing: -0.01em;
+  margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(var(--teal-end-rgb), 0.12);
+}
+.procedimientos-hint {
+  display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 4px;
+  font-size: 0.82rem; font-weight: 600; color: var(--teal-start);
+}
+.procedimientos-list { display: flex; flex-direction: column; gap: 4px; }
+/* Cada procedimiento abre WhatsApp con el mensaje ya escrito — el fondo/ícono
+   al pasar el mouse y el cursor son la única pista de que es clickeable, ya
+   que visualmente se quiere leer como una simple lista, no como botones. */
+.procedimientos-list li a {
+  position: relative;
+  display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 22px; margin-left: -10px;
+  border-radius: 10px; font-size: 0.9rem; line-height: 1.5; color: var(--text-base);
+  cursor: pointer; transition: background 0.2s ease, color 0.2s ease;
+}
+.procedimientos-list li a::before {
+  content: ""; position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  width: 6px; height: 6px; border-radius: 50%; background: var(--teal-start); flex: none;
+}
+.procedimientos-list li a svg {
+  flex: none; margin-left: auto; color: var(--teal-start); opacity: 0; transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.procedimientos-list li a:hover,
+.procedimientos-list li a:focus-visible {
+  background: rgba(var(--teal-start-rgb), 0.1); color: var(--teal-end);
+}
+.procedimientos-list li a:hover svg,
+.procedimientos-list li a:focus-visible svg {
+  opacity: 1; transform: translateX(0);
+}
+@media (max-width: 640px) {
+  .procedimientos-hero { padding: 130px 0 16px; }
+  .procedimientos-groups { grid-template-columns: 1fr; }
+  /* En touch no hay ":hover" — el ícono queda siempre visible como pista. */
+  .procedimientos-list li a svg { opacity: 1; transform: none; }
 }

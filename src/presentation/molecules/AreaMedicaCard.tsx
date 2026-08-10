@@ -33,18 +33,22 @@ export const AreaMedicaCard = forwardRef<HTMLElement, AreaMedicaCardProps>(funct
         <span className="servicio-parallax-tagline">{area.tagline[lang]}</span>
         <h3 className="servicio-parallax-title">{area.title[lang]}</h3>
         <p className="servicio-parallax-desc">{area.desc[lang]}</p>
-        <a
-          href="#equipo"
-          className="servicio-parallax-cta"
-          tabIndex={decorative ? -1 : undefined}
-          onClick={() =>
-            window.dispatchEvent(
-              new CustomEvent("equipo:seleccionar", { detail: { especialidad: area.title.es } })
-            )
-          }
-        >
-          {t("servicios.ver_todo")} <i className="btn-circle-icon" />
-        </a>
+        {area.comingSoon ? (
+          <span className="servicio-parallax-badge">{t("areas.coming_soon_badge")}</span>
+        ) : (
+          <a
+            href="#equipo"
+            className="servicio-parallax-cta"
+            tabIndex={decorative ? -1 : undefined}
+            onClick={() =>
+              window.dispatchEvent(
+                new CustomEvent("equipo:seleccionar", { detail: { especialidad: area.title.es } })
+              )
+            }
+          >
+            {t("servicios.ver_todo")} <i className="btn-circle-icon" />
+          </a>
+        )}
       </div>
     </article>
   );

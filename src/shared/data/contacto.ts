@@ -28,6 +28,12 @@ const direccionQuery = encodeURIComponent(`${contactoInfo.nombreHospital}, ${con
 export const mapsEmbedSrc = `https://www.google.com/maps?q=${direccionQuery}&output=embed`;
 export const mapsDirectionsHref = `https://www.google.com/maps/dir/?api=1&destination=${direccionQuery}`;
 
+// Compartido por cualquier flujo que abra WhatsApp con un mensaje ya escrito
+// (ver useCitaBooking.ts y /procedimientos) — una sola forma de armar la URL.
+export function buildWhatsAppUrl(mensaje: string) {
+  return `${contactoInfo.whatsappHref}?text=${encodeURIComponent(mensaje)}`;
+}
+
 export const diasDisponibles = [
   { label: "Jue 17", dname: "Jue", dnum: "17" },
   { label: "Vie 18", dname: "Vie", dnum: "18" },

@@ -5,6 +5,9 @@ export interface AreaMedica {
   title: Record<Lang, string>;
   desc: Record<Lang, string>;
   img: string;
+  // Tarjeta informativa sin CTA "Ver especialistas" (aún no hay equipo/costos
+  // asignados) — ver AreaMedicaCard.tsx.
+  comingSoon?: boolean;
 }
 
 export const areasMedicas: AreaMedica[] = [
@@ -48,8 +51,8 @@ export const areasMedicas: AreaMedica[] = [
     tagline: { es: "Cirugía segura", en: "Safe surgery" },
     title: { es: "Quirófanos", en: "Operating Rooms" },
     desc: {
-      es: "Cinco quirófanos totalmente equipados con tecnología de punta para procedimientos seguros.",
-      en: "Five fully equipped operating rooms with cutting-edge technology for safe procedures.",
+      es: "Cinco quirófanos totalmente equipados con tecnología de punta, renta de sala y servicio de esterilización.",
+      en: "Five fully equipped operating rooms, with room rental and sterilization service available.",
     },
     img: "/servicios/quirofanos.png",
   },
@@ -85,5 +88,32 @@ export const areasMedicas: AreaMedica[] = [
     // Foto temporal (reutilizada de consultorios) — reemplazar cuando haya una
     // foto real de esta especialidad en public/servicios/.
     img: "/instalaciones/consultorios/con1.jpg",
+  },
+  {
+    tagline: { es: "Salud respiratoria", en: "Respiratory health" },
+    title: { es: "Neumología", en: "Pulmonology" },
+    desc: {
+      es: "Estudios de función pulmonar para adultos y niños: espirometría, poligrafía de sueño y más.",
+      en: "Pulmonary function studies for adults and children: spirometry, sleep polygraphy, and more.",
+    },
+    // Foto temporal (reutilizada de consultorios) — reemplazar cuando haya una
+    // foto real de esta especialidad en public/servicios/. La Dra. Laura Zepeda
+    // (neumopediatra) todavía no tiene foto ni cédulas confirmadas para
+    // aparecer en "Nuestro equipo" — agregarla ahí cuando se confirmen (ver
+    // el mismo criterio ya usado en doctores.ts).
+    img: "/instalaciones/consultorios/con1.jpg",
+  },
+  {
+    tagline: { es: "Muy pronto", en: "Coming soon" },
+    title: { es: "Atención a domicilio", en: "At-home care" },
+    desc: {
+      es: "Rayos X, laboratorio, enfermería y medicina general en la comodidad de tu casa o consultorio.",
+      en: "X-ray, lab work, nursing, and general medicine in the comfort of your home or office.",
+    },
+    // Sin foto propia todavía (servicio aún no operativo: faltan costos y
+    // guardias por definir) — se reutiliza la de Medicina General mientras
+    // tanto. "comingSoon" desactiva el CTA "Ver especialistas" en la card.
+    img: "/instalaciones/consultorios/con1.jpg",
+    comingSoon: true,
   },
 ];

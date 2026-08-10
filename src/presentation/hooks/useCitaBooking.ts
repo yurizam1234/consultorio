@@ -2,16 +2,12 @@
 
 import { useMemo, useState } from "react";
 import { container } from "@/infrastructure/container";
-import { contactoInfo } from "@/shared/data/contacto";
+import { buildWhatsAppUrl } from "@/shared/data/contacto";
 import { serviciosAgenda, nombreServicioDeEspecialidad } from "@/shared/data/serviciosAgenda";
 import { doctores } from "@/shared/data/doctores";
 import { translations, type Lang } from "@/shared/i18n/translations";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
 import { buildTimeSlots, formatDateFull, startOfToday } from "@/shared/lib/dates";
-
-function buildWhatsAppUrl(mensaje: string) {
-  return `${contactoInfo.whatsappHref}?text=${encodeURIComponent(mensaje)}`;
-}
 
 export const citaTimeSlots = buildTimeSlots();
 
