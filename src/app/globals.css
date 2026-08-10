@@ -475,6 +475,11 @@ section[id] { scroll-margin-top: 110px; }
   cursor: pointer;
   padding: 0;
   position: relative;
+  /* Más alto que ".nav-links.mobile-open" (z-index:99): sin esto, al abrir el
+     menú el propio botón (que se convierte en "X" para cerrar) quedaba TAPADO
+     por el panel del menú — se veía casi invisible y, peor, ni siquiera
+     recibía el click para volver a cerrarlo. */
+  z-index: 101;
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 .burger:hover { background: rgba(var(--teal-start-rgb), 0.22); border-color: rgba(var(--teal-start-rgb), 0.45); }
@@ -495,6 +500,11 @@ section[id] { scroll-margin-top: 110px; }
 .burger.open span:nth-child(3) { transform: translateY(0) rotate(-45deg); }
 
 /* ===== MENÚ MÓVIL DESPLEGABLE ===== */
+/* Debajo del menú (z-index:99) y del burger (101) — cubre el resto de la
+   pantalla para poder cerrar tocando afuera, igual que ".lang-switch-backdrop"
+   / ".picker-backdrop" en el resto del sitio. */
+.nav-mobile-backdrop { position: fixed; inset: 0; z-index: 98; }
+
 .nav-links.mobile-open {
   display: flex;
   flex-direction: column;
@@ -1127,9 +1137,11 @@ section[id] { scroll-margin-top: 110px; }
     );
   }
   .trust-banner-img { object-position: center 22%; }
-  /* padding-bottom con más aire: el dock flotante (píldora fija abajo en
-     móvil) tapaba el botón "Más sobre nosotros", que es lo último de la card. */
-  .trust-banner-content { max-width: 100%; padding: 170px 16px 92px 40px; }
+  /* Aire suficiente para que "Más sobre nosotros" no quede tapado por el dock
+     flotante — sin pasarse: un valor mayor sólo agranda el hueco visual con
+     la siguiente sección durante el scroll normal (no todo el dock, sólo lo
+     necesario para que el botón asome por encima). */
+  .trust-banner-content { max-width: 100%; padding: 170px 16px 40px 40px; }
 }
 
 /* ===== FEATURE INTRO: encabezado de "Servicios" y "Cómo agendar" (solo texto, sin imagen) ===== */
@@ -1140,9 +1152,9 @@ section[id] { scroll-margin-top: 110px; }
 /* ===== BAND: franja destacada de fondo para "Cómo agendar" ===== */
 .band { padding: 24px 0 64px; }
 @media (max-width: 640px) {
-  /* El paso 3 ("Confirma y listo", lo último de la sección) quedaba tapado
-     por el dock flotante, ya vuelto píldora fija abajo en móvil. */
-  .band { padding-bottom: 116px; }
+  /* Lo último de esta sección es texto informativo, no un botón — no
+     necesita el mismo colchón que una sección que termina en un CTA. */
+  .band { padding-bottom: 32px; }
 }
 
 /* ===== FONDOS DE SECCIÓN CON EFECTO CRISTAL (glassmorphism pulido, con toques brillantes) ===== */
@@ -1306,6 +1318,35 @@ section[id] { scroll-margin-top: 110px; }
 .equipo-v2-nav-link:hover { color: var(--teal-end); }
 .equipo-v2-nav-link.active { color: var(--teal-end); font-weight: 800; border-bottom-color: var(--teal-start); }
 
+/* Alternativa a ".equipo-v2-nav" sólo para móvil (ver @media más abajo): los
+   mismos departamentos, pero agrupados en un botón desplegable — mismo patrón
+   que ".lang-switch" (toggle + backdrop + menú flotante). */
+.equipo-v2-dept-select { display: none; position: relative; width: 100%; max-width: 320px; }
+.equipo-v2-dept-select-toggle {
+  display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+  padding: 12px 18px; border-radius: 9999px; border: 1.5px solid rgba(var(--teal-start-rgb), 0.3);
+  background: rgba(var(--white-rgb), 0.6); font-family: inherit; font-size: 0.95rem; font-weight: 700;
+  color: var(--teal-end); cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease;
+}
+.equipo-v2-dept-select-toggle:hover { border-color: var(--teal-start); background: rgba(var(--white-rgb), 0.85); }
+.equipo-v2-dept-select-chevron { flex: none; transition: transform 0.25s ease; }
+.equipo-v2-dept-select-chevron.open { transform: rotate(180deg); }
+.equipo-v2-dept-select-backdrop { position: fixed; inset: 0; z-index: 4; }
+.equipo-v2-dept-select-menu {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 5;
+  display: flex; flex-direction: column; gap: 2px; padding: 8px; border-radius: var(--radius-md);
+  background: rgba(var(--white-rgb), 0.98); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(var(--white-rgb), 0.7); box-shadow: 0 20px 40px rgba(var(--dark-shadow-rgb), 0.18);
+  max-height: 60vh; overflow-y: auto;
+  animation: lang-switch-menu-in 0.18s ease;
+}
+.equipo-v2-dept-select-option {
+  background: transparent; border: none; border-radius: 8px; padding: 11px 14px; text-align: left; cursor: pointer;
+  font-family: inherit; font-size: 0.92rem; font-weight: 600; color: var(--text-base); transition: background 0.2s ease, color 0.2s ease;
+}
+.equipo-v2-dept-select-option:hover { background: rgba(var(--black-rgb), 0.04); }
+.equipo-v2-dept-select-option.active { background: rgba(var(--teal-start-rgb), 0.14); color: var(--teal-end); }
+
 /* La card en sí aprovecha el ancho extra de "#equipo .wrap" (para el fondo/fade
    y la barra de equipo), pero el grupo nombre+foto se centra en un ancho más
    angosto para que no quede el nombre pegado al borde izquierdo. */
@@ -1386,19 +1427,53 @@ section[id] { scroll-margin-top: 110px; }
   /* Un poco más compacta: en móvil todo el contenido de la card (foto + nombre +
      bio + cédulas + CTA + barra de equipo) es más alto que una pantalla — achicar
      la foto ayuda a que el CTA quede a la vista antes, sin tanto scroll. */
-  .equipo-v2-photo { max-height: 200px; clip-path: none; transform: none; }
+  .equipo-v2-photo { max-height: 340px; clip-path: none; transform: none; }
   .equipo-v2-info { align-items: center; text-align: center; }
   .equipo-v2-cta, .equipo-v2-badge { align-self: center; }
-}
-@media (max-width: 560px) {
-  .equipo-v2-nav { gap: 18px; justify-content: flex-start; }
+
+  /* La regla "#equipo .wrap" de arriba (100vw - 200px) reserva espacio para
+     los botones flotantes laterales de escritorio — en móvil el dock flota
+     centrado abajo, no a los lados, así que ese recorte sólo servía para
+     aplastar toda la tarjeta (foto, nombre, desplegable, barra de equipo) a
+     un ancho absurdo (ej. 175px en un viewport de 375px), comiéndose el
+     texto del desplegable por falta de espacio real. Se restaura el ancho
+     estándar de ".wrap" en móvil. */
+  #equipo .wrap { max-width: var(--maxw); }
+
+  /* Los departamentos como fila de pestañas de texto (".equipo-v2-nav")
+     competían por espacio y quedaban muy apretados — en móvil se agrupan en
+     el botón desplegable (".equipo-v2-dept-select") en su lugar. */
+  .equipo-v2-header { padding-bottom: 20px; }
+  .equipo-v2-nav { display: none; }
+  .equipo-v2-dept-select { display: block; }
+
+  /* La fila de circulitos ("equipo-v2-team-bar") competía por espacio
+     horizontal y quedaba diminuta en móvil — se convierte en un carrusel de
+     "un integrante a la vez" con scroll-snap nativo: cada tarjeta ocupa casi
+     todo el ancho de la barra (con un pequeño "peek" de la siguiente/anterior
+     como pista de que se puede deslizar) y encaja en el centro al soltar.
+     El listener de scroll en Equipo.tsx sincroniza cuál queda "activo" (foto
+     y datos de arriba) según cuál esté centrado, sin necesitar botones de
+     flecha. */
+  .equipo-v2-team-bar {
+    scroll-snap-type: x mandatory;
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 14px 32px;
+  }
+  .equipo-v2-team-item {
+    scroll-snap-align: center;
+    flex: 0 0 calc(100% - 64px);
+    width: auto;
+  }
+  .equipo-v2-avatar { width: 88px; height: 88px; }
+  .equipo-v2-member-name { font-size: 0.9rem; white-space: normal; }
 }
 @media (max-width: 640px) {
-  /* La barra de miembros (lo último de la card) quedaba tapada por el dock
-     flotante, ya vuelto píldora fija abajo en móvil — aire extra al final
-     de TODA la sección (no sólo un margen interno) para que al llegar
-     scrolleando al final de la card quede espacio real debajo del dock. */
-  .equipo-v2-fade { padding-bottom: 100px; }
+  /* Suficiente para que la barra de miembros no quede tapada por el dock
+     flotante — sin exagerar, para no dejar un hueco visual grande con la
+     siguiente sección durante el scroll normal. */
+  .equipo-v2-fade { padding-bottom: 40px; }
 }
 
 /* ===== TESTIMONIOS (video) ===== */
@@ -1423,8 +1498,9 @@ section[id] { scroll-margin-top: 110px; }
 .testimonial-controls { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 28px; }
 .testimonios-consent-notice { max-width: 640px; margin: 20px auto 0; text-align: center; font-size: 0.72rem; line-height: 1.5; color: var(--text-muted); }
 @media (max-width: 640px) {
-  /* Lo último de la sección, tapado por la píldora fija del dock en móvil. */
-  .testimonios-consent-notice { margin-bottom: 76px; }
+  /* Texto legal, no interactivo — sólo un poco de aire, no el colchón
+     completo del dock (eso dejaba un hueco grande hacia la siguiente sección). */
+  .testimonios-consent-notice { margin-bottom: 24px; }
 }
 @media (max-width: 640px) {
   .testimonial-track { min-height: 340px; }
@@ -1504,14 +1580,33 @@ section[id] { scroll-margin-top: 110px; }
 .directions-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(var(--teal-end-rgb), 0.3); }
 .directions-btn svg { width: 14px; height: 14px; flex: none; }
 @media (max-width: 900px) {
-  .contact-container { padding: 32px; min-height: auto; }
-  .contact-bottom-row { flex-direction: column; align-items: flex-start; }
+  /* En escritorio el mapa llena todo "contact-container" (absolute inset:0) y
+     la card de vidrio ("contact-info-glass") flota encima al fondo — en una
+     pantalla angosta esa card termina cubriendo buena parte del mapa. En
+     móvil se separan: el mapa pasa a ocupar su propio bloque (altura fija,
+     en flujo normal, sin nada superpuesto) y la card de contacto baja debajo
+     como una franja horizontal aparte, sin overlap. */
+  .contact-container {
+    padding: 0; min-height: auto; background: transparent; box-shadow: none;
+    border: none; border-radius: 0; overflow: visible; gap: 16px;
+  }
+  .map-embed-layer {
+    position: relative; inset: auto; height: 300px;
+    border-radius: var(--radius-lg); box-shadow: 0 16px 32px rgba(var(--black-rgb), 0.1);
+  }
+  .contact-bottom-row { margin-top: 0; flex-direction: row; align-items: stretch; }
+  /* Franja horizontal con scroll propio (mismo patrón que ".equipo-v2-nav"/
+     ".equipo-v2-team-bar"): evita apilar dirección/teléfonos/email/botón en
+     una columna larga, que alargaría mucho el scroll de la sección. */
+  .contact-info-glass {
+    width: 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+    justify-content: flex-start;
+  }
+  .contact-info-glass::-webkit-scrollbar { display: none; }
+  .glass-addr, .glass-info-row, .directions-btn { flex: none; }
 }
 @media (max-width: 560px) {
-  .contact-container { padding: 24px; }
   .form-main-title { font-size: 1.5rem; }
-  .contact-info-glass { flex-direction: column; align-items: flex-start; gap: 10px; }
-  .glass-addr { border-right: none; padding-right: 0; }
 }
 
 /* ===== ENCUESTA: "Cuéntanos tu experiencia", sección propia después de Contacto ===== */
@@ -1539,8 +1634,10 @@ section[id] { scroll-margin-top: 110px; }
      fija abajo en móvil (ver ".floating-dock" en @media 640px más abajo) y
      tapaba los links del footer, que son lo último de la página — se le da
      aire extra abajo (el fondo oscuro del footer ya cubre ese espacio, así
-     que no se repite el bug de "la página sigue" bajo un footer claro). */
-  .footer-band { padding-bottom: 104px; }
+     que no se repite el bug de "la página sigue" bajo un footer claro). No
+     tan generoso como antes: al ser lo último de la página no genera un
+     "hueco entre secciones", así que no necesita el colchón completo. */
+  .footer-band { padding-bottom: 56px; }
 }
 .footer { width: 100%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
 .foot-brand p { color: rgba(var(--white-rgb), 0.65); font-size: 0.85rem; max-width: 280px; margin: 8px 0 12px; }
@@ -1556,6 +1653,19 @@ section[id] { scroll-margin-top: 110px; }
 }
 .footer-social-link svg { width: 16px; height: 16px; }
 .footer-social-link:hover { background: var(--teal-start); color: var(--white); transform: translateY(-2px); }
+@media (max-width: 640px) {
+  /* ".footer-links" no tenía "flex-wrap": con los 6 links (Inicio, Historia,
+     Servicios, Instalaciones, Equipo, Contacto) intentando entrar en una sola
+     línea, en una pantalla angosta simplemente no cabían y "Contacto" quedaba
+     cortado fuera de la vista. Todo el footer pasa a una columna centrada,
+     que es el patrón estándar de footer en móvil. */
+  .footer { flex-direction: column; align-items: center; text-align: center; gap: 28px; }
+  .foot-brand { display: flex; flex-direction: column; align-items: center; }
+  .foot-brand p { text-align: center; }
+  .foot-badges { justify-content: center; }
+  .footer-links { flex-wrap: wrap; justify-content: center; row-gap: 12px; }
+  .footer-social { justify-content: center; }
+}
 
 /* ===== OVERLAY DE MODAL (base compartida por EmergencyModal) ===== */
 .cita-modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(var(--teal-end-rgb), 0.55); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
@@ -2203,12 +2313,13 @@ section[id] { scroll-margin-top: 110px; }
   .servicio-parallax-card { height: 52vh; }
   .servicio-parallax-content { padding: 22px 20px; gap: 8px; }
   .servicio-parallax-desc { font-size: 13px; }
-  /* Aire extra abajo: el dock flotante (WhatsApp/Agendar/Contacto) se vuelve
-     una píldora fija abajo en móvil y quedaba encima de "Ver especialistas". */
-  .servicios-slider-wrap { padding-bottom: 76px; }
-  /* Mismo motivo: el botón "Ver catálogo completo" (después del carrusel, lo
-     último de la sección ahora) también quedaba tapado por esa píldora. */
-  .servicios-catalogo-cta { margin-bottom: 76px; }
+  /* "Ver especialistas" ya tiene los controles (flechas/puntos) debajo antes
+     del borde del wrap — un poco de aire alcanza, no hace falta el colchón
+     completo del dock. */
+  .servicios-slider-wrap { padding-bottom: 24px; }
+  /* Este sí es lo último de la sección — algo más de aire para que no quede
+     justo debajo del dock, sin exagerar. */
+  .servicios-catalogo-cta { margin-bottom: 40px; }
 }
 
 /* ===== HISTORIA: página "Nuestra Historia" (/historia) — mismo nav/footer y
