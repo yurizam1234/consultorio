@@ -22,7 +22,7 @@ export function ServiciosSlider() {
   const { lang, t } = useLanguage();
   const { activeIndex, next, prev, goTo, pause, resume } = useCarousel({
     length: areasMedicas.length,
-    autoplayMs: 3000,
+    autoplayMs: 5000,
   });
 
   const trackRef = useRef<HTMLDivElement>(null);
@@ -32,14 +32,19 @@ export function ServiciosSlider() {
   const [dragDelta, setDragDelta] = useState(0);
   const dragStartX = useRef(0);
 
-  // Centra la card activa dentro del track (mide su posición real: los anchos
+  // Centra la card activa en el viewport (mide su posición real: los anchos
   // de las cards son relativos al viewport, no un valor fijo calculable a mano).
+  // Se centra contra el ancho del wrapper (no del track, que es más ancho que
+  // la pantalla) para que la primera card quede igual de centrada que el resto,
+  // en vez de pegada al borde izquierdo.
   useEffect(() => {
     function syncOffset() {
       const track = trackRef.current;
+      const wrap = track?.parentElement;
       const card = cardRefs.current[activeIndex];
-      if (!track || !card) return;
-      setOffset(-(card.offsetLeft - track.offsetLeft));
+      if (!track || !wrap || !card) return;
+      const cardCenter = card.offsetLeft - track.offsetLeft + card.offsetWidth / 2;
+      setOffset(wrap.clientWidth / 2 - cardCenter);
     }
     syncOffset();
     window.addEventListener("resize", syncOffset);

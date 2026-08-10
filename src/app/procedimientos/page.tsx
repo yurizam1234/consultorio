@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Search, MessageCircle } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import type { PointerEvent as ReactPointerEvent, MouseEvent as ReactMouseEvent } from "react";
+import { Search, MessageCircle, Home, ScanLine, FlaskConical, Stethoscope, Syringe } from "lucide-react";
 import { Navbar } from "@/presentation/organisms/Navbar";
 import { Footer } from "@/presentation/organisms/Footer";
 import { ScrollEffects } from "@/presentation/organisms/ScrollEffects";
@@ -15,6 +16,54 @@ export default function ProcedimientosPage() {
   const { t, lang } = useLanguage();
   const [query, setQuery] = useState("");
   const [activeEspecialidad, setActiveEspecialidad] = useState<string | null>(null);
+  const chipRowRef = useRef<HTMLDivElement>(null);
+  const [draggingChips, setDraggingChips] = useState(false);
+  // No es reactivo a propósito: sólo lo lee handlePointerMove/handleChipsClickCapture
+  // durante el propio gesto, no hace falta re-render por cada píxel arrastrado.
+  const dragState = useRef({ pointerId: 0, isDown: false, startX: 0, startScrollLeft: 0, moved: false });
+
+  function scrollChips(direction: 1 | -1) {
+    chipRowRef.current?.scrollBy({ left: direction * 220, behavior: "smooth" });
+  }
+
+  function handleChipsPointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+    const el = chipRowRef.current;
+    if (!el) return;
+    // Ojo: NO se captura el puntero aquí todavía — un simple click en un chip
+    // también dispara pointerdown, y capturar de inmediato redirige el
+    // mouseup/click resultante al contenedor en vez del <button>, matando el
+    // click normal. Sólo se captura si el gesto se confirma como arrastre
+    // (ver handleChipsPointerMove).
+    dragState.current = { pointerId: event.pointerId, isDown: true, startX: event.clientX, startScrollLeft: el.scrollLeft, moved: false };
+  }
+
+  function handleChipsPointerMove(event: ReactPointerEvent<HTMLDivElement>) {
+    const el = chipRowRef.current;
+    if (!el || !dragState.current.isDown) return;
+    const delta = event.clientX - dragState.current.startX;
+    if (!dragState.current.moved && Math.abs(delta) > 4) {
+      dragState.current.moved = true;
+      setDraggingChips(true);
+      el.setPointerCapture(dragState.current.pointerId);
+    }
+    if (dragState.current.moved) el.scrollLeft = dragState.current.startScrollLeft - delta;
+  }
+
+  function endChipsDrag() {
+    dragState.current.isDown = false;
+    setDraggingChips(false);
+  }
+
+  // Un arrastre real no debe además disparar el click del chip que quedó
+  // debajo del cursor al soltar — se intercepta en fase de captura, antes de
+  // que el evento llegue al <button> del chip.
+  function handleChipsClickCapture(event: ReactMouseEvent<HTMLDivElement>) {
+    if (dragState.current.moved) {
+      event.stopPropagation();
+      event.preventDefault();
+      dragState.current.moved = false;
+    }
+  }
 
   // Filtra por especialidad activa y, dentro de esa (o de todas), por texto —
   // así "ordenar por especialidad" y "buscar directo por el procedimiento"
@@ -72,26 +121,52 @@ export default function ProcedimientosPage() {
                 />
               </label>
 
-              <div className="chip-row">
-                <Chip active={activeEspecialidad === null} onClick={() => setActiveEspecialidad(null)}>
-                  {t("procedimientos.filter_all")}
-                </Chip>
-                {catalogoProcedimientos.map((grupo) => (
-                  <Chip
-                    key={grupo.id}
-                    active={activeEspecialidad === grupo.id}
-                    onClick={() => setActiveEspecialidad(grupo.id)}
-                  >
-                    {grupo.especialidad[lang]}
+              <div className="procedimientos-filter-row">
+                <button
+                  type="button"
+                  className="carousel-btn"
+                  aria-label={t("aria.prev_especialidad")}
+                  onClick={() => scrollChips(-1)}
+                >
+                  ‹
+                </button>
+                <div
+                  className={"chip-row" + (draggingChips ? " dragging" : "")}
+                  ref={chipRowRef}
+                  onPointerDown={handleChipsPointerDown}
+                  onPointerMove={handleChipsPointerMove}
+                  onPointerUp={endChipsDrag}
+                  onPointerCancel={endChipsDrag}
+                  onClickCapture={handleChipsClickCapture}
+                >
+                  <Chip active={activeEspecialidad === null} onClick={() => setActiveEspecialidad(null)}>
+                    {t("procedimientos.filter_all")}
                   </Chip>
-                ))}
+                  {catalogoProcedimientos.map((grupo) => (
+                    <Chip
+                      key={grupo.id}
+                      active={activeEspecialidad === grupo.id}
+                      onClick={() => setActiveEspecialidad(grupo.id)}
+                    >
+                      {grupo.especialidad[lang]}
+                    </Chip>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="carousel-btn"
+                  aria-label={t("aria.next_especialidad")}
+                  onClick={() => scrollChips(1)}
+                >
+                  ›
+                </button>
               </div>
             </div>
 
             {grupos.length === 0 ? (
               <p className="procedimientos-empty">{t("procedimientos.no_results")}</p>
             ) : (
-              <div className="procedimientos-groups">
+              <div className="procedimientos-sections">
                 {/* Sin <Reveal>: ese componente depende de que ScrollEffects.tsx
                     detecte el elemento en su barrido inicial del DOM (una sola
                     vez, al montar la página) — como estas cards aparecen y
@@ -100,32 +175,81 @@ export default function ProcedimientosPage() {
                     opacity:0 para siempre (invisible). Estas cards son
                     siempre visibles apenas se filtran a la vista. */}
                 {grupos.map((grupo) => (
-                  <div key={grupo.id} className="procedimientos-group">
-                    <h3 className="procedimientos-group-title">{grupo.especialidad[lang]}</h3>
-                    <ul className="procedimientos-list">
+                  <section key={grupo.id} className="procedimientos-section">
+                    <h3 className="procedimientos-section-title">{grupo.especialidad[lang]}</h3>
+                    <p className="procedimientos-section-subtitle">{grupo.subtitulo[lang]}</p>
+                    <div className="procedimientos-cards-grid">
                       {grupo.procedimientos.map((procedimiento) => (
-                        <li key={procedimiento.es}>
-                          <a
-                            href={buildWhatsAppUrl(
-                              t("procedimientos.inquiry_message", {
-                                procedimiento: procedimiento[lang],
-                                especialidad: grupo.especialidad[lang],
-                              })
+                        <a
+                          key={procedimiento.es}
+                          className="procedimiento-card"
+                          href={buildWhatsAppUrl(
+                            t("procedimientos.inquiry_message", {
+                              procedimiento: procedimiento[lang],
+                              especialidad: grupo.especialidad[lang],
+                            })
+                          )}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={t("procedimientos.inquiry_aria", { procedimiento: procedimiento[lang] })}
+                        >
+                          <div className="procedimiento-card-media">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={procedimiento.img} alt="" loading="lazy" />
+                            {procedimiento.exclusivo && (
+                              <span className="procedimiento-exclusivo-badge">
+                                {t("procedimientos.exclusivo_badge")}
+                              </span>
                             )}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={t("procedimientos.inquiry_aria", { procedimiento: procedimiento[lang] })}
-                          >
-                            {procedimiento[lang]}
-                            <MessageCircle size={14} strokeWidth={1.8} />
-                          </a>
-                        </li>
+                          </div>
+                          <div className="procedimiento-card-body">
+                            <div className="procedimiento-card-name-row">
+                              <span className="procedimiento-card-name">{procedimiento.titulo[lang]}</span>
+                              <MessageCircle size={14} strokeWidth={1.8} />
+                            </div>
+                            <p className="procedimiento-card-desc">{procedimiento.desc[lang]}</p>
+                          </div>
+                        </a>
                       ))}
-                    </ul>
-                  </div>
+                    </div>
+                  </section>
                 ))}
               </div>
             )}
+
+            {/* Aún "muy pronto" (falta definir costos y guardias) — el CTA no
+                agenda nada todavía, sólo abre WhatsApp para capturar el
+                interés mientras se resuelve la logística. */}
+            <div className="domicilio-banner">
+              <span className="domicilio-badge">{t("procedimientos.domicilio_badge")}</span>
+              <div className="domicilio-head">
+                <span className="domicilio-icon">
+                  <Home size={22} strokeWidth={1.8} />
+                </span>
+                <div className="domicilio-text">
+                  <h3>{t("procedimientos.domicilio_title")}</h3>
+                  <p>{t("procedimientos.domicilio_desc")}</p>
+                </div>
+              </div>
+              <div className="domicilio-pills">
+                <span className="domicilio-pill">
+                  <ScanLine size={14} strokeWidth={1.8} />
+                  {t("procedimientos.domicilio_item_rayosx")}
+                </span>
+                <span className="domicilio-pill">
+                  <FlaskConical size={14} strokeWidth={1.8} />
+                  {t("procedimientos.domicilio_item_laboratorio")}
+                </span>
+                <span className="domicilio-pill">
+                  <Stethoscope size={14} strokeWidth={1.8} />
+                  {t("procedimientos.domicilio_item_medicina")}
+                </span>
+                <span className="domicilio-pill">
+                  <Syringe size={14} strokeWidth={1.8} />
+                  {t("procedimientos.domicilio_item_enfermeria")}
+                </span>
+              </div>
+            </div>
           </div>
         </section>
 

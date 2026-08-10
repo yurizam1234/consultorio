@@ -90,6 +90,17 @@ export const areasMedicas: AreaMedica[] = [
     img: "/instalaciones/consultorios/con1.jpg",
   },
   {
+    tagline: { es: "Salud digestiva", en: "Digestive health" },
+    title: { es: "Gastroenterología", en: "Gastroenterology" },
+    desc: {
+      es: "Endoscopía, colonoscopía, enteroscopía, CPRE y elastografía hepática para el diagnóstico y tratamiento digestivo.",
+      en: "Endoscopy, colonoscopy, enteroscopy, ERCP, and liver elastography for digestive diagnosis and treatment.",
+    },
+    // Foto temporal (reutilizada de consultorios) — reemplazar cuando haya una
+    // foto real de esta especialidad en public/servicios/.
+    img: "/instalaciones/consultorios/con1.jpg",
+  },
+  {
     tagline: { es: "Salud respiratoria", en: "Respiratory health" },
     title: { es: "Neumología", en: "Pulmonology" },
     desc: {
