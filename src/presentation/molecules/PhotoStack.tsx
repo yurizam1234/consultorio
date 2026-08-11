@@ -24,13 +24,18 @@ export function PhotoStack({ images, className }: PhotoStackProps) {
     <div className={className ? `photo-stack ${className}` : "photo-stack"}>
       {images.map((image, index) => {
         const depth = (index - active + count) % count;
+        // La de al frente (depth 0) no reordena nada al tocarla (ya está
+        // adelante) — en vez de no hacer nada, avanza a la siguiente del
+        // abanico, para que las de atrás también sean alcanzables tocando
+        // sólo la que se ve, sin depender de que asomen lo suficiente.
+        const handleClick = () => setActive(depth === 0 ? (index + 1) % count : index);
         return (
           <button
             key={image.src}
             type="button"
             className="photo-stack-item"
             style={{ "--depth": depth } as CSSProperties}
-            onClick={() => setActive(index)}
+            onClick={handleClick}
             aria-label={image.alt}
             aria-current={depth === 0}
           >

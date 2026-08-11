@@ -910,6 +910,15 @@ section[id] { scroll-margin-top: 110px; }
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+/* En móvil, 80vh hacía que la card (centrada en "top:48%" de un hero de
+   100vh) chocara con ".hero-action-cards" (pegada abajo) — hasta 22px de
+   superposición real medidos en un viewport de 667px de alto. Un alto
+   menor aquí, más ".cita-card-inner" con su propio scroll interno para lo
+   que no quepa, evita el choque; sigue siendo scrolleable si el contenido
+   no entra, así nunca se pierde información. */
+@media (max-width: 640px) {
+  .cita-card-inner { max-height: min(46vh, 420px); }
+}
 .cita-card-inner::-webkit-scrollbar { display: none; }
 .cita-card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
 .cita-card-icon { width: 38px; height: 38px; border-radius: 12px; background: linear-gradient(135deg, var(--teal-start), var(--teal-end)); display: flex; align-items: center; justify-content: center; flex: none; box-shadow: 0 8px 16px -6px rgba(var(--teal-start-rgb), 0.55); }
