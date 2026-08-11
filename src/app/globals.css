@@ -119,10 +119,54 @@ html { overflow-x: clip; }
   transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 .preloader-done { opacity: 0; visibility: hidden; pointer-events: none; }
-.preloader-logo {
+/* El logo "se arma" en 5 piezas (arriba/izquierda/derecha/abajo + texto) —
+   cada pieza es la MISMA imagen completa, pero recortada a su pedazo con
+   clip-path, apiladas unas sobre otras. Las 4 manos se recortan como 4
+   triángulos que salen del centro exacto de la marca hacia cada esquina de
+   su propio bounding box (medido a mano sobre logo-fondo.png, 500x333, con
+   sharp: bbox x 24.6%-74%, y 6.3%-77.2%, centro en 49.3%/41.7%) — un corte
+   por triángulos desde el centro no deja huecos ni superposición entre
+   piezas (a diferencia de la primera versión con inset() aproximados, que
+   sí se pisaban un poco cerca del centro). El texto es la 5ª pieza, recortada
+   por debajo del hueco entre la marca y "SH Arboledas" (80.5%). */
+.preloader-logo-wrap {
+  position: relative;
   width: min(46vw, 200px); /* <- tamaño del logo en la pantalla de carga */
-  height: auto;
+  aspect-ratio: 500 / 333;
+  /* El latido continuo (antes en ".preloader-logo") arranca recién cuando ya
+     terminó de armarse, para no competir visualmente con esa animación. */
   animation: preloaderPulse 2.2s ease-in-out infinite;
+  animation-delay: 2.6s;
+}
+.preloader-logo-piece {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+  opacity: 0; animation: preloaderPieceIn 0.48s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+/* Cada mano espera a que la anterior termine su animación (0.48s) antes de
+   empezar la suya — así se ven de una en una, nunca dos a la vez. */
+.preloader-logo-piece.piece-top {
+  clip-path: polygon(24.6% 6.3%, 74% 6.3%, 49.3% 41.7%);
+  --piece-dx: 0px; --piece-dy: -20px; animation-delay: 0ms;
+}
+.preloader-logo-piece.piece-left {
+  clip-path: polygon(24.6% 77.2%, 24.6% 6.3%, 49.3% 41.7%);
+  --piece-dx: -20px; --piece-dy: 0px; animation-delay: 600ms;
+}
+.preloader-logo-piece.piece-right {
+  clip-path: polygon(74% 6.3%, 74% 77.2%, 49.3% 41.7%);
+  --piece-dx: 20px; --piece-dy: 0px; animation-delay: 1200ms;
+}
+.preloader-logo-piece.piece-bottom {
+  clip-path: polygon(74% 77.2%, 24.6% 77.2%, 49.3% 41.7%);
+  --piece-dx: 0px; --piece-dy: 20px; animation-delay: 1800ms;
+}
+.preloader-logo-piece.piece-text {
+  clip-path: inset(80.5% 0% 0% 0%);
+  --piece-dx: 0px; --piece-dy: 12px; animation-delay: 2400ms; animation-duration: 0.45s;
+}
+@keyframes preloaderPieceIn {
+  from { opacity: 0; transform: translate(var(--piece-dx), var(--piece-dy)) scale(0.85); }
+  to { opacity: 1; transform: translate(0, 0) scale(1); }
 }
 .preloader-label {
   font-family: var(--font-family);
@@ -138,7 +182,8 @@ html { overflow-x: clip; }
   50% { transform: scale(1.045); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .preloader-logo { animation: none; }
+  .preloader-logo-wrap { animation: none; }
+  .preloader-logo-piece { animation: none; opacity: 1; }
 }
 
 body {
