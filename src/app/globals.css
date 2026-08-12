@@ -915,17 +915,16 @@ section[id] { scroll-margin-top: 110px; }
 .hero-video-wrap .day .dnum  { color: var(--teal-end); }
 .hero-video-wrap .day:hover  { border-color: var(--teal-start); background: rgba(var(--white-rgb), 0.7); }
 
-/* ── Badge especialista y recomendación ── */
-.hero-video-wrap .cita-doctor-match {
-  background: rgba(var(--white-rgb), 0.4);
-  color: var(--text-base);
-}
-.hero-video-wrap .cita-doctor-match b { color: var(--text-strong); }
-.hero-video-wrap .cita-doctor-match svg { color: var(--teal-start); }
-.hero-video-wrap .cita-recomendacion { color: var(--text-soft); }
-.hero-video-wrap .cita-recomendacion b { color: var(--text-base); }
-.hero-video-wrap .cita-info-row .cita-recomendacion {
-  background: rgba(var(--teal-start-rgb), 0.06);
+/* ── Nota de preparación (motivo/procedimiento elegido) ── */
+.hero-video-wrap .cita-prep-note { background: rgba(var(--white-rgb), 0.4); }
+.hero-video-wrap .cita-prep-note strong { color: var(--teal-end); }
+.hero-video-wrap .cita-prep-note span { color: var(--text-base); }
+
+/* ── Select de área/motivo (mismo cristal que ".picker-field-btn") ── */
+.hero-video-wrap .cita-select-field {
+  background: rgba(var(--white-rgb), 0.5);
+  border-color: rgba(var(--white-rgb), 0.6);
+  color: var(--text-strong);
 }
 
 /* ── Divider ── */
@@ -992,24 +991,59 @@ section[id] { scroll-margin-top: 110px; }
 .cita-step-label { display: flex; align-items: center; gap: 8px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-soft); }
 .cita-step-num { display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: rgba(var(--teal-start-rgb), 0.16); color: var(--teal-end); font-size: 0.64rem; font-weight: 800; flex: none; }
 
-/* Fila única con especialista + recomendación lado a lado */
-.cita-info-row {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: flex-start;
-}
-.cita-info-row .cita-doctor-match { flex: 1; margin-top: 0; }
-.cita-info-row .cita-recomendacion { flex: 1; margin-top: 0; padding: 10px 12px; border-radius: 12px; background: rgba(var(--teal-start-rgb), 0.04); }
+/* Paso 1 "¿Qué necesitas?": mismos chips de siempre, un poco más apretados
+   porque acá hay 4 opciones (algunas largas, ej. "Servicio hospitalario"). */
+.cita-tipo-row { gap: 6px; }
 
-.cita-doctor-match {
-  display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; padding: 10px 12px;
-  border-radius: 12px; background: rgba(var(--teal-start-rgb), 0.08); font-size: 0.76rem; line-height: 1.4; color: var(--text-base);
+/* Select nativo de área/motivo, mismo tamaño y bordes que ".picker-field-btn"
+   (date/time picker) para que las 5 filas del formulario se vean uniformes. */
+.cita-select-field {
+  width: 100%; font-family: var(--font-family); font-size: 0.82rem; font-weight: 600;
+  padding: 11px 14px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--white); color: var(--text-strong); cursor: pointer;
+  transition: border-color 0.2s ease;
 }
-.cita-doctor-match svg { width: 15px; height: 15px; color: var(--teal-end); flex: none; margin-top: 1px; }
-.cita-doctor-match b { color: var(--text-strong); font-weight: 700; }
-.cita-recomendacion { margin-top: 6px; font-size: 0.74rem; line-height: 1.4; color: var(--text-soft); padding: 0 12px; }
-.cita-recomendacion b { color: var(--text-base); font-weight: 700; }
+.cita-select-field:hover, .cita-select-field:focus-visible { border-color: var(--teal-start); }
+.cita-select-field:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* Nota de preparación del motivo/procedimiento elegido — mismo lenguaje visual
+   que tenía ".cita-doctor-match" (chip de info con acento verde). */
+.cita-prep-note {
+  display: flex; flex-direction: column; gap: 3px; padding: 10px 12px;
+  border-radius: 12px; background: rgba(var(--teal-start-rgb), 0.08); font-size: 0.76rem; line-height: 1.4;
+}
+.cita-prep-note strong { font-size: 0.64rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--teal-end); }
+.cita-prep-note span { color: var(--text-base); }
+
+/* Rutas especiales de "¿Qué necesitas?": urgencia y hospitalario reemplazan
+   todo el formulario por un aviso directo — no tiene sentido pedir fecha/hora
+   para algo que no se agenda. */
+.cita-route-card { display: flex; flex-direction: column; gap: 10px; padding: 18px; border-radius: 16px; }
+.cita-route-card strong { font-size: 0.95rem; font-weight: 800; color: var(--text-strong); }
+.cita-route-card p { font-size: 0.84rem; line-height: 1.5; color: var(--text-soft); margin: 0; }
+.cita-route-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.cita-route-urgencia { background: rgba(var(--danger-rgb), 0.07); border: 1px solid rgba(var(--danger-rgb), 0.18); }
+.cita-route-urgencia strong { color: var(--danger); }
+.cita-route-hospitalario { background: rgba(var(--teal-start-rgb), 0.06); border: 1px solid rgba(var(--teal-start-rgb), 0.16); }
+
+.cita-route-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-family); font-size: 0.82rem; font-weight: 700;
+  padding: 11px 20px; border-radius: 9999px; border: none; cursor: pointer;
+  text-decoration: none; transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cita-route-btn:hover { transform: translateY(-2px); }
+.cita-route-btn-danger { background: linear-gradient(135deg, var(--danger-light), var(--danger-dark)); color: var(--white); box-shadow: 0 10px 22px -8px rgba(var(--danger-rgb), 0.55); }
+.cita-route-btn-line { background: rgba(var(--white-rgb), 0.7); border: 1px solid var(--border); color: var(--text-strong); }
+.cita-route-btn-primario { background: linear-gradient(135deg, var(--teal-start), var(--teal-end)); color: var(--white); box-shadow: 0 10px 22px -8px rgba(var(--teal-start-rgb), 0.55); width: 100%; }
+.cita-route-btn-primario svg { width: 15px; height: 15px; stroke: var(--white); }
+
+/* Consentimiento (checkbox + texto), mismo patrón visual de "chip de info"
+   que el resto de notas del formulario. */
+.cita-consent { display: flex; align-items: flex-start; gap: 8px; margin: 14px 0 12px; font-size: 0.72rem; line-height: 1.45; color: var(--text-soft); }
+.cita-consent input { margin-top: 2px; flex: none; accent-color: var(--teal-start); }
+.cita-consent a { color: var(--teal-end); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.cita-nota-mini { margin-top: 10px; font-size: 0.66rem; text-align: center; color: var(--text-faint); }
 
 .cita-divider { height: 1px; margin: 20px 0 16px; background: linear-gradient(90deg, transparent, rgba(var(--teal-end-rgb), 0.18), transparent); }
 
@@ -1838,12 +1872,26 @@ section[id] { scroll-margin-top: 110px; }
 }
 
 /* ===== OVERLAY DE MODAL (base compartida por EmergencyModal) ===== */
-.cita-modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(var(--teal-end-rgb), 0.55); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+/* El navbar fijo (arriba) queda detrás del velo al abrir cualquier modal,
+   pero sigue ocupando ese espacio real — con sólo 24px de aire el modal
+   terminaba tocando/superponiéndose visualmente con la píldora del navbar
+   en ventanas bajas (poco alto de viewport). El padding-top y el
+   "max-height" de ".cita-modal" de abajo van a juego (116+24=140) para que
+   el modal SIEMPRE quede por debajo del navbar, nunca sólo "recortado". */
+.cita-modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(var(--teal-end-rgb), 0.55); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 116px 24px 32px; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+@media (max-width: 900px) {
+  /* En móvil el navbar es más bajo (sin margen ni píldora, ver ".navbar" en
+     ese breakpoint) y abajo hay que dejar sitio al dock flotante. */
+  .cita-modal-overlay { padding: 84px 16px 108px; }
+}
 .cita-modal-overlay.open { opacity: 1; visibility: visible; }
 .cita-modal {
-  position: relative; width: 100%; max-width: 900px; max-height: 90vh; overflow-y: auto;
+  position: relative; width: 100%; max-width: 900px; max-height: calc(100vh - 148px); overflow-y: auto;
   transform: translateY(16px) scale(0.98); transition: transform 0.3s ease;
   scrollbar-width: none;
+}
+@media (max-width: 900px) {
+  .cita-modal { max-height: calc(100vh - 192px); }
 }
 .cita-modal::-webkit-scrollbar { display: none; }
 .cita-modal-overlay.open .cita-modal { transform: translateY(0) scale(1); }
@@ -1875,9 +1923,15 @@ section[id] { scroll-margin-top: 110px; }
 /* El modal de "Agendar cita" ocupa casi toda la pantalla (a diferencia de la
    card fija del Hero, que se queda chica junto al video) — más espacio para
    leer los 3 pasos del formulario sin sentirse apretado. */
-.cita-modal.cita-booking-modal { max-width: min(94vw, 1040px); max-height: 92vh; display: flex; justify-content: center; }
+.cita-modal.cita-booking-modal { max-width: min(94vw, 1040px); max-height: calc(100vh - 148px); display: flex; justify-content: center; }
 .cita-modal.cita-booking-modal .cita-card { width: 100%; }
-.cita-modal.cita-booking-modal .cita-card-inner { max-height: min(84vh, 900px); padding: 40px 44px; }
+/* Ya no necesita su propio tope de alto: ".cita-modal" (arriba) es el que
+   scrollea si hace falta, con espacio garantizado bajo el navbar — poner OTRO
+   límite aquí sólo generaba un doble scroll confuso (uno adentro, otro afuera). */
+.cita-modal.cita-booking-modal .cita-card-inner { max-height: none; padding: 40px 44px; }
+@media (max-width: 900px) {
+  .cita-modal.cita-booking-modal { max-height: calc(100vh - 192px); }
+}
 @media (max-width: 640px) {
   .cita-modal.cita-booking-modal .cita-card-inner { padding: 26px 22px; }
 }
@@ -2726,4 +2780,394 @@ section[id] { scroll-margin-top: 110px; }
 }
 @media (max-width: 700px) {
   .domicilio-banner { padding: 24px 22px; }
+}
+
+/* ===== QUÉ ATENDEMOS ===== */
+.motivos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-light);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.motivo {
+  background: var(--white);
+  padding: 28px 26px;
+  text-decoration: none;
+  display: block;
+  transition: background 0.18s ease;
+  cursor: pointer;
+}
+
+.motivo:hover {
+  background: rgba(var(--teal-start-rgb), 0.04);
+}
+
+.motivo .n {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--teal-start);
+  text-transform: uppercase;
+}
+
+.motivo h3 {
+  font-size: 1.22rem;
+  font-weight: 700;
+  margin: 12px 0 8px;
+  color: var(--teal-end);
+}
+
+.motivo p {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.motivo .ir {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal-start);
+  margin-top: 16px;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .motivos {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .motivos {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== ESPECIALIDADES ===== */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 34px;
+}
+
+.tab {
+  border: 1px solid var(--border-light);
+  background: transparent;
+  padding: 9px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 9999px;
+  color: var(--text-muted);
+  transition: all 0.18s ease;
+}
+
+.tab:hover {
+  border-color: var(--teal-start);
+  color: var(--teal-end);
+}
+
+.tab.active {
+  background: linear-gradient(135deg, var(--teal-start), var(--teal-end));
+  color: var(--white);
+  border-color: var(--teal-start);
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 44px;
+  align-items: start;
+}
+
+.panel-info h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--teal-end);
+  margin-bottom: 14px;
+}
+
+.panel-info > p {
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.lista-proc {
+  list-style: none;
+  border-top: 1px solid var(--border-light);
+}
+
+.lista-proc li {
+  border-bottom: 1px solid var(--border-light);
+  padding: 11px 0;
+  font-size: 0.94rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: baseline;
+}
+
+.lista-proc li span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal-start);
+  flex: none;
+  background: rgba(var(--teal-start-rgb), 0.1);
+  padding: 2px 10px;
+  border-radius: 9999px;
+}
+
+.panel-acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 26px;
+  flex-wrap: wrap;
+}
+
+.medicos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.medico {
+  border: 1px solid var(--border-light);
+  background: var(--white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  padding: 0 0 18px;
+}
+
+.medico .slot {
+  min-height: 170px;
+  border: none;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-page);
+}
+
+.medico .txt {
+  padding: 16px 18px 0;
+}
+
+.medico h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--teal-end);
+}
+
+.medico .esp {
+  font-size: 0.85rem;
+  color: var(--teal-start);
+  margin: 4px 0 10px;
+  font-weight: 600;
+}
+
+.medico .ced {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .panel {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+}
+
+@media (max-width: 640px) {
+  .medicos {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== CONVENIOS ===== */
+.convenios {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+}
+
+.convenios .slot {
+  min-height: 76px;
+  font-size: 10px;
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+}
+
+@media (max-width: 768px) {
+  .convenios {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .convenios {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== PREGUNTAS FRECUENTES ===== */
+.faq {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+details {
+  border-bottom: 1px solid var(--border-light);
+}
+
+summary {
+  cursor: pointer;
+  padding: 20px 0;
+  font-size: 1.03rem;
+  font-weight: 600;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  color: var(--text-strong);
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::after {
+  content: "+";
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--teal-start);
+  flex: none;
+}
+
+details[open] summary::after {
+  content: "–";
+}
+
+details p {
+  padding-bottom: 20px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  max-width: 70ch;
+  line-height: 1.6;
+}
+
+/* ===== BOTONES ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 13px 24px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.18s ease;
+  line-height: 1;
+}
+
+.btn-primario {
+  background: linear-gradient(135deg, var(--teal-start), var(--teal-end));
+  color: var(--white);
+  box-shadow: 0 10px 24px -8px rgba(var(--teal-start-rgb), 0.5);
+}
+
+.btn-primario:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px -8px rgba(var(--teal-start-rgb), 0.6);
+}
+
+.btn-linea {
+  border-color: var(--teal-end);
+  color: var(--teal-end);
+  background: transparent;
+}
+
+.btn-linea:hover {
+  background: var(--teal-end);
+  color: var(--white);
+}
+
+/* ===== SLOT ===== */
+.slot {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--bg-page),
+    var(--bg-page) 10px,
+    var(--border-light) 10px,
+    var(--border-light) 20px
+  );
+  border: 1px dashed var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 20px;
+  gap: 6px;
+  min-height: 180px;
+  border-radius: var(--radius-sm);
+}
+
+.slot span {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  max-width: 34ch;
+  line-height: 1.4;
+}
+
+/* ===== UTILITY ===== */
+.text-muted-foreground {
+  color: var(--text-muted);
+}
+
+.text-teal-600 {
+  color: var(--teal-start);
+}
+
+.hover\:underline:hover {
+  text-decoration: underline;
+}
+
+.font-medium {
+  font-weight: 600;
+}
+
+.text-sm {
+  font-size: 0.92rem;
+}
+
+.text-xs {
+  font-size: 0.8rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
 }

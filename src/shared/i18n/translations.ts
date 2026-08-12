@@ -127,6 +127,124 @@ export const translations = {
     "modal.recomendacion_label": "Antes de tu cita",
     "modal.whatsapp_hint": "Al confirmar se abrirá WhatsApp con los datos de tu cita",
 
+    "modal.step0_label": "¿Qué necesitas?",
+    "modal.step_area": "Área",
+    "modal.step_motivo": "Motivo o procedimiento",
+    "modal.step_fecha": "Fecha",
+    "modal.step_horario": "Horario",
+    "modal.area_placeholder": "Selecciona el área",
+    "modal.motivo_placeholder": "Selecciona el motivo o procedimiento",
+    "modal.motivo_placeholder_area": "Primero elige un área",
+    "modal.prep_label": "Antes de tu cita",
+    "modal.resumen_placeholder": "Completa los campos para ver el resumen de tu cita.",
+    "modal.consent":
+      "Acepto que SH Arboledas trate mis datos personales y de salud para agendar y dar seguimiento a mi cita, conforme al",
+    "modal.aviso_link": "Aviso de Privacidad",
+    "modal.send_btn": "Enviar solicitud",
+    "modal.nota_mini":
+      "Recepción confirma tu cita por WhatsApp dentro del horario de atención. La cita queda apartada hasta que recibas la confirmación.",
+    "modal.urgencia_title": "Las urgencias no se agendan.",
+    "modal.urgencia_body": "Ven directamente o llámanos: te esperamos con el área lista.",
+    "modal.urgencia_call": "Llamar ahora",
+    "modal.urgencia_whatsapp": "Escribir por WhatsApp",
+    "modal.hospitalario_title": "Renta de quirófano y esterilización se cotizan.",
+    "modal.hospitalario_body":
+      "Cuéntanos fecha estimada, procedimiento y equipo requerido, y te enviamos disponibilidad y costo.",
+    "modal.hospitalario_cta": "Solicitar cotización",
+
+    "urgencias.bar_texto": "Urgencias abiertas ahora · 24 h, los 365 días",
+    "urgencias.bar_urgencias": "Urgencias",
+    "urgencias.bar_citas": "Citas",
+
+    "hero.stat1_num": "+15",
+    "hero.stat1_label": "Años atendiendo Tuxtla",
+    "hero.stat2_num": "5",
+    "hero.stat2_label": "Quirófanos propios",
+    "hero.stat3_num": "24/7",
+    "hero.stat3_label": "Urgencias los 365 días",
+    "hero.stat4_num": "24 h",
+    "hero.stat4_label": "Resultados de laboratorio de rutina",
+
+    "queatendemos.eyebrow": "Por dónde empezar",
+    "queatendemos.title": "¿Qué necesitas atender?",
+    "queatendemos.desc":
+      "No hace falta que sepas el nombre de la especialidad. Empieza por lo que te está pasando y nosotros te llevamos con quien corresponde.",
+    "queatendemos.card1.title": "Veo borroso o me cansa la vista",
+    "queatendemos.card1.desc":
+      "Revisión visual completa, graduación, cataratas, glaucoma, retina y cirugía refractiva. Es el área con la que nació el hospital.",
+    "queatendemos.card1.ir": "Ir a Oftalmología",
+    "queatendemos.card2.title": "Mi médico me pidió un estudio",
+    "queatendemos.card2.desc":
+      "Resonancia, tomografía, ultrasonido, rayos X y laboratorio clínico. Traes tu orden, te agendamos y entregamos resultados con interpretación.",
+    "queatendemos.card2.ir": "Ir a Imagenología",
+    "queatendemos.card3.title": "Tengo un dolor que no cede",
+    "queatendemos.card3.desc":
+      "Dolor crónico de espalda, articular, neuropático u oncológico, tratado por un equipo que combina bloqueos, medicación y rehabilitación.",
+    "queatendemos.card3.ir": "Ir a Medicina del dolor",
+    "queatendemos.card4.title": "Me preocupa mi corazón o mi presión",
+    "queatendemos.card4.desc":
+      "Electrocardiograma, Holter, MAPA y prueba de esfuerzo. También cardiorresonancia y angiotac de coronarias, poco disponibles en la región.",
+    "queatendemos.card4.ir": "Ir a Cardiología",
+    "queatendemos.card5.title": "Algo anda mal con mi digestión",
+    "queatendemos.card5.desc":
+      "Endoscopía, colonoscopía, CPRE y elastografía hepática, con sedación y monitoreo en quirófano, no en consultorio.",
+    "queatendemos.card5.ir": "Ir a Gastroenterología",
+    "queatendemos.card6.title": "Me falta el aire o ronco al dormir",
+    "queatendemos.card6.desc":
+      "Espirometría, FeNO y poligrafía de sueño para adultos y niños, más terapia de higiene bronquial.",
+    "queatendemos.card6.ir": "Ir a Neumología",
+    "queatendemos.mas":
+      "¿Buscas otra cosa? También atendemos medicina general, ginecología y obstetricia, cirugía general y biopsias guiadas por imagen.",
+
+    "convenios.eyebrow": "Aseguradoras y convenios",
+    "convenios.title": "Trabajamos con tu seguro y hacemos el trámite por ti.",
+    "convenios.desc":
+      "Nuestra área de trámites gestiona la carta de autorización, el pago directo y los documentos con tu aseguradora. Tú solo traes tu póliza e identificación.",
+    "convenios.nota":
+      "¿No ves tu aseguradora? Escríbenos y revisamos tu caso. También atendemos pacientes particulares con costos cerrados por paquete.",
+    "convenios.placeholder": "Logo de aseguradora",
+
+    "faq.eyebrow": "Preguntas frecuentes",
+    "faq.title": "Lo que más nos preguntan por teléfono.",
+    "faq.q1": "¿Necesito orden médica para hacerme un estudio?",
+    "faq.a1":
+      "Para laboratorio y rayos X simples no siempre es necesaria. Para resonancia, tomografía, endoscopía y biopsias sí requerimos indicación médica, porque el protocolo del estudio depende de lo que se busca. Si no la tienes, agenda una consulta de medicina general y te la valoramos el mismo día.",
+    "faq.q2": "¿Cuánto cuesta la consulta y los estudios?",
+    "faq.a2":
+      "Los costos varían según el estudio y si vienes por aseguradora o como paciente particular. Escríbenos por WhatsApp con el nombre del estudio y te damos el precio cerrado antes de que agendes. No damos sorpresas en caja.",
+    "faq.q3": "¿Aceptan mi seguro de gastos médicos?",
+    "faq.a3":
+      "Trabajamos con las principales aseguradoras del país y nuestra área de trámites gestiona la carta de autorización por ti. Consulta la sección de convenios o mándanos el nombre de tu aseguradora y lo confirmamos.",
+    "faq.q4": "¿Cuánto tardan los resultados?",
+    "faq.a4":
+      "La mayoría de los estudios de laboratorio de rutina se entregan en 24 horas. Los estudios de imagen con interpretación del radiólogo suelen estar el mismo día o al siguiente. Los estudios especializados y las biopsias tienen tiempos distintos que te informamos al agendar.",
+    "faq.q5": "¿Puedo ir sin cita a urgencias?",
+    "faq.a5":
+      "Sí. Urgencias no requiere cita ni horario: estamos abiertos las 24 horas, los 365 días del año. Si puedes, llámanos en camino al (961) 602-9586 para tener el área lista cuando llegues.",
+    "faq.q6": "¿Atienden niños?",
+    "faq.a6":
+      "Sí. Medicina general, laboratorio, imagenología y estudios de función pulmonar atienden población pediátrica. Para procedimientos que requieren sedación, valoramos cada caso previamente con el anestesiólogo.",
+    "faq.q7": "¿Hay estacionamiento y acceso para silla de ruedas?",
+    "faq.a7":
+      "Contamos con estacionamiento para pacientes y accesos con rampa para silla de ruedas. Si quieres confirmar disponibilidad o resolver otra duda, llámanos al (961) 404-7409.",
+    "faq.q8": "¿Soy cirujano externo, puedo operar en sus quirófanos?",
+    "faq.a8":
+      "Sí. Rentamos sala equipada con servicio de esterilización, personal de quirófano y hospitalización para tu paciente. Escríbenos con el procedimiento y la fecha estimada y te enviamos disponibilidad y cotización.",
+
+    "footer.heading_navegar": "Navegar",
+    "footer.heading_pacientes": "Pacientes",
+    "footer.paciente_agendar": "Agendar cita",
+    "footer.paciente_resultados": "Consultar resultados",
+    "footer.paciente_convenios": "Aseguradoras y convenios",
+    "footer.paciente_preparacion": "Preparación para estudios",
+    "footer.paciente_trabaja": "Trabaja con nosotros",
+    "footer.aviso_privacidad": "Aviso de Privacidad",
+    "footer.aviso_simplificado": "Aviso de Privacidad simplificado",
+    "footer.derechos_arco": "Derechos ARCO",
+    "footer.terminos": "Términos de uso",
+    "footer.responsable_sanitario": "Responsable sanitario: [PENDIENTE]",
+    "footer.copyright": "© 2026 Servicio Hospitalario Arboledas, S.A. de C.V.",
+
     "preloader.loading": "Cargando",
 
     "aria.open_menu": "Abrir menú",
@@ -424,6 +542,124 @@ export const translations = {
     "modal.doctor_fallback": "Our team will assign you a specialist",
     "modal.recomendacion_label": "Before your visit",
     "modal.whatsapp_hint": "Confirming will open WhatsApp with your appointment details",
+
+    "modal.step0_label": "What do you need?",
+    "modal.step_area": "Area",
+    "modal.step_motivo": "Reason or procedure",
+    "modal.step_fecha": "Date",
+    "modal.step_horario": "Time",
+    "modal.area_placeholder": "Select the area",
+    "modal.motivo_placeholder": "Select the reason or procedure",
+    "modal.motivo_placeholder_area": "First choose an area",
+    "modal.prep_label": "Before your visit",
+    "modal.resumen_placeholder": "Complete the fields to see your appointment summary.",
+    "modal.consent":
+      "I accept that SH Arboledas processes my personal and health data to book and follow up on my appointment, per the",
+    "modal.aviso_link": "Privacy Notice",
+    "modal.send_btn": "Send request",
+    "modal.nota_mini":
+      "Our front desk confirms your appointment by WhatsApp during business hours. The slot is held until you receive confirmation.",
+    "modal.urgencia_title": "Emergencies are not scheduled online.",
+    "modal.urgencia_body": "Come directly or call us: we'll be ready for you.",
+    "modal.urgencia_call": "Call now",
+    "modal.urgencia_whatsapp": "Message us on WhatsApp",
+    "modal.hospitalario_title": "Operating room rental and sterilization are quoted.",
+    "modal.hospitalario_body":
+      "Tell us the estimated date, procedure, and required equipment, and we'll send you availability and pricing.",
+    "modal.hospitalario_cta": "Request a quote",
+
+    "urgencias.bar_texto": "Emergency care open now · 24 h, 365 days a year",
+    "urgencias.bar_urgencias": "Emergencies",
+    "urgencias.bar_citas": "Appointments",
+
+    "hero.stat1_num": "+15",
+    "hero.stat1_label": "Years serving Tuxtla",
+    "hero.stat2_num": "5",
+    "hero.stat2_label": "Operating rooms of our own",
+    "hero.stat3_num": "24/7",
+    "hero.stat3_label": "Emergency care, 365 days",
+    "hero.stat4_num": "24 h",
+    "hero.stat4_label": "Routine lab results",
+
+    "queatendemos.eyebrow": "Where to start",
+    "queatendemos.title": "What do you need help with?",
+    "queatendemos.desc":
+      "You don't need to know the name of the specialty. Start with what's happening to you and we'll take you to the right place.",
+    "queatendemos.card1.title": "I see blurry or my eyes get tired",
+    "queatendemos.card1.desc":
+      "Complete eye exams, prescriptions, cataracts, glaucoma, retina, and refractive surgery. It's the department where the hospital was born.",
+    "queatendemos.card1.ir": "Go to Ophthalmology",
+    "queatendemos.card2.title": "My doctor ordered a study",
+    "queatendemos.card2.desc":
+      "MRI, CT, ultrasound, X-ray, and clinical lab. Bring your order, we schedule you, and we deliver results with interpretation.",
+    "queatendemos.card2.ir": "Go to Imaging",
+    "queatendemos.card3.title": "I have a pain that won't go away",
+    "queatendemos.card3.desc":
+      "Chronic back, joint, neuropathic, or oncological pain, treated by a team that combines blocks, medication, and rehabilitation.",
+    "queatendemos.card3.ir": "Go to Pain Medicine",
+    "queatendemos.card4.title": "I'm worried about my heart or my blood pressure",
+    "queatendemos.card4.desc":
+      "EKG, Holter, ABPM, and stress testing. Also cardiac MRI and coronary CT angiography, rarely available in the region.",
+    "queatendemos.card4.ir": "Go to Cardiology",
+    "queatendemos.card5.title": "Something's off with my digestion",
+    "queatendemos.card5.desc":
+      "Endoscopy, colonoscopy, ERCP, and liver elastography, with sedation and monitoring in the operating room — not in the office.",
+    "queatendemos.card5.ir": "Go to Gastroenterology",
+    "queatendemos.card6.title": "I'm short of breath or snore when I sleep",
+    "queatendemos.card6.desc":
+      "Spirometry, FeNO, and sleep polygraphy for adults and children, plus bronchial hygiene therapy.",
+    "queatendemos.card6.ir": "Go to Pulmonology",
+    "queatendemos.mas":
+      "Looking for something else? We also care for general medicine, gynecology and obstetrics, general surgery, and image-guided biopsies.",
+
+    "convenios.eyebrow": "Insurers and agreements",
+    "convenios.title": "We work with your insurance and handle the paperwork for you.",
+    "convenios.desc":
+      "Our billing office manages the authorization letter, direct payment, and documents with your insurer. You just bring your policy and ID.",
+    "convenios.nota":
+      "Don't see your insurer? Write to us and we'll review your case. We also see private patients with closed package pricing.",
+    "convenios.placeholder": "Insurance logo",
+
+    "faq.eyebrow": "Frequently asked questions",
+    "faq.title": "What people ask us most on the phone.",
+    "faq.q1": "Do I need a doctor's order for a study?",
+    "faq.a1":
+      "Not always for simple lab tests and X-rays. For MRI, CT, endoscopy, and biopsies we do require a medical order, because the study protocol depends on what's being looked for. If you don't have one, book a general medicine consultation and we'll evaluate you the same day.",
+    "faq.q2": "How much does a consultation or a study cost?",
+    "faq.a2":
+      "Costs vary by study and whether you come through an insurer or as a private patient. Message us on WhatsApp with the study name and we'll give you a closed price before you book. No surprises at the counter.",
+    "faq.q3": "Do you accept my health insurance?",
+    "faq.a3":
+      "We work with the country's main insurers and our billing office manages the authorization letter for you. Check the agreements section or send us your insurer's name and we'll confirm.",
+    "faq.q4": "How long do results take?",
+    "faq.a4":
+      "Most routine lab studies are delivered in 24 hours. Imaging studies with radiologist interpretation are usually ready the same day or the next. Specialized studies and biopsies have different timelines that we'll tell you when you book.",
+    "faq.q5": "Can I come to the ER without an appointment?",
+    "faq.a5":
+      "Yes. The ER needs no appointment or schedule: we're open 24 hours, 365 days a year. If you can, call us on your way at (961) 602-9586 so the area is ready when you arrive.",
+    "faq.q6": "Do you see children?",
+    "faq.a6":
+      "Yes. General medicine, lab, imaging, and pulmonary function studies serve pediatric patients. For procedures requiring sedation, we evaluate each case beforehand with the anesthesiologist.",
+    "faq.q7": "Is there parking and wheelchair access?",
+    "faq.a7":
+      "We have patient parking and wheelchair ramps. To confirm availability or ask anything else, call us at (961) 404-7409.",
+    "faq.q8": "I'm an outside surgeon — can I operate in your operating rooms?",
+    "faq.a8":
+      "Yes. We rent equipped rooms with sterilization service, operating room staff, and hospital stay for your patient. Message us with the procedure and estimated date and we'll send availability and a quote.",
+
+    "footer.heading_navegar": "Navigate",
+    "footer.heading_pacientes": "Patients",
+    "footer.paciente_agendar": "Book an appointment",
+    "footer.paciente_resultados": "Check results",
+    "footer.paciente_convenios": "Insurers and agreements",
+    "footer.paciente_preparacion": "Study preparation",
+    "footer.paciente_trabaja": "Work with us",
+    "footer.aviso_privacidad": "Privacy Notice",
+    "footer.aviso_simplificado": "Simplified Privacy Notice",
+    "footer.derechos_arco": "ARCO Rights",
+    "footer.terminos": "Terms of Use",
+    "footer.responsable_sanitario": "Health officer: [PENDING]",
+    "footer.copyright": "© 2026 Servicio Hospitalario Arboledas, S.A. de C.V.",
 
     "preloader.loading": "Loading",
 
