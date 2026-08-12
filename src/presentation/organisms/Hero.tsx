@@ -5,7 +5,6 @@ import { useEmergencyModal } from "@/presentation/hooks/useEmergencyModal";
 import { useCitaModal } from "@/presentation/hooks/useCitaModal";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
 import { CitaBookingForm } from "@/presentation/molecules/CitaBookingForm";
-import { ComplianceBadge } from "../molecules/ComplianceBadge";
 
 export function Hero() {
   const { t } = useLanguage();
@@ -39,10 +38,12 @@ export function Hero() {
         <h1 className="hero-video-title">
           {t("hero.h1_pre")}<br /><em>{t("hero.h1_em")}</em>
         </h1>
-
-        <div className="hero-compliance-badge">
-          <ComplianceBadge />
-        </div>
+        {/* El folio COFEPRIS/Licencia Sanitaria ya vive en el nav, el badge
+            flotante y el footer (ver ComplianceBadge/ComplianceFloatButton) —
+            aquí, en el espacio más valioso de la página, va algo que un
+            visitante nuevo necesita antes que un número regulatorio: qué es
+            el hospital y en qué ciudad está. */}
+        <p className="hero-video-subtitle">{t("hero.subtitle")}</p>
 
         <div className="hero-action-cards">
           <button className="hero-action-card hero-action-card-urgent" onClick={openEmergency}>

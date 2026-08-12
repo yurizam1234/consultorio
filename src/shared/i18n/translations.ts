@@ -11,6 +11,8 @@ export const translations = {
 
     "hero.h1_pre": "Claridad, desde",
     "hero.h1_em": "la primera cita.",
+    "hero.subtitle":
+      "Hospital integral en Tuxtla Gutiérrez. Consulta, diagnóstico por imagen, cirugía y urgencias 24/7.",
 
     "nosotros.badge": "Años de experiencia",
     "nosotros.eyebrow": "Nuestra Historia",
@@ -40,16 +42,16 @@ export const translations = {
     "agendar.step3.desc":
       "Recibe confirmación por WhatsApp o correo, con recordatorio automático 24 horas antes de tu cita.",
 
-    "reasons.eyebrow": "Por qué escogernos",
-    "reasons.title": "Motivos para confiar tu salud a SH Arboledas",
+    "reasons.eyebrow": "Por qué elegirnos",
+    "reasons.title": "Razones concretas para elegirnos",
     "reasons.desc":
-      "Combinamos experiencia clínica, tecnología de punta y un trato cercano para que cada visita te dé certeza, no dudas.",
-    "reasons.feature1": "Especialistas certificados",
-    "reasons.feature2": "Tecnología de punta",
-    "reasons.feature3": "Urgencias 24/7",
-    "reasons.feature4": "Resultados en 24h",
-    "reasons.feature5": "Atención personalizada",
-    "reasons.feature6": "Instalaciones modernas",
+      "Quince años de experiencia clínica, cirugía propia y un trato cercano para que cada visita te dé certeza, no dudas.",
+    "reasons.feature1": "+15 años de experiencia",
+    "reasons.feature2": "5 quirófanos propios",
+    "reasons.feature3": "Urgencias 24/7, los 365 días",
+    "reasons.feature4": "Biopsia de próstata por fusión, única en la región",
+    "reasons.feature5": "Resonancia magnética bajo sedación",
+    "reasons.feature6": "Junto a Óptica Arboledas desde el inicio",
     "reasons.cta": "Conocer nuestras áreas médicas",
 
     "instalaciones.eyebrow": "Instalaciones",
@@ -77,7 +79,7 @@ export const translations = {
     "equipo.dept.intendencia": "Intendencia",
 
     "testimonios.eyebrow": "Testimonios",
-    "testimonios.title": "Qué piensan los pacientes de nosotros",
+    "testimonios.title": "Lo que dicen nuestros pacientes",
     "testimonios.placeholder": "Video testimonial próximamente",
     "testimonios.placeholder_sub": "Estamos grabando las experiencias de nuestros pacientes",
     "testimonios.consent_notice":
@@ -88,6 +90,7 @@ export const translations = {
     "contact.form_title": "Contáctanos",
     "contact.form_subtitle": "Escríbenos y te ayudamos a resolver tus dudas.",
     "contact.directions_cta": "Cómo llegar",
+    "contact.phone_citas": "Citas",
     "encuesta.title": "Cuéntanos tu experiencia",
     "encuesta.subtitle": "Tu opinión nos ayuda a mejorar la atención.",
     "encuesta.service_label": "¿Qué servicio recibiste?",
@@ -309,6 +312,7 @@ export const translations = {
 
     "hero.h1_pre": "Clarity, from",
     "hero.h1_em": "the first visit.",
+    "hero.subtitle": "Full-service hospital in Tuxtla Gutiérrez. Consultation, imaging diagnostics, surgery, and 24/7 emergency care.",
 
     "nosotros.badge": "Years of experience",
     "nosotros.eyebrow": "Our Story",
@@ -337,15 +341,15 @@ export const translations = {
       "Get confirmation by WhatsApp or email, with an automatic reminder 24 hours before your appointment.",
 
     "reasons.eyebrow": "Why choose us",
-    "reasons.title": "Reasons to trust your health to SH Arboledas",
+    "reasons.title": "Concrete reasons to choose us",
     "reasons.desc":
-      "We combine clinical experience, cutting-edge technology, and a close relationship so every visit gives you certainty, not doubts.",
-    "reasons.feature1": "Certified specialists",
-    "reasons.feature2": "Cutting-edge technology",
-    "reasons.feature3": "24/7 Emergency care",
-    "reasons.feature4": "Results in 24h",
-    "reasons.feature5": "Personalized attention",
-    "reasons.feature6": "Modern facilities",
+      "Fifteen years of clinical experience, our own surgical center, and a close relationship so every visit gives you certainty, not doubts.",
+    "reasons.feature1": "15+ years of experience",
+    "reasons.feature2": "5 operating rooms of our own",
+    "reasons.feature3": "24/7 emergency care, 365 days a year",
+    "reasons.feature4": "Fusion prostate biopsy, unique in the region",
+    "reasons.feature5": "MRI under sedation",
+    "reasons.feature6": "Alongside Óptica Arboledas since day one",
     "reasons.cta": "See our medical areas",
 
     "instalaciones.eyebrow": "Facilities",
@@ -373,7 +377,7 @@ export const translations = {
     "equipo.dept.intendencia": "Housekeeping",
 
     "testimonios.eyebrow": "Testimonials",
-    "testimonios.title": "What our patients think of us",
+    "testimonios.title": "What our patients say",
     "testimonios.placeholder": "Video testimonial coming soon",
     "testimonios.placeholder_sub": "We're recording our patients' experiences",
     "testimonios.consent_notice":
@@ -384,6 +388,7 @@ export const translations = {
     "contact.form_title": "Contact us",
     "contact.form_subtitle": "Write to us and we'll help answer your questions.",
     "contact.directions_cta": "Get directions",
+    "contact.phone_citas": "Appointments",
     "encuesta.title": "Tell us about your experience",
     "encuesta.subtitle": "Your feedback helps us improve our care.",
     "encuesta.service_label": "Which service did you receive?",

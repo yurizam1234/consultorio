@@ -44,7 +44,9 @@ export function Contacto() {
                   <span className="glass-addr-ref">{contactoInfo.referencia[lang]}</span>
                 </div>
                 <ContactInfoRow icon="phone">{contactoInfo.telefonoUrgencias}, 24/7</ContactInfoRow>
-                <ContactInfoRow icon="chat">{contactoInfo.telefonoConmutador}</ContactInfoRow>
+                <ContactInfoRow icon="chat">
+                  {contactoInfo.telefonoConmutador} · {t("contact.phone_citas")}
+                </ContactInfoRow>
                 <ContactInfoRow icon="mail">{contactoInfo.email}</ContactInfoRow>
                 <a className="directions-btn" href={mapsDirectionsHref} target="_blank" rel="noopener noreferrer">
                   <Icon name="pin" strokeWidth={2} />

@@ -290,20 +290,6 @@ section[id] { scroll-margin-top: 110px; }
   .nav-compliance svg { width: 12px; height: 12px; }
   .nav-compliance-text { font-size: 0.5rem; }
 }
-/* Dentro del hero (ver <ComplianceBadge /> en Hero.tsx) el sello queda como
-   elemento estático (sin position) en medio de capas SÍ posicionadas
-   (.hero-video-scrim, .hero-video-fade): esas se pintan por encima suyo
-   aunque su opacity siga en 1, y el sello queda invisible detrás del scrim.
-   Le damos su propio nivel de apilamiento, igual que el título y las demás
-   piezas del hero (título=2, cards=3, cita=4). */
-.hero-video-wrap .nav-compliance { position: relative; z-index: 2; }
-/* Contenedor del badge dentro del hero: GSAP lo desvanece con el scroll */
-.hero-compliance-badge {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-}
 
 /* ===== BOTÓN FLOTANTE COFEPRIS (circular, igual al de WhatsApp) ===== */
 /* Contenedor: mismo posicionamiento que .floating-btn-whatsapp (izquierda, centrado vertical) */
@@ -638,6 +624,17 @@ section[id] { scroll-margin-top: 110px; }
   letter-spacing: -0.02em;
 }
 .hero-video-title em { color: var(--teal-start); font-style: normal; }
+.hero-video-subtitle {
+  position: relative;
+  z-index: 2;
+  max-width: 620px;
+  padding: 0 24px;
+  margin: 0;
+  text-align: center;
+  color: rgba(var(--white-rgb), 0.86);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1.5;
+}
 
 .hero-cita-teaser {
   position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 8px;

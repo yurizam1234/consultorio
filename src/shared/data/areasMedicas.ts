@@ -33,8 +33,8 @@ export const areasMedicas: AreaMedica[] = [
     tagline: { es: "Resultados confiables", en: "Reliable results" },
     title: { es: "Laboratorio clínico", en: "Clinical Lab" },
     desc: {
-      es: "Pruebas de laboratorio con tecnología de punta y entrega de resultados en 24 horas.",
-      en: "Lab tests with cutting-edge technology and results delivered within 24 hours.",
+      es: "La mayoría de los estudios de rutina, listos en 24 horas.",
+      en: "Most routine studies, ready within 24 hours.",
     },
     img: "/servicios/laboratorio-clinico.png",
   },
@@ -51,8 +51,8 @@ export const areasMedicas: AreaMedica[] = [
     tagline: { es: "Cirugía segura", en: "Safe surgery" },
     title: { es: "Quirófanos", en: "Operating Rooms" },
     desc: {
-      es: "Cinco quirófanos totalmente equipados con tecnología de punta, renta de sala y servicio de esterilización.",
-      en: "Five fully equipped operating rooms, with room rental and sterilization service available.",
+      es: "Cinco quirófanos propios, totalmente equipados, con renta de sala y servicio de esterilización.",
+      en: "Five fully equipped operating rooms of our own, with room rental and sterilization service available.",
     },
     img: "/servicios/quirofanos.png",
   },

@@ -111,7 +111,7 @@ export function ScrollEffects() {
         const heroCitaTeaser = document.querySelector<HTMLElement>(".hero-cita-teaser");
         const heroActionCards = document.querySelector<HTMLElement>(".hero-action-cards");
         const citaCardWrap = document.querySelector<HTMLElement>(".cita-card-wrap");
-        const heroBadge = document.querySelector<HTMLElement>(".hero-compliance-badge");
+        const heroSubtitle = document.querySelector<HTMLElement>(".hero-video-subtitle");
         const floatBadge = document.querySelector<HTMLElement>(".compliance-float-badge");
 
         if (heroVideo && heroVideoWrap) {
@@ -138,19 +138,26 @@ export function ScrollEffects() {
               gsap.set(heroTitle, { opacity: 1 - p, y: -30 * p });
             }
 
-            // El teaser de "Agenda tu cita" y el badge COFEPRIS aparecen y desaparecen
+            // El teaser de "Agenda tu cita" y el subtítulo aparecen y desaparecen
             // junto con el título (misma curva) — la card grande de abajo no se toca.
             if (heroCitaTeaser) {
               const p = gsap.utils.clamp(0, 1, progress / 0.35);
               gsap.set(heroCitaTeaser, { opacity: 1 - p, y: -30 * p });
             }
-
-            // Badge COFEPRIS del hero: se desvanece con el título al primer scroll.
-            // En cuanto termina de desvanecerse (p >= 1, progress > 35%) el badge
-            // flotante aparece; si el usuario regresa (p < 1) se oculta de nuevo.
-            if (heroBadge) {
+            if (heroSubtitle) {
               const p = gsap.utils.clamp(0, 1, progress / 0.35);
-              gsap.set(heroBadge, { opacity: 1 - p, y: -20 * p });
+              gsap.set(heroSubtitle, { opacity: 1 - p, y: -20 * p });
+            }
+
+            // Badge COFEPRIS flotante: aparece en cuanto el título/subtítulo del
+            // hero terminan de desvanecerse (p >= 1, progress > 35%); si el
+            // usuario regresa (p < 1) se oculta de nuevo. Antes esto vivía
+            // adentro del "if (heroBadge)" de arriba (dependía de que existiera
+            // el badge DENTRO del hero) — ese badge ya no vive ahí (ver
+            // Hero.tsx), pero el flotante sigue necesitando este mismo timing,
+            // así que queda como su propio bloque, sin esa dependencia.
+            {
+              const p = gsap.utils.clamp(0, 1, progress / 0.35);
               if (p >= 1) {
                 floatBadge?.classList.add("compliance-float-visible");
               } else {

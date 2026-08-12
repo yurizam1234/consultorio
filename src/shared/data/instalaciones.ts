@@ -71,8 +71,8 @@ export const instalaciones: Instalacion[] = [
     num: "04",
     title: { es: "Quirófanos", en: "Operating rooms" },
     desc: {
-      es: "Quirófanos totalmente equipados con tecnología de punta.",
-      en: "Fully equipped operating rooms with cutting-edge technology.",
+      es: "Cinco quirófanos propios, totalmente equipados.",
+      en: "Five fully equipped operating rooms of our own.",
     },
     tag: { es: "🏥 Cirugía", en: "🏥 Surgery" },
     img: "/instalaciones/quirofanos/qx2.jpg",
