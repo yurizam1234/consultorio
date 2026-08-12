@@ -4,7 +4,10 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
 import { cn } from "@/shared/lib/utils";
 
-const MIN_VISIBLE_MS = 700;
+// >= lo que tarda la animación de "armado" del logo en globals.css (5 piezas
+// en secuencia, una por una; la última arranca a los 2400ms + dura 450ms) —
+// así nunca se corta a medias en una conexión rápida.
+const MIN_VISIBLE_MS = 2900;
 // Techo duro para no atrapar a alguien con muy mala conexión en la pantalla de
 // carga: si se cumple sin que el video haya terminado de descargarse, el propio
 // scroll-scrub (ver clampToBuffered en ScrollEffects.tsx) recorta cada salto al
@@ -125,8 +128,23 @@ export function Preloader() {
 
   return (
     <div className={cn("preloader", ready && "preloader-done")} role="status" aria-live="polite" aria-hidden={ready}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/img/logo-fondo.png" alt="SH Arboledas" className="preloader-logo" />
+      {/* El logo se "arma" pieza por pieza (arriba, izquierda, derecha, abajo,
+          y por último el texto) en vez de aparecer de golpe — son 5 copias de
+          la misma imagen, cada una recortada a su cuadrante con clip-path
+          (ver ".preloader-logo-piece" en globals.css). El navegador sólo pide
+          el archivo una vez (misma URL), así que no pesa más que antes. */}
+      <div className="preloader-logo-wrap" role="img" aria-label="SH Arboledas">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/img/logo-fondo.png" alt="" aria-hidden="true" className="preloader-logo-piece piece-top" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/img/logo-fondo.png" alt="" aria-hidden="true" className="preloader-logo-piece piece-left" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/img/logo-fondo.png" alt="" aria-hidden="true" className="preloader-logo-piece piece-right" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/img/logo-fondo.png" alt="" aria-hidden="true" className="preloader-logo-piece piece-bottom" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/img/logo-fondo.png" alt="" aria-hidden="true" className="preloader-logo-piece piece-text" />
+      </div>
       <span className="preloader-label">{t("preloader.loading")}</span>
     </div>
   );

@@ -11,7 +11,7 @@ export interface NavLink {
 export const navLinks: NavLink[] = [
   { href: "/", labelKey: "nav.inicio" },
   { href: "/historia", labelKey: "nav.historia" },
-  { href: "/#servicios", labelKey: "nav.servicios" },
+  { href: "/procedimientos", labelKey: "nav.servicios" },
   { href: "/#agendar-info", labelKey: "nav.agendar" },
   { href: "/#instalaciones", labelKey: "nav.instalaciones" },
   { href: "/#equipo", labelKey: "nav.equipo" },
