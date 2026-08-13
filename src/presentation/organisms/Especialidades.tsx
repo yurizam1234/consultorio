@@ -1,31 +1,41 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { EspecialidadTab } from "@/presentation/molecules/EspecialidadTab";
 import { ProcedimientoItem } from "@/presentation/molecules/ProcedimientoItem";
 import { MedicoCard } from "@/presentation/molecules/MedicoCard";
 import { ESPECIALIDADES, ESPECIALIDADES_KEYS } from "@/shared/data/especialidades";
 import { Reveal } from "@/presentation/atoms/Reveal";
-import { cn } from "@/shared/lib/utils";
+import { contactoInfo } from "@/shared/data/contacto";
+import { useCitaModal } from "@/presentation/hooks/useCitaModal";
+import { CITA_PRESELECT_EVENT } from "@/presentation/hooks/useCitaBooking";
 
 interface EspecialidadesProps {
-  initialKey?: string;
+  // Controlado desde LandingPage: así "¿Qué necesitas atender?" puede
+  // seleccionar una especialidad desde afuera sin duplicar el estado ni
+  // sincronizarlo con un efecto (ver el useState+useEffect que había antes
+  // acá — React lo marca como anti-patrón: "derived state via effect").
+  selectedKey: string;
+  onSelectKey: (key: string) => void;
 }
 
-export function Especialidades({ initialKey = "oftalmologia" }: EspecialidadesProps) {
-  const [selectedKey, setSelectedKey] = useState(initialKey);
+export function Especialidades({ selectedKey, onSelectKey }: EspecialidadesProps) {
   const especialidad = ESPECIALIDADES[selectedKey];
-
-  // Actualizar cuando cambia initialKey desde fuera
-  useEffect(() => {
-    setSelectedKey(initialKey);
-  }, [initialKey]);
+  const { open: openCita } = useCitaModal();
 
   const handleTabSelect = (key: string) => {
-    setSelectedKey(key);
+    onSelectKey(key);
     // Actualizar URL hash sin scroll
     window.history.pushState(null, "", `#${key}`);
+  };
+
+  // "Agendar en esta área": abre el modal de citas con esta especialidad ya
+  // preseleccionada (mismo evento que usa el carrusel de Servicios, ver
+  // useCitaBooking.ts — las keys de ambos catálogos coinciden 1 a 1).
+  const handleAgendar = (event: React.MouseEvent) => {
+    event.preventDefault();
+    window.dispatchEvent(new CustomEvent(CITA_PRESELECT_EVENT, { detail: { areaId: selectedKey } }));
+    openCita();
   };
 
   // Filtrar procedimientos que no sean "Todavía no lo sé"
@@ -71,12 +81,12 @@ export function Especialidades({ initialKey = "oftalmologia" }: EspecialidadesPr
                 ))}
               </ul>
               <div className="panel-acciones">
-                <a className="btn btn-primario" href="#cita">
+                <a className="btn btn-primario" href="#cita" onClick={handleAgendar}>
                   Agendar en esta área
                 </a>
                 <a
                   className="btn btn-linea"
-                  href="https://wa.me/529616029586"
+                  href={contactoInfo.whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

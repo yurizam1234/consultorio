@@ -4,6 +4,7 @@ import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { ConvenioLogo } from "@/presentation/molecules/ConvenioLogo";
 import { CONVENIOS } from "@/shared/data/convenios";
 import { Reveal } from "@/presentation/atoms/Reveal";
+import { contactoInfo } from "@/shared/data/contacto";
 
 export function Convenios() {
   return (
@@ -26,7 +27,7 @@ export function Convenios() {
         <p className="text-sm text-muted-foreground mt-6">
           ¿No ves tu aseguradora? Escríbenos al{" "}
           <a
-            href="https://wa.me/529616029586"
+            href={contactoInfo.whatsappHref}
             className="text-teal-600 hover:underline font-medium"
             target="_blank"
             rel="noopener noreferrer"

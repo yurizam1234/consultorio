@@ -18,7 +18,11 @@ const DRAG_THRESHOLD = 60;
 // igual que en el resto del recorrido. Dos alcanzan incluso en pantallas anchas.
 const loopPreview = areasMedicas.slice(0, 2);
 
-export function ServiciosSlider() {
+interface ServiciosSliderProps {
+  onSelectEspecialidad: (key: string) => void;
+}
+
+export function ServiciosSlider({ onSelectEspecialidad }: ServiciosSliderProps) {
   const { lang, t } = useLanguage();
   const { activeIndex, next, prev, goTo, pause, resume } = useCarousel({
     length: areasMedicas.length,
@@ -97,13 +101,14 @@ export function ServiciosSlider() {
             <AreaMedicaCard
               key={area.title.es}
               area={area}
+              onSelectEspecialidad={onSelectEspecialidad}
               ref={(el) => {
                 cardRefs.current[index] = el;
               }}
             />
           ))}
           {loopPreview.map((area) => (
-            <AreaMedicaCard key={`${area.title.es}-loop`} area={area} decorative />
+            <AreaMedicaCard key={`${area.title.es}-loop`} area={area} decorative onSelectEspecialidad={onSelectEspecialidad} />
           ))}
         </div>
 

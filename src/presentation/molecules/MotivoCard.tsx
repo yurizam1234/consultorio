@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/shared/lib/utils";
+import { ESPECIALIDADES } from "@/shared/data/especialidades";
 
 interface MotivoCardProps {
   numero: string;
@@ -24,6 +25,12 @@ export function MotivoCard({
     onSelect(especialidadKey);
   };
 
+  // Nombre real de la especialidad destino (ej. "Oftalmología"), no la
+  // primera palabra del título de la tarjeta — antes decía cosas como
+  // "Ir a Veo →" porque tomaba la primera palabra de "Veo borroso o me
+  // cansa la vista".
+  const nombreEspecialidad = ESPECIALIDADES[especialidadKey]?.n ?? titulo;
+
   return (
     <a
       href={`#${especialidadKey}`}
@@ -33,7 +40,7 @@ export function MotivoCard({
       <span className="n">{numero}</span>
       <h3>{titulo}</h3>
       <p>{descripcion}</p>
-      <span className="ir">Ir a {titulo.split(" ")[0]} →</span>
+      <span className="ir">Ir a {nombreEspecialidad} →</span>
     </a>
   );
 }

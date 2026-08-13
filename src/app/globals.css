@@ -2783,27 +2783,34 @@ section[id] { scroll-margin-top: 110px; }
 }
 
 /* ===== QUÉ ATENDEMOS ===== */
+/* Tarjetas separadas con su propio borde redondeado (--radius-lg, igual que
+   el resto de cards del sitio) y espacio real entre ellas — el original
+   (mockup plano) las pegaba en un mosaico con líneas de 1px de "lechada"
+   entre celdas (gap:1px + fondo de línea), dejando esquinas cuadradas por
+   dentro que chocaban contra el resto del sitio, todo en tarjetas y
+   botones redondeados. */
 .motivos {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--border-light);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  overflow: hidden;
+  gap: 20px;
 }
 
 .motivo {
   background: var(--white);
   padding: 28px 26px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
   text-decoration: none;
   display: block;
-  transition: background 0.18s ease;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
   cursor: pointer;
 }
 
 .motivo:hover {
   background: rgba(var(--teal-start-rgb), 0.04);
+  border-color: var(--teal-start);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px -8px rgba(var(--black-rgb), 0.1);
 }
 
 .motivo .n {
@@ -2943,7 +2950,9 @@ section[id] { scroll-margin-top: 110px; }
 .medico {
   border: 1px solid var(--border-light);
   background: var(--white);
-  border-radius: var(--radius-md);
+  /* --radius-lg (no -md): mismo tamaño de esquina que el resto de cards de
+     perfil/persona del sitio (".emergency-modal-card", ".instalacion-modal-card"). */
+  border-radius: var(--radius-lg);
   overflow: hidden;
   padding: 0 0 18px;
 }

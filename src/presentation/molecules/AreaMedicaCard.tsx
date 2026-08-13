@@ -2,7 +2,9 @@
 
 import { forwardRef } from "react";
 import type { AreaMedica } from "@/shared/data/areasMedicas";
+import { especialidadKeyDeTitulo } from "@/shared/data/especialidades";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
+import { useEmergencyModal } from "@/presentation/hooks/useEmergencyModal";
 
 interface AreaMedicaCardProps {
   area: AreaMedica;
@@ -11,13 +13,20 @@ interface AreaMedicaCardProps {
    * vez de dejar un hueco vacío) — no debe duplicarse para lectores de pantalla
    * ni robarse el foco de teclado. */
   decorative?: boolean;
+  /** Selecciona esta área en "Especialidades y especialistas" (ver
+   * LandingPage.tsx) y hace scroll hasta ahí. */
+  onSelectEspecialidad: (key: string) => void;
 }
 
 export const AreaMedicaCard = forwardRef<HTMLElement, AreaMedicaCardProps>(function AreaMedicaCard(
-  { area, decorative },
+  { area, decorative, onSelectEspecialidad },
   ref
 ) {
   const { lang, t } = useLanguage();
+  const { open: openEmergency } = useEmergencyModal();
+  // "Urgencias 24/7" no tiene pestaña propia en Especialidades (no se
+  // "navega", se llama) — ver el comentario junto a "especialidadKeyDeTitulo".
+  const especialidadKey = especialidadKeyDeTitulo(area.title.es);
 
   return (
     <article
@@ -37,14 +46,19 @@ export const AreaMedicaCard = forwardRef<HTMLElement, AreaMedicaCardProps>(funct
           <span className="servicio-parallax-badge">{t("areas.coming_soon_badge")}</span>
         ) : (
           <a
-            href="#equipo"
+            href={especialidadKey ? "#especialidades" : undefined}
             className="servicio-parallax-cta"
             tabIndex={decorative ? -1 : undefined}
-            onClick={() =>
-              window.dispatchEvent(
-                new CustomEvent("equipo:seleccionar", { detail: { especialidad: area.title.es } })
-              )
-            }
+            onClick={(event) => {
+              if (especialidadKey) {
+                onSelectEspecialidad(especialidadKey);
+              } else {
+                // Urgencias: no se "agenda", se llama — abre el mismo modal
+                // que el resto de accesos a urgencias del sitio.
+                event.preventDefault();
+                openEmergency();
+              }
+            }}
           >
             {t("servicios.ver_todo")} <i className="btn-circle-icon" />
           </a>

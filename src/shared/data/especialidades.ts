@@ -368,3 +368,25 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
 };
 
 export const ESPECIALIDADES_KEYS = Object.keys(ESPECIALIDADES);
+
+// Relaciona el título en español de "areasMedicas.ts" (el carrusel de
+// Servicios) con la key de acá — los nombres no siempre coinciden 1 a 1
+// (ej. "Laboratorio clínico" → "laboratorio", "Medicina del dolor" →
+// "dolor"), así que no alcanza con una transformación automática del texto.
+// "Urgencias 24/7" no tiene pestaña propia a propósito (no se "navega", se
+// llama) — AreaMedicaCard.tsx debe manejar ese caso aparte.
+const TITULO_A_KEY: Record<string, string> = {
+  "Imagenología": "imagenologia",
+  "Oftalmología": "oftalmologia",
+  "Laboratorio clínico": "laboratorio",
+  "Quirófanos": "quirofano",
+  "Cardiología": "cardiologia",
+  "Medicina del dolor": "dolor",
+  "Medicina General": "general",
+  "Gastroenterología": "gastro",
+  "Neumología": "neumologia",
+};
+
+export function especialidadKeyDeTitulo(tituloEs: string): string | undefined {
+  return TITULO_A_KEY[tituloEs];
+}

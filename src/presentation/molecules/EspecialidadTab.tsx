@@ -3,14 +3,17 @@
 import { cn } from "@/shared/lib/utils";
 
 interface EspecialidadTabProps {
-  key: string;
+  // "key" es una prop reservada de React (nunca llega al componente, la usa
+  // React para reconciliar la lista) — por eso el valor real viaja aparte,
+  // en esta prop con nombre propio.
+  especialidadKey: string;
   label: string;
   isSelected: boolean;
   onSelect: (key: string) => void;
 }
 
 export function EspecialidadTab({
-  key,
+  especialidadKey,
   label,
   isSelected,
   onSelect,
@@ -20,8 +23,8 @@ export function EspecialidadTab({
       className={cn("tab", isSelected && "active")}
       role="tab"
       aria-selected={isSelected}
-      data-k={key}
-      onClick={() => onSelect(key)}
+      data-k={especialidadKey}
+      onClick={() => onSelect(especialidadKey)}
     >
       {label}
     </button>
