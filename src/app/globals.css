@@ -883,8 +883,12 @@ section[id] { scroll-margin-top: 110px; }
 /* ── Textos de encabezado ── */
 .hero-video-wrap .cita-card-head h4 { color: var(--text-strong); }
 
-/* ── Etiquetas de pasos ── */
-.hero-video-wrap .cita-step-label { color: var(--text-soft); }
+/* ── Etiquetas de pasos ──
+   Antes usaban tonos grises pensados para fondo blanco sólido (--text-soft/
+   --text-faint) — sobre el cristal semitransparente de esta card, con el
+   video del hero de fondo, casi desaparecían en varias zonas. Se oscurecen
+   a --text-strong para que siempre se lean, sin importar qué haya detrás. */
+.hero-video-wrap .cita-step-label { color: var(--text-strong); }
 .hero-video-wrap .cita-step-num {
   background: rgba(var(--teal-start-rgb), 0.16);
   color: var(--teal-end);
@@ -911,7 +915,7 @@ section[id] { scroll-margin-top: 110px; }
   background: rgba(var(--white-rgb), 0.5);
   border-color: rgba(var(--white-rgb), 0.6);
 }
-.hero-video-wrap .day .dname { color: var(--text-soft); }
+.hero-video-wrap .day .dname { color: var(--text-strong); }
 .hero-video-wrap .day .dnum  { color: var(--teal-end); }
 .hero-video-wrap .day:hover  { border-color: var(--teal-start); background: rgba(var(--white-rgb), 0.7); }
 
@@ -933,13 +937,23 @@ section[id] { scroll-margin-top: 110px; }
 }
 
 /* ── Resumen y botón confirmar ── */
-.hero-video-wrap .cita-summary-tag  { color: var(--text-soft); }
+.hero-video-wrap .cita-summary-tag  { color: var(--text-strong); }
 .hero-video-wrap .cita-summary-value { color: var(--text-strong); }
-.hero-video-wrap .cita-whatsapp-hint { color: var(--text-faint); }
+.hero-video-wrap .cita-whatsapp-hint { color: var(--text-strong); }
+/* No tenían override propio (se veían igual de tenues que los de arriba). */
+.hero-video-wrap .cita-consent { color: var(--text-strong); }
+.hero-video-wrap .cita-nota-mini { color: var(--text-strong); }
 
 @media (min-width: 1000px) {
   .hero-video-wrap .cita-card { width: min(94vw, 860px); }
-  .hero-video-wrap .cita-card-inner { max-height: min(88vh, 640px); padding: 28px 32px; }
+  /* Sin scroll interno en escritorio: los 5 pasos ya caben completos en la
+     columna izquierda (ver ".cita-col-left" más abajo), así que la card
+     puede crecer lo que necesite — si no entra en el alto de la pantalla,
+     la propia página se desplaza en vez de aparecer una barra de scroll
+     encerrada dentro de la card. En móvil (ver "@media (max-width: 640px)"
+     de ".cita-card-inner") se mantiene el scroll interno porque ahí sí es
+     necesario para no romper el layout del hero. */
+  .hero-video-wrap .cita-card-inner { max-height: none; overflow: visible; padding: 28px 32px; }
   .hero-video-wrap .cita-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
 }
 .cita-card-inner {
@@ -1019,6 +1033,17 @@ section[id] { scroll-margin-top: 110px; }
    todo el formulario por un aviso directo — no tiene sentido pedir fecha/hora
    para algo que no se agenda. */
 .cita-route-card { display: flex; flex-direction: column; gap: 10px; padding: 18px; border-radius: 16px; }
+/* Única forma de volver al formulario de 5 pasos desde aquí — sin esto, si
+   se tocaba "Servicio hospitalario" o "Es una urgencia" por error, no había
+   manera de deshacerlo (ver "setTipo('consulta')" en CitaBookingForm.tsx). */
+.cita-route-back {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--font-family); font-size: 0.78rem; font-weight: 700;
+  background: none; border: none; padding: 0; margin-bottom: 2px; cursor: pointer;
+  color: var(--text-soft); transition: color 0.15s ease;
+}
+.cita-route-back:hover { color: var(--teal-end); }
+.cita-route-back svg { width: 15px; height: 15px; }
 .cita-route-card strong { font-size: 0.95rem; font-weight: 800; color: var(--text-strong); }
 .cita-route-card p { font-size: 0.84rem; line-height: 1.5; color: var(--text-soft); margin: 0; }
 .cita-route-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
@@ -1885,6 +1910,11 @@ section[id] { scroll-margin-top: 110px; }
   .cita-modal-overlay { padding: 84px 16px 108px; }
 }
 .cita-modal-overlay.open { opacity: 1; visibility: visible; }
+/* Envoltorio SIN scroll para el modal de citas — el botón de cerrar vive acá
+   (ver CitaModal.tsx) en vez de dentro de ".cita-modal", que si tiene scroll
+   interno (formulario largo) recortaba el botón por sus offsets negativos. */
+.cita-modal-shell { position: relative; width: 100%; display: flex; justify-content: center; }
+.cita-modal-shell.cita-booking-modal-shell { max-width: min(94vw, 1040px); }
 .cita-modal {
   position: relative; width: 100%; max-width: 900px; max-height: calc(100vh - 148px); overflow-y: auto;
   transform: translateY(16px) scale(0.98); transition: transform 0.3s ease;
@@ -2661,7 +2691,17 @@ section[id] { scroll-margin-top: 110px; }
 }
 .procedimientos-filter-row .chip-row.dragging { cursor: grabbing; scroll-behavior: auto; user-select: none; }
 .procedimientos-filter-row .chip-row::-webkit-scrollbar { display: none; }
-.procedimientos-filter-row .chip { flex: none; white-space: nowrap; }
+/* Mismo estilo que ".tab" (Especialidades): transparente con borde en vez de
+   fondo blanco sólido, y activo con degradado en vez de un verde plano. */
+.procedimientos-filter-row .chip {
+  flex: none; white-space: nowrap;
+  background: transparent; border-color: var(--border-light); color: var(--text-muted);
+}
+.procedimientos-filter-row .chip:hover { border-color: var(--teal-start); color: var(--teal-end); }
+.procedimientos-filter-row .chip.active {
+  background: linear-gradient(135deg, var(--teal-start), var(--teal-end));
+  border-color: var(--teal-start); color: var(--white); box-shadow: none;
+}
 .procedimientos-search {
   flex: none; width: 300px;
   display: flex; align-items: center; gap: 10px;
@@ -2857,14 +2897,31 @@ section[id] { scroll-margin-top: 110px; }
 }
 
 /* ===== ESPECIALIDADES ===== */
+/* Mismo patrón que ".procedimientos-filter-row" en /procedimientos: en vez
+   de envolver a una segunda línea, la tira de especialidades se desplaza
+   horizontalmente con flechas y también se puede arrastrar con el mouse
+   (además del scroll táctil nativo, que ya funcionaba). */
+.especialidades-tabs-row { display: flex; align-items: center; gap: 8px; margin-bottom: 34px; }
+.especialidades-tabs-row .carousel-btn { flex: none; width: 38px; height: 38px; font-size: 1.15rem; }
 .tabs {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
-  margin-bottom: 34px;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+  touch-action: pan-y;
 }
+.tabs.dragging { cursor: grabbing; scroll-behavior: auto; user-select: none; }
+.tabs::-webkit-scrollbar { display: none; }
 
 .tab {
+  flex: none;
+  white-space: nowrap;
   border: 1px solid var(--border-light);
   background: transparent;
   padding: 9px 16px;

@@ -111,16 +111,6 @@ export default function ProcedimientosPage() {
         <section className="procedimientos-catalog">
           <div className="wrap">
             <div className="procedimientos-controls">
-              <label className="procedimientos-search">
-                <Search size={18} strokeWidth={1.8} />
-                <input
-                  type="text"
-                  placeholder={t("procedimientos.search_placeholder")}
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                />
-              </label>
-
               <div className="procedimientos-filter-row">
                 <button
                   type="button"
@@ -161,6 +151,16 @@ export default function ProcedimientosPage() {
                   ›
                 </button>
               </div>
+
+              <label className="procedimientos-search">
+                <Search size={18} strokeWidth={1.8} />
+                <input
+                  type="text"
+                  placeholder={t("procedimientos.search_placeholder")}
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                />
+              </label>
             </div>
 
             {grupos.length === 0 ? (

@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef, useState } from "react";
+import type { PointerEvent as ReactPointerEvent, MouseEvent as ReactMouseEvent } from "react";
 import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { EspecialidadTab } from "@/presentation/molecules/EspecialidadTab";
 import { ProcedimientoItem } from "@/presentation/molecules/ProcedimientoItem";
@@ -22,6 +24,54 @@ interface EspecialidadesProps {
 export function Especialidades({ selectedKey, onSelectKey }: EspecialidadesProps) {
   const especialidad = ESPECIALIDADES[selectedKey];
   const { open: openCita } = useCitaModal();
+
+  // Tira de especialidades: se desplaza con flechas y también se puede
+  // arrastrar con el mouse (mismo patrón que ".procedimientos-filter-row"
+  // en /procedimientos, ver ese archivo para más contexto de cada parte).
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const [draggingTabs, setDraggingTabs] = useState(false);
+  const dragState = useRef({ pointerId: 0, isDown: false, startX: 0, startScrollLeft: 0, moved: false });
+
+  function scrollTabs(direction: 1 | -1) {
+    tabsRef.current?.scrollBy({ left: direction * 220, behavior: "smooth" });
+  }
+
+  function handleTabsPointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+    const el = tabsRef.current;
+    if (!el) return;
+    // No se captura el puntero aquí todavía — capturar de inmediato en el
+    // pointerdown redirige el mouseup/click resultante al contenedor en vez
+    // del <button>, matando el click normal. Sólo se captura si el gesto se
+    // confirma como arrastre (ver handleTabsPointerMove).
+    dragState.current = { pointerId: event.pointerId, isDown: true, startX: event.clientX, startScrollLeft: el.scrollLeft, moved: false };
+  }
+
+  function handleTabsPointerMove(event: ReactPointerEvent<HTMLDivElement>) {
+    const el = tabsRef.current;
+    if (!el || !dragState.current.isDown) return;
+    const delta = event.clientX - dragState.current.startX;
+    if (!dragState.current.moved && Math.abs(delta) > 4) {
+      dragState.current.moved = true;
+      setDraggingTabs(true);
+      el.setPointerCapture(dragState.current.pointerId);
+    }
+    if (dragState.current.moved) el.scrollLeft = dragState.current.startScrollLeft - delta;
+  }
+
+  function endTabsDrag() {
+    dragState.current.isDown = false;
+    setDraggingTabs(false);
+  }
+
+  // Un arrastre real no debe además disparar el click del tab que quedó
+  // debajo del cursor al soltar.
+  function handleTabsClickCapture(event: ReactMouseEvent<HTMLDivElement>) {
+    if (dragState.current.moved) {
+      event.stopPropagation();
+      event.preventDefault();
+      dragState.current.moved = false;
+    }
+  }
 
   const handleTabSelect = (key: string) => {
     onSelectKey(key);
@@ -53,16 +103,43 @@ export function Especialidades({ selectedKey, onSelectKey }: EspecialidadesProps
         />
 
         <Reveal>
-          <div className="tabs" role="tablist">
-            {ESPECIALIDADES_KEYS.map((key) => (
-              <EspecialidadTab
-                key={key}  // ← Solo la key de React
-                especialidadKey={key}  // ← Prop personalizada con otro nombre
-                label={ESPECIALIDADES[key].n}
-                isSelected={selectedKey === key}
-                onSelect={handleTabSelect}
-              />
-            ))}
+          <div className="especialidades-tabs-row">
+            <button
+              type="button"
+              className="carousel-btn"
+              aria-label="Especialidad anterior"
+              onClick={() => scrollTabs(-1)}
+            >
+              ‹
+            </button>
+            <div
+              className={"tabs" + (draggingTabs ? " dragging" : "")}
+              role="tablist"
+              ref={tabsRef}
+              onPointerDown={handleTabsPointerDown}
+              onPointerMove={handleTabsPointerMove}
+              onPointerUp={endTabsDrag}
+              onPointerCancel={endTabsDrag}
+              onClickCapture={handleTabsClickCapture}
+            >
+              {ESPECIALIDADES_KEYS.map((key) => (
+                <EspecialidadTab
+                  key={key}  // ← Solo la key de React
+                  especialidadKey={key}  // ← Prop personalizada con otro nombre
+                  label={ESPECIALIDADES[key].n}
+                  isSelected={selectedKey === key}
+                  onSelect={handleTabSelect}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              className="carousel-btn"
+              aria-label="Especialidad siguiente"
+              onClick={() => scrollTabs(1)}
+            >
+              ›
+            </button>
           </div>
         </Reveal>
 

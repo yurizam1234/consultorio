@@ -59,6 +59,13 @@ export function CitaBookingForm() {
 
       {esUrgencia ? (
         <div className="cita-route-card cita-route-urgencia">
+          {/* Sin esto no había forma de volver al formulario normal si se
+              tocaba "Es una urgencia" por error — quedaba atrapado en esta
+              vista (ver el mismo botón en la rama "hospitalario" de abajo). */}
+          <button type="button" className="cita-route-back" onClick={() => setTipo("consulta")}>
+            <Icon name="chevron-left" strokeWidth={2.2} />
+            {t("modal.volver_formulario")}
+          </button>
           <strong>{t("modal.urgencia_title")}</strong>
           <p>{t("modal.urgencia_body")}</p>
           <div className="cita-route-actions">
@@ -77,6 +84,10 @@ export function CitaBookingForm() {
         </div>
       ) : esHospitalario ? (
         <div className="cita-route-card cita-route-hospitalario">
+          <button type="button" className="cita-route-back" onClick={() => setTipo("consulta")}>
+            <Icon name="chevron-left" strokeWidth={2.2} />
+            {t("modal.volver_formulario")}
+          </button>
           <strong>{t("modal.hospitalario_title")}</strong>
           <p>{t("modal.hospitalario_body")}</p>
           <a className="cita-route-btn cita-route-btn-primario" href={whatsappHref} target="_blank" rel="noopener noreferrer">
@@ -86,7 +97,7 @@ export function CitaBookingForm() {
         </div>
       ) : esNormal ? (
         <div className="cita-card-body">
-          {/* Columna izquierda: Tipo + Área + Motivo (con preparación) */}
+          {/* Columna izquierda: los 5 pasos (Tipo, Área, Motivo, Fecha, Horario) */}
           <div className="cita-col-left">
             <div className="cita-step">
               <p className="cita-step-label">
@@ -152,10 +163,7 @@ export function CitaBookingForm() {
                 <span>{preparacion}</span>
               </div>
             )}
-          </div>
 
-          {/* Columna derecha: Fecha + Horario + Resumen + Confirmar */}
-          <div className="cita-col-right">
             <div className="cita-step">
               <p className="cita-step-label">
                 <span className="cita-step-num">4</span>
@@ -171,9 +179,10 @@ export function CitaBookingForm() {
               </p>
               <TimePickerField value={horario} onChange={setHorario} slots={citaTimeSlots} />
             </div>
+          </div>
 
-            <div className="cita-divider" />
-
+          {/* Columna derecha: Resumen + Confirmar */}
+          <div className="cita-col-right">
             <div className="cita-summary">
               <span className="cita-summary-tag">{t("modal.tagline")}</span>
               <strong className="cita-summary-value">{summary}</strong>
