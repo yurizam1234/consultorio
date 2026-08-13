@@ -1384,6 +1384,13 @@ section[id] { scroll-margin-top: 110px; }
    antes de acotarlo) — la versión móvil se queda tal como estaba. */
 @media (min-width: 901px) {
   #por-que-escogernos .wrap { max-width: min(1600px, calc(100vw - 200px)); }
+  /* Mismo problema, misma solución: ".panel" (tabs+medicos) se veía angosto
+     y rodeado de vacío en monitores anchos. */
+  #especialidades .wrap { max-width: min(1600px, calc(100vw - 200px)); }
+  /* 2 columnas fijas dejaban un hueco enorme a la derecha del segundo
+     médico en pantallas anchas — 3 aprovechan mejor el ancho extra de
+     arriba (en 2 columnas, si aplica, se ve bien igual). */
+  .medicos { grid-template-columns: repeat(3, 1fr); }
 }
 .reasons-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
 .reasons-content { display: flex; flex-direction: column; gap: 20px; }
