@@ -21,7 +21,7 @@ export function Contacto() {
           src="/videos/contacto_scrub.mp4"
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           aria-hidden="true"
         />
         <div className="contacto-video-scrim" />

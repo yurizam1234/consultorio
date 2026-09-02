@@ -309,7 +309,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Medición de la capacidad y función pulmonar, con y sin broncodilatador.",
           en: "Measurement of lung capacity and function, with and without a bronchodilator.",
         },
-        img: "/instalaciones/areas-diagnosticas/urgencia.jpeg",
+        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
       },
       {
         es: "FeNO (óxido nítrico exhalado)",
@@ -319,7 +319,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Medición del óxido nítrico exhalado para evaluar inflamación de las vías respiratorias.",
           en: "Measurement of exhaled nitric oxide to assess airway inflammation.",
         },
-        img: "/instalaciones/areas-diagnosticas/urgencia.jpeg",
+        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
       },
       {
         es: "Poligrafía de sueño",
@@ -329,7 +329,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Estudio del sueño para detectar apnea y otros trastornos respiratorios nocturnos.",
           en: "Sleep study to detect apnea and other nighttime breathing disorders.",
         },
-        img: "/instalaciones/areas-diagnosticas/urgencia.jpeg",
+        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
       },
       {
         es: "Dinamometría",
@@ -339,7 +339,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Medición de la fuerza muscular respiratoria.",
           en: "Measurement of respiratory muscle strength.",
         },
-        img: "/instalaciones/areas-diagnosticas/urgencia.jpeg",
+        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
       },
       {
         es: "Higiene bronquial con chaleco percutor",
@@ -349,7 +349,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Terapia de higiene bronquial mediante vibración para ayudar a despejar las vías respiratorias.",
           en: "Vibration-based bronchial hygiene therapy that helps clear the airways.",
         },
-        img: "/instalaciones/areas-diagnosticas/urgencia.jpeg",
+        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
       },
       {
         es: "Higiene bronquial con máquina de tos",
@@ -359,7 +359,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Asistencia mecánica para la expulsión de secreciones en pacientes con tos débil.",
           en: "Mechanical assistance to clear secretions in patients with weak cough.",
         },
-        img: "/instalaciones/areas-diagnosticas/urgencia.jpeg",
+        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
       },
     ],
   },

@@ -1,12 +1,16 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/shared/lib/utils";
 import { Reveal } from "@/presentation/atoms/Reveal";
 import { SplitChars } from "@/presentation/atoms/SplitChars";
+import { EcgDivider } from "@/presentation/atoms/EcgDivider";
 
 interface SectionHeadProps {
-  eyebrow: string;
+  eyebrow?: string; // ← Agrega el signo de interrogación aquí
+  eyebrowExtra?: ReactNode;
+  beforeTitle?: ReactNode;
   title?: string;
   description?: string;
+  children?: ReactNode;
   className?: string;
   style?: CSSProperties;
   titleColor?: string;
@@ -14,34 +18,48 @@ interface SectionHeadProps {
 }
 
 export function SectionHead({
-  eyebrow,
+  eyebrow = "", // ← Valor por defecto opcional
+  eyebrowExtra,
+  beforeTitle,
   title,
   description,
+  children,
   className,
   style,
   titleColor,
   descriptionColor,
 }: SectionHeadProps) {
-  // Cuando no hay "title", el eyebrow es el único texto que funciona como
-  // encabezado de la sección (ej. Equipo, Instalaciones) — debe ser un <h2>
-  // real para que aparezca en la navegación por encabezados de un lector de
-  // pantalla, no sólo un <p> con estilo grande. Con "title" presente, el
-  // eyebrow es sólo un kicker decorativo y el <h2> real es el título de abajo.
   const EyebrowTag = title ? "p" : "h2";
 
   return (
     <>
-      <EyebrowTag className="eyebrow" data-reveal-name>
-        {eyebrow}
-      </EyebrowTag>
-      {(title || description) && (
+      {eyebrow && (
+        eyebrowExtra ? (
+          <div className="section-head-eyebrow-row">
+            <EyebrowTag className="eyebrow" data-reveal-name style={{ margin: 0 }}>
+              {eyebrow}
+            </EyebrowTag>
+            {eyebrowExtra}
+          </div>
+        ) : (
+          <EyebrowTag className="eyebrow" data-reveal-name>
+            {eyebrow}
+          </EyebrowTag>
+        )
+      )}
+      {beforeTitle}
+      {(title || description || children) && (
         <Reveal className={cn("section-head", className)} style={style}>
           {title && (
-            <h2 aria-label={title} style={titleColor ? { color: titleColor } : undefined}>
-              <SplitChars text={title} />
-            </h2>
+            <div className="section-head-title-row">
+              <h2 aria-label={title} style={titleColor ? { color: titleColor } : undefined}>
+                <SplitChars text={title} />
+              </h2>
+              <EcgDivider inline />
+            </div>
           )}
           {description && <p style={descriptionColor ? { color: descriptionColor } : undefined}>{description}</p>}
+          {children}
         </Reveal>
       )}
     </>

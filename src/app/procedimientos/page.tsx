@@ -6,6 +6,7 @@ import { Search, MessageCircle, Home, ScanLine, FlaskConical, Stethoscope, Syrin
 import { Navbar } from "@/presentation/organisms/Navbar";
 import { Footer } from "@/presentation/organisms/Footer";
 import { ScrollEffects } from "@/presentation/organisms/ScrollEffects";
+import { LandingOverlays } from "@/presentation/pages/LandingOverlays";
 import { Chip } from "@/presentation/atoms/Chip";
 import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
@@ -18,8 +19,7 @@ export default function ProcedimientosPage() {
   const [activeEspecialidad, setActiveEspecialidad] = useState<string | null>(null);
   const chipRowRef = useRef<HTMLDivElement>(null);
   const [draggingChips, setDraggingChips] = useState(false);
-  // No es reactivo a propósito: sólo lo lee handlePointerMove/handleChipsClickCapture
-  // durante el propio gesto, no hace falta re-render por cada píxel arrastrado.
+
   const dragState = useRef({ pointerId: 0, isDown: false, startX: 0, startScrollLeft: 0, moved: false });
 
   function scrollChips(direction: 1 | -1) {
@@ -217,9 +217,6 @@ export default function ProcedimientosPage() {
               </div>
             )}
 
-            {/* Aún "muy pronto" (falta definir costos y guardias) — el CTA no
-                agenda nada todavía, sólo abre WhatsApp para capturar el
-                interés mientras se resuelve la logística. */}
             <div className="domicilio-banner">
               <span className="domicilio-badge">{t("procedimientos.domicilio_badge")}</span>
               <div className="domicilio-head">
@@ -254,6 +251,7 @@ export default function ProcedimientosPage() {
         </section>
 
         <Footer />
+        <LandingOverlays />
       </div>
     </>
   );

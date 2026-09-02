@@ -13,13 +13,10 @@ import { cn } from "@/shared/lib/utils";
 // Formulario de "Agenda tu cita" reutilizable: lo usa tanto la card grande del
 // Hero (siempre visible, ver Hero.tsx) como CitaModal.tsx (abierto desde el
 // teaser del hero y desde el dock flotante). Cada instancia llama a
-// useCitaBooking() por su cuenta, con su propio estado — no hace falta
-// compartirlo entre ambas porque el usuario solo interactúa con una a la vez.
+// useCitaBooking() por su cuenta, con su propio estado.
 //
-// Flujo en 5 pasos (modelo index.html): 1) ¿Qué necesitas? con rutas especiales
-// para urgencia (no se agendan) y hospitalario (cotización) — 2) Área filtrada
-// por el tipo — 3) Motivo o procedimiento con su preparación previa — 4) Fecha
-// — 5) Horario. El envío exige el consentimiento de privacidad.
+// Flujo en 5 pasos: 1) ¿Qué necesitas? (consulta, estudio, etc.) — 2) Área —
+// 3) Motivo/procedimiento — 4) Fecha — 5) Horario. Con confirmación por WhatsApp.
 export function CitaBookingForm() {
   const { t, lang } = useLanguage();
   const {
@@ -39,6 +36,7 @@ export function CitaBookingForm() {
     confirmar,
     areasDisponibles,
     areaActual,
+    motivoActual,
     preparacion,
     esUrgencia,
     esHospitalario,
@@ -54,14 +52,18 @@ export function CitaBookingForm() {
         <span className="cita-card-icon">
           <Icon name="calendar-hours" strokeWidth={1.8} />
         </span>
-        <h4>{t("modal.title")}</h4>
+        <div className="cita-card-head-titles">
+          <h4>{t("modal.title")}</h4>
+          <span className="cita-card-head-sub">
+            {lang === "es" ? "Atención médica y diagnóstica en Tuxtla Gutiérrez" : "Medical & diagnostic care in Tuxtla Gutiérrez"}
+          </span>
+        </div>
       </div>
 
       {esUrgencia ? (
         <div className="cita-route-card cita-route-urgencia">
           {/* Sin esto no había forma de volver al formulario normal si se
-              tocaba "Es una urgencia" por error — quedaba atrapado en esta
-              vista (ver el mismo botón en la rama "hospitalario" de abajo). */}
+              tocaba "Es una urgencia" por error */}
           <button type="button" className="cita-route-back" onClick={() => setTipo("consulta")}>
             <Icon name="chevron-left" strokeWidth={2.2} />
             {t("modal.volver_formulario")}
@@ -97,9 +99,9 @@ export function CitaBookingForm() {
         </div>
       ) : esNormal ? (
         <div className="cita-card-body">
-          {/* Columna izquierda: los 5 pasos (Tipo, Área, Motivo, Fecha, Horario) */}
+          {/* Columna izquierda: 5 pasos organizados en grid para máximo aprovechamiento del ancho */}
           <div className="cita-col-left">
-            <div className="cita-step">
+            <div className="cita-step cita-step-full">
               <p className="cita-step-label">
                 <span className="cita-step-num">1</span>
                 {t("modal.step0_label")}
@@ -113,97 +115,164 @@ export function CitaBookingForm() {
               </div>
             </div>
 
-            <div className="cita-step">
-              <p className="cita-step-label">
-                <span className="cita-step-num">2</span>
-                {t("modal.step_area")}
-              </p>
-              <select
-                className="cita-select-field"
-                value={areaId}
-                onChange={(event) => setAreaId(event.target.value)}
-                aria-label={t("modal.step_area")}
-              >
-                <option value="">{t("modal.area_placeholder")}</option>
-                {areasDisponibles.map((area) => (
-                  <option key={area.id} value={area.id}>
-                    {area.nombre[lang]}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <div className="cita-steps-grid">
+              <div className="cita-step">
+                <p className="cita-step-label">
+                  <span className="cita-step-num">2</span>
+                  {t("modal.step_area")}
+                </p>
+                <div className="cita-select-wrapper">
+                  <select
+                    className="cita-select-field"
+                    value={areaId}
+                    onChange={(event) => setAreaId(event.target.value)}
+                    aria-label={t("modal.step_area")}
+                  >
+                    <option value="">{t("modal.area_placeholder")}</option>
+                    {areasDisponibles.map((area) => (
+                      <option key={area.id} value={area.id}>
+                        {area.nombre[lang]}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="cita-select-arrow" aria-hidden="true">
+                    <Icon name="chevron-right" strokeWidth={2} />
+                  </span>
+                </div>
+              </div>
 
-            <div className="cita-step">
-              <p className="cita-step-label">
-                <span className="cita-step-num">3</span>
-                {t("modal.step_motivo")}
-              </p>
-              <select
-                className="cita-select-field"
-                value={motivo}
-                disabled={!areaActual}
-                onChange={(event) => setMotivo(event.target.value)}
-                aria-label={t("modal.step_motivo")}
-              >
-                <option value="">
-                  {areaActual ? t("modal.motivo_placeholder") : t("modal.motivo_placeholder_area")}
-                </option>
-                {areaActual?.procs.map((procedimiento, index) => (
-                  <option key={index} value={String(index)}>
-                    {procedimiento.nombre[lang]}
-                    {procedimiento.tag ? ` — ${procedimiento.tag[lang]}` : ""}
-                  </option>
-                ))}
-              </select>
+              <div className="cita-step">
+                <p className="cita-step-label">
+                  <span className="cita-step-num">3</span>
+                  {t("modal.step_motivo")}
+                </p>
+                <div className="cita-select-wrapper">
+                  <select
+                    className="cita-select-field"
+                    value={motivo}
+                    disabled={!areaActual}
+                    onChange={(event) => setMotivo(event.target.value)}
+                    aria-label={t("modal.step_motivo")}
+                  >
+                    <option value="">
+                      {areaActual ? t("modal.motivo_placeholder") : t("modal.motivo_placeholder_area")}
+                    </option>
+                    {areaActual?.procs.map((procedimiento, index) => (
+                      <option key={index} value={String(index)}>
+                        {procedimiento.nombre[lang]}
+                        {procedimiento.tag ? ` — ${procedimiento.tag[lang]}` : ""}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="cita-select-arrow" aria-hidden="true">
+                    <Icon name="chevron-right" strokeWidth={2} />
+                  </span>
+                </div>
+              </div>
             </div>
 
             {preparacion && (
               <div className="cita-prep-note">
-                <strong>{t("modal.prep_label")}</strong>
-                <span>{preparacion}</span>
+                <span className="cita-prep-note-icon">
+                  <Icon name="shield-check" strokeWidth={2} />
+                </span>
+                <div className="cita-prep-note-text">
+                  <strong>{t("modal.prep_label")}</strong>
+                  <span>{preparacion}</span>
+                </div>
               </div>
             )}
 
-            <div className="cita-step">
-              <p className="cita-step-label">
-                <span className="cita-step-num">4</span>
-                {t("modal.step_fecha")}
-              </p>
-              <DatePickerField value={fecha} onChange={setFecha} />
-            </div>
+            <div className="cita-steps-grid">
+              <div className="cita-step">
+                <p className="cita-step-label">
+                  <span className="cita-step-num">4</span>
+                  {t("modal.step_fecha")}
+                </p>
+                <DatePickerField value={fecha} onChange={setFecha} />
+              </div>
 
-            <div className="cita-step">
-              <p className="cita-step-label">
-                <span className="cita-step-num">5</span>
-                {t("modal.step_horario")}
-              </p>
-              <TimePickerField value={horario} onChange={setHorario} slots={citaTimeSlots} />
+              <div className="cita-step">
+                <p className="cita-step-label">
+                  <span className="cita-step-num">5</span>
+                  {t("modal.step_horario")}
+                </p>
+                <TimePickerField value={horario} onChange={setHorario} slots={citaTimeSlots} />
+              </div>
             </div>
           </div>
 
-          {/* Columna derecha: Resumen + Confirmar */}
+          {/* Columna derecha: Resumen Panel de Cita + Confirmar */}
           <div className="cita-col-right">
             <div className="cita-summary">
-              <span className="cita-summary-tag">{t("modal.tagline")}</span>
-              <strong className="cita-summary-value">{summary}</strong>
+              <div className="cita-summary-card">
+                <div className="cita-summary-header">
+                  <span className="cita-summary-icon">
+                    <Icon name="check-circle" strokeWidth={2} />
+                  </span>
+                  <span className="cita-summary-tag">{t("modal.tagline")}</span>
+                </div>
 
-              <label className="cita-consent">
-                <input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} />
-                <span>
-                  {t("modal.consent")} <a href="#aviso-privacidad">{t("modal.aviso_link")}</a>
-                </span>
-              </label>
+                <div className="cita-summary-content">
+                  {areaActual && motivoActual ? (
+                    <div className="cita-summary-details">
+                      <div className="cita-summary-item">
+                        <span className="cita-summary-item-label">{lang === "es" ? "Especialidad / Área" : "Specialty / Area"}</span>
+                        <strong className="cita-summary-val-highlight">{areaActual.nombre[lang]}</strong>
+                      </div>
+                      <div className="cita-summary-item">
+                        <span className="cita-summary-item-label">{lang === "es" ? "Motivo / Procedimiento" : "Procedure / Reason"}</span>
+                        <span className="cita-summary-val">{motivoActual.nombre[lang]}</span>
+                      </div>
+                      <div className="cita-summary-badge-row">
+                        <span className="cita-summary-badge">
+                          <Icon name="calendar" strokeWidth={1.8} />
+                          <span>{summary.split(" · ")[2] || ""}</span>
+                        </span>
+                        <span className="cita-summary-badge">
+                          <Icon name="clock" strokeWidth={1.8} />
+                          <span>{horario} hrs</span>
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="cita-summary-empty">
+                      <strong className="cita-summary-placeholder-title">{summary}</strong>
+                      <p className="cita-summary-placeholder-hint">
+                        {lang === "es" ? "Selecciona el área y motivo para generar tu resumen." : "Select area and reason to build your appointment summary."}
+                      </p>
+                    </div>
+                  )}
+                </div>
 
-              <button
-                className="cita-confirm-btn"
-                onClick={confirmar}
-                disabled={status === "loading" || !completo}
-              >
-                {status === "loading" ? t("modal.confirm_btn_loading") : t("modal.send_btn")}
-                <Icon name="arrow-right" strokeWidth={2.2} />
-              </button>
+                <label className="cita-consent">
+                  <input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} />
+                  <span>
+                    {t("modal.consent")} <a href="#aviso-privacidad">{t("modal.aviso_link")}</a>
+                  </span>
+                </label>
 
-              <p className="cita-whatsapp-hint">{t("modal.whatsapp_hint")}</p>
+                <button
+                  className="cita-confirm-btn"
+                  onClick={confirmar}
+                  disabled={status === "loading" || !completo}
+                >
+                  {status === "loading" ? (
+                    t("modal.confirm_btn_loading")
+                  ) : (
+                    <>
+                      <span>{t("modal.send_btn")}</span>
+                      <Icon name="arrow-right" strokeWidth={2.2} />
+                    </>
+                  )}
+                </button>
+
+                <div className="cita-whatsapp-hint-wrap">
+                  <span className="cita-whatsapp-dot" aria-hidden="true" />
+                  <p className="cita-whatsapp-hint">{t("modal.whatsapp_hint")}</p>
+                </div>
+              </div>
+
               <p className="cita-nota-mini">{t("modal.nota_mini")}</p>
             </div>
           </div>
@@ -214,3 +283,4 @@ export function CitaBookingForm() {
     </div>
   );
 }
+

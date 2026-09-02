@@ -1,7 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent, MouseEvent as ReactMouseEvent } from "react";
+import Image from "next/image";
+import { Search } from "lucide-react";
 import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { EspecialidadTab } from "@/presentation/molecules/EspecialidadTab";
 import { ProcedimientoItem } from "@/presentation/molecules/ProcedimientoItem";
@@ -24,6 +26,30 @@ interface EspecialidadesProps {
 export function Especialidades({ selectedKey, onSelectKey }: EspecialidadesProps) {
   const especialidad = ESPECIALIDADES[selectedKey];
   const { open: openCita } = useCitaModal();
+
+  // Buscador: filtra las pestañas por nombre de especialidad o por cualquiera
+  // de sus procedimientos (así "endoscopía" encuentra "Gastroenterología" sin
+  // que el usuario tenga que saber el nombre exacto de la especialidad).
+  const [query, setQuery] = useState("");
+  const filteredKeys = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return ESPECIALIDADES_KEYS;
+    return ESPECIALIDADES_KEYS.filter((key) => {
+      const esp = ESPECIALIDADES[key];
+      return (
+        esp.n.toLowerCase().includes(q) ||
+        esp.procs.some((proc) => proc.n.toLowerCase().includes(q))
+      );
+    });
+  }, [query]);
+
+  // Si el filtro deja afuera a la especialidad seleccionada, se salta al
+  // primer resultado — evita mostrar un panel que ya no tiene pestaña activa.
+  useEffect(() => {
+    if (filteredKeys.length > 0 && !filteredKeys.includes(selectedKey)) {
+      onSelectKey(filteredKeys[0]);
+    }
+  }, [filteredKeys, selectedKey, onSelectKey]);
 
   // Tira de especialidades: se desplaza con flechas y también se puede
   // arrastrar con el mouse (mismo patrón que ".procedimientos-filter-row"
@@ -97,54 +123,87 @@ export function Especialidades({ selectedKey, onSelectKey }: EspecialidadesProps
     <section id="especialidades">
       <div className="wrap">
         <SectionHead
-          eyebrow="Especialidades y especialistas"
-          title="Qué hacemos y quién lo hace."
-          description="Cada área con sus procedimientos y los médicos que la atienden, con cédula profesional y de especialidad a la vista. Elige una para ver el detalle."
+        
         />
 
         <Reveal>
+          <div className="especialidades-search-row">
+            <label className="procedimientos-search">
+              <Search size={18} strokeWidth={1.8} />
+              <input
+                type="text"
+                placeholder="Buscar especialidad o procedimiento..."
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+              />
+            </label>
+          </div>
+
           <div className="especialidades-tabs-row">
-            <button
-              type="button"
-              className="carousel-btn"
-              aria-label="Especialidad anterior"
-              onClick={() => scrollTabs(-1)}
-            >
-              ‹
-            </button>
-            <div
-              className={"tabs" + (draggingTabs ? " dragging" : "")}
-              role="tablist"
-              ref={tabsRef}
-              onPointerDown={handleTabsPointerDown}
-              onPointerMove={handleTabsPointerMove}
-              onPointerUp={endTabsDrag}
-              onPointerCancel={endTabsDrag}
-              onClickCapture={handleTabsClickCapture}
-            >
-              {ESPECIALIDADES_KEYS.map((key) => (
-                <EspecialidadTab
-                  key={key}  // ← Solo la key de React
-                  especialidadKey={key}  // ← Prop personalizada con otro nombre
-                  label={ESPECIALIDADES[key].n}
-                  isSelected={selectedKey === key}
-                  onSelect={handleTabSelect}
-                />
-              ))}
-            </div>
-            <button
-              type="button"
-              className="carousel-btn"
-              aria-label="Especialidad siguiente"
-              onClick={() => scrollTabs(1)}
-            >
-              ›
-            </button>
+              <button
+                type="button"
+                className="carousel-btn"
+                aria-label="Especialidad anterior"
+                onClick={() => scrollTabs(-1)}
+              >
+                ‹
+              </button>
+              <div
+                className={"tabs" + (draggingTabs ? " dragging" : "")}
+                role="tablist"
+                ref={tabsRef}
+                onPointerDown={handleTabsPointerDown}
+                onPointerMove={handleTabsPointerMove}
+                onPointerUp={endTabsDrag}
+                onPointerCancel={endTabsDrag}
+                onClickCapture={handleTabsClickCapture}
+              >
+                {filteredKeys.map((key) => (
+                  <EspecialidadTab
+                    key={key}  // ← Solo la key de React
+                    especialidadKey={key}  // ← Prop personalizada con otro nombre
+                    label={ESPECIALIDADES[key].n}
+                    isSelected={selectedKey === key}
+                    onSelect={handleTabSelect}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                className="carousel-btn"
+                aria-label="Especialidad siguiente"
+                onClick={() => scrollTabs(1)}
+              >
+                ›
+              </button>
           </div>
         </Reveal>
 
+        {filteredKeys.length === 0 ? (
+          <p className="procedimientos-empty">
+            No encontramos esa especialidad o procedimiento. Prueba con otro término o{" "}
+            <a href={contactoInfo.whatsappHref} target="_blank" rel="noopener noreferrer">
+              pregúntanos por WhatsApp
+            </a>
+            .
+          </p>
+        ) : (
         <Reveal>
           <div className="panel">
+            <div className="panel-visual">
+              <Image
+                key={selectedKey}
+                src={especialidad.img}
+                alt={especialidad.n}
+                fill
+                sizes="(max-width: 900px) 100vw, 900px"
+                className="panel-visual-img"
+                unoptimized
+              />
+              <div className="panel-visual-scrim" />
+              <span className="panel-visual-tag">{especialidad.n}</span>
+            </div>
+
             <div className="panel-info">
               <h3>{especialidad.n}</h3>
               <p>{especialidad.d}</p>
@@ -193,6 +252,7 @@ export function Especialidades({ selectedKey, onSelectKey }: EspecialidadesProps
             </div>
           </div>
         </Reveal>
+        )}
       </div>
     </section>
   );

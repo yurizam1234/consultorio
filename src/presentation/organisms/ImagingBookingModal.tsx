@@ -57,7 +57,7 @@ export function ImagingBookingModal() {
     >
       <div className="cita-modal imaging-modal" role="dialog" aria-modal="true" aria-label={t("panel.agendar.modal_title")}>
         <button className="cita-modal-close" aria-label={t("modal.close")} onClick={handleClose}>
-          ×
+          <Icon name="x" strokeWidth={2.2} />
         </button>
 
         <div className="imaging-modal-inner cita-card">

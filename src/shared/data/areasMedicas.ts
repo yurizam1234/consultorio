@@ -5,8 +5,6 @@ export interface AreaMedica {
   title: Record<Lang, string>;
   desc: Record<Lang, string>;
   img: string;
-  // Tarjeta informativa sin CTA "Ver especialistas" (aún no hay equipo/costos
-  // asignados) — ver AreaMedicaCard.tsx.
   comingSoon?: boolean;
 }
 
@@ -18,7 +16,7 @@ export const areasMedicas: AreaMedica[] = [
       es: "Equipos de última generación para estudios de rayos X, tomografía, resonancia y ultrasonido con resultados precisos.",
       en: "Latest-generation equipment for X-ray, CT, MRI, and ultrasound studies with precise results.",
     },
-    img: "/servicios/imagenologia.jpg",
+    img: "/instalaciones/areas-diagnosticas/reso3.jpg",
   },
   {
     tagline: { es: "Salud visual", en: "Visual health" },
@@ -33,8 +31,8 @@ export const areasMedicas: AreaMedica[] = [
     tagline: { es: "Resultados confiables", en: "Reliable results" },
     title: { es: "Laboratorio clínico", en: "Clinical Lab" },
     desc: {
-      es: "La mayoría de los estudios de rutina, listos en 24 horas.",
-      en: "Most routine studies, ready within 24 hours.",
+      es: "La mayoría de los estudios de rutina listos en 24 horas con toma de muestras y procesamiento de alta precisión.",
+      en: "Most routine studies ready within 24 hours with high-precision sample collection and processing.",
     },
     img: "/servicios/laboratorio-clinico.png",
   },
@@ -42,89 +40,73 @@ export const areasMedicas: AreaMedica[] = [
     tagline: { es: "Atención inmediata", en: "Immediate care" },
     title: { es: "Urgencias 24/7", en: "24/7 Emergency" },
     desc: {
-      es: "Personal capacitado y área equipada disponible los 365 días del año, a cualquier hora.",
-      en: "Trained staff and an equipped area available 365 days a year, any time.",
+      es: "Médicos urgenciólogos y área equipada disponible los 365 días del año para cualquier eventualidad médica.",
+      en: "Emergency physicians and equipped area available 365 days a year for any medical eventuality.",
     },
-    img: "/servicios/urgencias-24hr.jpg",
+    img: "/instalaciones/areas-diagnosticas/urgencia.jpeg",
   },
   {
     tagline: { es: "Cirugía segura", en: "Safe surgery" },
     title: { es: "Quirófanos", en: "Operating Rooms" },
     desc: {
-      es: "Cinco quirófanos propios, totalmente equipados, con renta de sala y servicio de esterilización.",
-      en: "Five fully equipped operating rooms of our own, with room rental and sterilization service available.",
+      es: "Cinco quirófanos propios totalmente equipados con tecnología de mínima invasión y servicio de esterilización.",
+      en: "Five fully equipped operating rooms of our own, with minimally invasive technology and sterilization service.",
     },
-    img: "/servicios/quirofanos.png",
+    img: "/instalaciones/quirofanos/qx2.jpg",
   },
   {
     tagline: { es: "Salud del corazón", en: "Heart health" },
     title: { es: "Cardiología", en: "Cardiology" },
     desc: {
-      es: "Prevención, diagnóstico y tratamiento de enfermedades cardiovasculares.",
-      en: "Prevention, diagnosis, and treatment of cardiovascular disease.",
+      es: "Prevención, diagnóstico y tratamiento de enfermedades cardiovasculares con ECG, Holter, MAPA y AngioTAC.",
+      en: "Prevention, diagnosis, and treatment of cardiovascular disease with ECG, Holter, MAPA, and AngioCT.",
     },
-    // Foto temporal (reutilizada de consultorios) — reemplazar cuando haya una
-    // foto real de esta especialidad en public/servicios/.
-    img: "/instalaciones/consultorios/con1.jpg",
+    img: "/instalaciones/areas-diagnosticas/tac2.jpeg",
   },
   {
     tagline: { es: "Manejo integral del dolor", en: "Comprehensive pain care" },
     title: { es: "Medicina del dolor", en: "Pain Medicine" },
     desc: {
-      es: "Tratamiento del dolor crónico y agudo con un enfoque multidisciplinario.",
-      en: "Chronic and acute pain treatment with a multidisciplinary approach.",
+      es: "Tratamiento de dolor crónico y agudo de columna y articulaciones con bloqueos ecoguiados y rehabilitación.",
+      en: "Treatment of chronic and acute spine and joint pain with ultrasound-guided blocks and rehabilitation.",
     },
-    // Foto temporal (reutilizada de consultorios) — reemplazar cuando haya una
-    // foto real de esta especialidad en public/servicios/.
-    img: "/instalaciones/consultorios/con1.jpg",
+    img: "/instalaciones/areas-diagnosticas/usg2.jpg",
   },
   {
     tagline: { es: "Atención primaria", en: "Primary care" },
     title: { es: "Medicina General", en: "General Medicine" },
     desc: {
-      es: "Consulta general para el cuidado de tu salud y la de tu familia.",
-      en: "General consultation for your health and your family's health.",
+      es: "Consulta general y preventiva para el cuidado integral de tu salud y la de toda tu familia.",
+      en: "General and preventive consultation for the comprehensive care of your health and that of your family.",
     },
-    // Foto temporal (reutilizada de consultorios) — reemplazar cuando haya una
-    // foto real de esta especialidad en public/servicios/.
     img: "/instalaciones/consultorios/con1.jpg",
   },
   {
     tagline: { es: "Salud digestiva", en: "Digestive health" },
     title: { es: "Gastroenterología", en: "Gastroenterology" },
     desc: {
-      es: "Endoscopía, colonoscopía, enteroscopía, CPRE y elastografía hepática para el diagnóstico y tratamiento digestivo.",
-      en: "Endoscopy, colonoscopy, enteroscopy, ERCP, and liver elastography for digestive diagnosis and treatment.",
+      es: "Endoscopía, colonoscopía, enteroscopía, CPRE y elastografía hepática para diagnóstico digestivo avanzado.",
+      en: "Endoscopy, colonoscopy, enteroscopy, ERCP, and liver elastography for advanced digestive diagnosis.",
     },
-    // Foto temporal (reutilizada de consultorios) — reemplazar cuando haya una
-    // foto real de esta especialidad en public/servicios/.
-    img: "/instalaciones/consultorios/con1.jpg",
+    img: "/instalaciones/areas-diagnosticas/usg.jpg",
   },
   {
     tagline: { es: "Salud respiratoria", en: "Respiratory health" },
     title: { es: "Neumología", en: "Pulmonology" },
     desc: {
-      es: "Estudios de función pulmonar para adultos y niños: espirometría, poligrafía de sueño y más.",
-      en: "Pulmonary function studies for adults and children: spirometry, sleep polygraphy, and more.",
+      es: "Estudios de función pulmonar para adultos y niños: espirometría, poligrafía de sueño y rehabilitación respiratoria.",
+      en: "Pulmonary function studies for adults and children: spirometry, sleep polygraphy, and respiratory rehab.",
     },
-    // Foto temporal (reutilizada de consultorios) — reemplazar cuando haya una
-    // foto real de esta especialidad en public/servicios/. La Dra. Laura Zepeda
-    // (neumopediatra) todavía no tiene foto ni cédulas confirmadas para
-    // aparecer en "Nuestro equipo" — agregarla ahí cuando se confirmen (ver
-    // el mismo criterio ya usado en doctores.ts).
-    img: "/instalaciones/consultorios/con1.jpg",
+    img: "/instalaciones/areas-diagnosticas/reso4.jpeg",
   },
   {
     tagline: { es: "Muy pronto", en: "Coming soon" },
     title: { es: "Atención a domicilio", en: "At-home care" },
     desc: {
-      es: "Rayos X, laboratorio, enfermería y medicina general en la comodidad de tu casa o consultorio.",
+      es: "Rayos X, laboratorio, enfermería y medicina general en la comodidad de tu casa u oficina.",
       en: "X-ray, lab work, nursing, and general medicine in the comfort of your home or office.",
     },
-    // Sin foto propia todavía (servicio aún no operativo: faltan costos y
-    // guardias por definir) — se reutiliza la de Medicina General mientras
-    // tanto. "comingSoon" desactiva el CTA "Ver especialistas" en la card.
-    img: "/instalaciones/consultorios/con1.jpg",
+    img: "/img/equipo.jpg",
     comingSoon: true,
   },
 ];

@@ -24,6 +24,22 @@ function clampToBuffered(video: HTMLVideoElement, target: number) {
   return reachable;
 }
 
+// iOS/Safari (WebKit) nunca decodifica ni pinta un frame de un <video> que
+// jamás empezó a reproducirse: fijar "currentTime" a mano (como hace el
+// scroll-scrub de abajo) sobre un video que sólo estuvo en pause() se queda
+// en negro/transparente en iPhone, aunque en Chrome/Android funcione perfecto.
+// "Cebamos" el decodificador reproduciendo un instante y pausando enseguida
+// (muted + playsInline ya habilitan este autoplay silencioso en iOS) para que,
+// de ahí en más, currentTime sí pinte el frame correcto.
+function primeVideoForScrub(video: HTMLVideoElement) {
+  const playPromise = video.play();
+  if (playPromise && typeof playPromise.then === "function") {
+    playPromise.then(() => video.pause()).catch(() => video.pause());
+  } else {
+    video.pause();
+  }
+}
+
 // Sin salida visual: monta una sola vez el parallax del hero, el ensamblado
 // horizontal ligado al scroll y el dibujo de los divisores ECG (GSAP + ScrollTrigger).
 export function ScrollEffects() {
@@ -112,12 +128,9 @@ export function ScrollEffects() {
         const heroActionCards = document.querySelector<HTMLElement>(".hero-action-cards");
         const citaCardWrap = document.querySelector<HTMLElement>(".cita-card-wrap");
         const heroSubtitle = document.querySelector<HTMLElement>(".hero-video-subtitle");
-        const floatBadge = document.querySelector<HTMLElement>(".compliance-float-badge");
 
         if (heroVideo && heroVideoWrap) {
-          heroVideo.pause();
-
-          const cardEls = heroActionCards ? Array.from(heroActionCards.children) as HTMLElement[] : [];
+          primeVideoForScrub(heroVideo);
 
           // Título, card(s) y la pestaña de "Agendar cita" se manejan a mano dentro del
           // MISMO onUpdate del pin (en vez de scrollTriggers propios con su propio scrub)
@@ -138,8 +151,8 @@ export function ScrollEffects() {
               gsap.set(heroTitle, { opacity: 1 - p, y: -30 * p });
             }
 
-            // El teaser de "Agenda tu cita" y el subtítulo aparecen y desaparecen
-            // junto con el título (misma curva) — la card grande de abajo no se toca.
+            // El teaser de "Agenda tu cita", el subtítulo y el botón de Urgencias
+            // aparecen y desaparecen junto con el título (misma curva).
             if (heroCitaTeaser) {
               const p = gsap.utils.clamp(0, 1, progress / 0.35);
               gsap.set(heroCitaTeaser, { opacity: 1 - p, y: -30 * p });
@@ -148,30 +161,14 @@ export function ScrollEffects() {
               const p = gsap.utils.clamp(0, 1, progress / 0.35);
               gsap.set(heroSubtitle, { opacity: 1 - p, y: -20 * p });
             }
-
-            // Badge COFEPRIS flotante: aparece en cuanto el título/subtítulo del
-            // hero terminan de desvanecerse (p >= 1, progress > 35%); si el
-            // usuario regresa (p < 1) se oculta de nuevo. Antes esto vivía
-            // adentro del "if (heroBadge)" de arriba (dependía de que existiera
-            // el badge DENTRO del hero) — ese badge ya no vive ahí (ver
-            // Hero.tsx), pero el flotante sigue necesitando este mismo timing,
-            // así que queda como su propio bloque, sin esa dependencia.
-            {
+            if (heroActionCards) {
               const p = gsap.utils.clamp(0, 1, progress / 0.35);
-              if (p >= 1) {
-                floatBadge?.classList.add("compliance-float-visible");
-              } else {
-                floatBadge?.classList.remove("compliance-float-visible");
-              }
+              gsap.set(heroActionCards, {
+                opacity: 1 - p,
+                y: -20 * p,
+                pointerEvents: p > 0.8 ? "none" : "auto",
+              });
             }
-
-            // Las cards "Contáctanos" y "Agendar cita" entran hacia el final del tramo
-            // fijado (55%→90%) — siempre terminan de aparecer ANTES de que el pin se
-            // libere (100%) y entre la siguiente sección.
-            cardEls.forEach((card) => {
-              const p = gsap.utils.clamp(0, 1, (progress - 0.55) / 0.35);
-              gsap.set(card, { opacity: p, x: 60 * (1 - p), y: 20 * (1 - p), pointerEvents: p > 0.05 ? "auto" : "none" });
-            });
 
             if (citaCardWrap) {
               const p = gsap.utils.clamp(0, 1, (progress - 0.55) / 0.35);
@@ -179,10 +176,9 @@ export function ScrollEffects() {
             }
           };
 
-          // El dock flotante y el badge COFEPRIS flotante usan onLeave/onEnterBack
-          // de este MISMO trigger en vez de uno nuevo con start:"bottom top": sobre
-          // un elemento ya pineado, un segundo trigger posicional propio no calculaba
-          // bien el final del pin-spacer. (El navbar usa su propio trigger sobre #nosotros.)
+          // El dock flotante usa onLeave/onEnterBack de este MISMO trigger en vez
+          // de uno nuevo con start:"bottom top": sobre un elemento ya pineado, un
+          // segundo trigger posicional propio no calculaba bien el final del pin-spacer.
           const floatingDock = document.querySelector<HTMLElement>(".floating-dock");
           const heroTrigger = ScrollTrigger.create({
             trigger: heroVideoWrap,
@@ -193,21 +189,17 @@ export function ScrollEffects() {
             onUpdate: (self) => syncHero(self.progress),
             onLeave: () => {
               floatingDock?.classList.add("visible");
-              floatBadge?.classList.add("compliance-float-visible");
             },
             onEnterBack: () => {
               floatingDock?.classList.remove("visible");
-              floatBadge?.classList.remove("compliance-float-visible");
             },
           });
 
           // Estado inicial explícito: si la página carga con el scroll ya pasado
           // el hero (ej. recarga con la posición guardada), onLeave nunca se
-          // dispara porque no hubo cruce — sin esto, el dock y el badge quedarían
-          // ocultos aunque ya estemos después del hero.
+          // dispara porque no hubo cruce.
           if (heroTrigger.progress >= 1) {
             floatingDock?.classList.add("visible");
-            floatBadge?.classList.add("compliance-float-visible");
           }
 
           // Ver el comentario junto a "resyncHero" más arriba: sin esto, si el video
@@ -216,6 +208,15 @@ export function ScrollEffects() {
           resyncHero = () => syncHero(heroTrigger.progress);
           heroVideo.addEventListener("loadedmetadata", resyncHero);
           heroVideo.addEventListener("progress", resyncHero);
+        } else {
+          // Páginas sin hero de video (/historia, /procedimientos,
+          // /especialidades, /agendar): el dock flotante sólo se revela vía
+          // onLeave/onEnterBack del ScrollTrigger del hero de arriba — sin
+          // ese hero no hay nada que dispare esos eventos, así que se
+          // quedaba con "opacity: 0" (ver ".floating-dock .floating-btn" en
+          // globals.css) para siempre. En estas páginas no hay nada que
+          // "pasar" primero, así que se muestra directo.
+          document.querySelector(".floating-dock")?.classList.add("visible");
         }
 
         // El navbar se expande justo al llegar a "Nuestra Historia" en la landing
@@ -246,7 +247,7 @@ export function ScrollEffects() {
         const contactoCard = document.querySelector<HTMLElement>(".contacto-rise-card");
 
         if (contactoVideo && contactoVideoWrap) {
-          contactoVideo.pause();
+          primeVideoForScrub(contactoVideo);
 
           const updateContacto = (progress: number) => {
             if (contactoVideo.duration) {
@@ -420,8 +421,24 @@ export function ScrollEffects() {
     const handleLoad = () => ScrollTrigger.refresh();
     window.addEventListener("load", handleLoad);
 
+    // Cambiar de tamaño de viewport SIN recargar (ej. alternar el device
+    // toolbar de DevTools con la página ya cargada en escritorio, o rotar el
+    // teléfono) deja triggers posicionales como "navbarExpandSection" con las
+    // coordenadas calculadas para el viewport viejo — nada los recalculaba.
+    // Debounced: "resize" dispara muchas veces seguidas mientras se arrastra/
+    // anima el cambio de tamaño (el panel de DevTools se desliza), no hace
+    // falta un refresh por cada evento intermedio.
+    let resizeTimer: number | undefined;
+    const handleResize = () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => ScrollTrigger.refresh(), 200);
+    };
+    window.addEventListener("resize", handleResize);
+
     return () => {
       cancelled = true;
+      window.clearTimeout(resizeTimer);
+      window.removeEventListener("resize", handleResize);
       timeouts.forEach((id) => window.clearTimeout(id));
       window.removeEventListener("load", handleLoad);
       if (resyncHero) {

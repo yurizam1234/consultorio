@@ -4,11 +4,13 @@ import { Icon } from "@/presentation/atoms/Icon";
 import { useEmergencyModal } from "@/presentation/hooks/useEmergencyModal";
 import { useCitaModal } from "@/presentation/hooks/useCitaModal";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
-import { CitaBookingForm } from "@/presentation/molecules/CitaBookingForm";
 
 export function Hero() {
   const { t } = useLanguage();
   const { open: openEmergency } = useEmergencyModal();
+  // Ya redirige al Portal del Paciente (ver useCitaModal.tsx) — un solo
+  // lugar para la URL del portal en vez de repetirla en cada componente que
+  // agenda cita.
   const { open: openCita } = useCitaModal();
 
   return (
@@ -43,16 +45,30 @@ export function Hero() {
             aquí, en el espacio más valioso de la página, va algo que un
             visitante nuevo necesita antes que un número regulatorio: qué es
             el hospital y en qué ciudad está. */}
-        <p className="hero-video-subtitle">{t("hero.subtitle")}</p>
+       <p className="hero-video-subtitle" style={{ color: "white" }}>
+          {t("hero.subtitle")}
+        </p>
 
-        <div className="hero-action-cards">
-          <button className="hero-action-card hero-action-card-urgent" onClick={openEmergency}>
+        <div className="hero-action-cards" style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+          <button
+            type="button"
+            className="hero-action-card hero-action-card-urgent"
+            onClick={openEmergency}
+            aria-label={`${t("contact.form_title")} — ${t("emergency.label")}`}
+          >
             <span className="hero-action-icon">
-              <Icon name="phone" strokeWidth={1.8} />
+              <span className="hero-action-pulse" aria-hidden="true" />
+              <Icon name="phone" strokeWidth={2} />
             </span>
             <span className="hero-action-text">
-              <strong>{t("contact.form_title")}</strong>
-              <span>{t("emergency.label")}</span>
+              <strong className="hero-action-title">{t("contact.form_title")}</strong>
+              <span className="hero-action-sub">
+                <span className="hero-action-live-dot" aria-hidden="true" />
+                {t("emergency.label")}
+              </span>
+            </span>
+            <span className="hero-action-arrow" aria-hidden="true">
+              <Icon name="chevron-right" strokeWidth={2.2} />
             </span>
           </button>
         </div>
@@ -65,9 +81,31 @@ export function Hero() {
             pisaría el translateX(-50%) del centrado en cada frame. */}
         <div className="cita-card-center">
           <div className="cita-card-wrap">
-            <div className="cita-card">
-              <CitaBookingForm />
-            </div>
+            <button type="button" className="cita-card" onClick={openCita}>
+              <div className="cita-card-inner">
+                <div className="cita-card-head" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
+                  <span className="cita-card-icon">
+                    <Icon name="calendar-hours" strokeWidth={1.8} />
+                  </span>
+                  <h4>{t("modal.title")}</h4>
+                </div>
+
+                <div className="cita-card-body">
+                  <div className="cita-summary" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", width: "100%" }}>
+                    <span className="cita-summary-tag">{t("modal.tagline")}</span>
+
+                    <strong className="cita-summary-value">{t("float.agendar")}</strong>
+
+                    <span className="cita-confirm-btn">
+                      {t("modal.confirm_btn")}
+                      <Icon name="arrow-right" strokeWidth={2.2} />
+                    </span>
+
+                    <p className="cita-whatsapp-hint">{t("modal.whatsapp_hint")}</p>
+                  </div>
+                </div>
+              </div>
+            </button>
           </div>
         </div>
 

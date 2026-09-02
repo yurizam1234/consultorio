@@ -15,6 +15,12 @@ const MIN_VISIBLE_MS = 2900;
 // lento hasta que el resto del archivo termine de llegar en segundo plano.
 const MAX_WAIT_MS = 6000;
 
+// Sólo la primera carga real de la sesión debe ver la animación completa —
+// sin esto, cada vez que el usuario navega a otra página (SPA, sin recargar
+// el documento) y vuelve a "/", este componente se vuelve a montar y repite
+// los ~3s de espera de nuevo, aunque el video ya esté en caché.
+const PRELOADER_SESSION_KEY = "sh-preloader-shown";
+
 // ¿Ya se descargó el archivo completo (no sólo "puede reproducirse desde el
 // inicio")? El scroll-scrub salta a cualquier punto del video de golpe; con
 // "canplaythrough" (que sólo garantiza reproducción LINEAL sin cortes desde la
@@ -70,10 +76,22 @@ function waitForFullDownload(maybeVideo: HTMLVideoElement | null, onDone: () => 
 // parpadeo) y un máximo (para no dejar a alguien con conexión lenta atrapado).
 export function Preloader() {
   const { t } = useLanguage();
-  const [ready, setReady] = useState(false);
+  // Lazy initializer (no un useEffect con setState): así en una navegación de
+  // vuelta a "/" dentro de la misma sesión arranca directo en "ready=true" —
+  // sin eso, aunque el efecto de abajo lo corrija enseguida, se alcanza a
+  // pintar un primer frame con el preloader visible.
+  const [ready, setReady] = useState(
+    () => typeof window !== "undefined" && sessionStorage.getItem(PRELOADER_SESSION_KEY) === "1"
+  );
   const [mounted, setMounted] = useState(true);
 
   useEffect(() => {
+    if (sessionStorage.getItem(PRELOADER_SESSION_KEY) === "1") {
+      // "ready" ya salió en true del lazy initializer de arriba.
+      return;
+    }
+    sessionStorage.setItem(PRELOADER_SESSION_KEY, "1");
+
     document.body.style.overflow = "hidden";
 
     const start = Date.now();

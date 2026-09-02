@@ -14,6 +14,7 @@ export interface Especialidad {
   n: string;
   tipo: string[];
   d: string;
+  img: string;
   procs: Procedimiento[];
   med: Medico[];
 }
@@ -23,6 +24,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
     n: "Oftalmología",
     tipo: ["consulta", "estudio"],
     d: "El área con la que nació el hospital. Revisión visual completa, seguimiento de patología ocular y cirugía refractiva, con equipo de diagnóstico propio.",
+    img: "/servicios/oftalmologia.png",
     procs: [
       {
         n: "Consulta y revisión visual",
@@ -54,6 +56,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
     n: "Imagenología",
     tipo: ["estudio"],
     d: "Resonancia, tomografía, ultrasonido y rayos X, con interpretación del radiólogo incluida. También biopsias guiadas por imagen.",
+    img: "/instalaciones/areas-diagnosticas/reso3.jpg",
     procs: [
       {
         n: "Resonancia magnética",
@@ -110,6 +113,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
     n: "Laboratorio clínico",
     tipo: ["estudio"],
     d: "Química sanguínea, biometría, perfiles hormonales, marcadores y pruebas especiales. La mayoría de los estudios de rutina se entregan en 24 horas.",
+    img: "/servicios/laboratorio-clinico.png",
     procs: [
       {
         n: "Química sanguínea y perfiles",
@@ -140,6 +144,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
     n: "Cardiología",
     tipo: ["consulta", "estudio"],
     d: "Prevención, diagnóstico y seguimiento de enfermedades cardiovasculares, con estudios de monitoreo y de imagen avanzada en el mismo hospital.",
+    img: "/instalaciones/areas-diagnosticas/tac2.jpeg",
     procs: [
       {
         n: "Consulta de cardiología",
@@ -174,6 +179,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
     n: "Gastroenterología",
     tipo: ["consulta", "estudio"],
     d: "Diagnóstico y tratamiento del aparato digestivo. Nuestros estudios endoscópicos se realizan en quirófano, con anestesiólogo y monitoreo, no en consultorio.",
+    img: "/instalaciones/areas-diagnosticas/usg.jpg",
     procs: [
       {
         n: "Consulta de gastroenterología",
@@ -208,6 +214,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
     n: "Neumología",
     tipo: ["consulta", "estudio"],
     d: "Estudios de función pulmonar para adultos y niños, diagnóstico de apnea del sueño y terapia de higiene bronquial.",
+    img: "/instalaciones/areas-diagnosticas/reso4.jpeg",
     procs: [
       {
         n: "Consulta de neumología",
@@ -243,6 +250,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
     n: "Medicina del dolor",
     tipo: ["consulta"],
     d: "Tratamiento del dolor crónico y agudo con enfoque multidisciplinario: bloqueos, manejo farmacológico y seguimiento, no solo receta.",
+    img: "/instalaciones/areas-diagnosticas/usg2.jpg",
     procs: [
       {
         n: "Primera valoración del dolor",
@@ -269,6 +277,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
     n: "Cirugía general",
     tipo: ["consulta"],
     d: "Valoración y cirugía por especialistas certificados, con quirófano, esterilización y hospitalización propios.",
+    img: "/instalaciones/quirofanos/qx3.jpg",
     procs: [
       {
         n: "Valoración quirúrgica",
@@ -295,6 +304,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
     n: "Ginecología y obstetricia",
     tipo: ["consulta"],
     d: "Atención del embarazo, el parto y la salud ginecológica, con quirófano y hospitalización en el mismo edificio.",
+    img: "/instalaciones/consultorios/dr5.jpeg",
     procs: [
       {
         n: "Consulta ginecológica",
@@ -321,6 +331,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
     n: "Medicina general",
     tipo: ["consulta"],
     d: "Atención primaria para ti y tu familia: primera valoración, control de enfermedades crónicas y orientación sobre a qué especialista acudir.",
+    img: "/instalaciones/consultorios/con1.jpg",
     procs: [
       {
         n: "Consulta general",
@@ -347,6 +358,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
     n: "Quirófanos y esterilización",
     tipo: ["hospitalario"],
     d: "Cinco salas equipadas con central de esterilización propia. Disponibles para nuestros cirujanos y también para cirujanos externos que requieran sala.",
+    img: "/instalaciones/quirofanos/qx2.jpg",
     procs: [
       {
         n: "Renta de sala quirúrgica",

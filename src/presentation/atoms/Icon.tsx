@@ -2,6 +2,7 @@ export type IconName =
   | "calendar"
   | "calendar-hours"
   | "check-circle"
+  | "check"
   | "shield-check"
   | "monitor"
   | "clock"
@@ -18,13 +19,78 @@ export type IconName =
   | "star"
   | "chevron-left"
   | "chevron-right"
+  | "chevron-down"
+  | "copy"
+  | "headset"
+  | "bot"
+  | "sparkles"
+  | "send"
+  | "rotate-ccw"
   | "facebook"
   | "instagram"
   | "tiktok"
   | "whatsapp"
-  | "menu";
+  | "menu"
+  | "info"
+  | "x";
 
 const paths: Record<IconName, React.ReactNode> = {
+  info: (
+    <>
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12.01" y2="8" />
+    </>
+  ),
+  x: (
+    <>
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </>
+  ),
+  check: <polyline points="20 6 9 17 4 12" />,
+  "chevron-down": <polyline points="6 9 12 15 18 9" />,
+  copy: (
+    <>
+      <rect width="13" height="13" x="9" y="9" rx="2" ry="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </>
+  ),
+  headset: (
+    <>
+      <path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5a9 9 0 0 1 18 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" />
+      <path d="M21 16v2a3 3 0 0 1-3 3h-5" />
+    </>
+  ),
+  bot: (
+    <>
+      <path d="M12 2v3M8 2h8" />
+      <rect width="18" height="13" x="3" y="5" rx="3.5" ry="3.5" />
+      <circle cx="8.5" cy="10.5" r="1.5" fill="currentColor" />
+      <circle cx="15.5" cy="10.5" r="1.5" fill="currentColor" />
+      <path d="M9 14.5h6" />
+      <path d="M1 10.5v2M23 10.5v2" />
+    </>
+  ),
+  sparkles: (
+    <>
+      <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z" />
+      <path d="M5 3v4" />
+      <path d="M19 17v4" />
+    </>
+  ),
+  send: (
+    <>
+      <path d="m22 2-7 20-4-9-9-4Z" />
+      <path d="M22 2 11 13" />
+    </>
+  ),
+  "rotate-ccw": (
+    <>
+      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+      <path d="M3 3v5h5" />
+    </>
+  ),
   calendar: (
     <>
       <rect x="5" y="3" width="14" height="18" rx="2" />

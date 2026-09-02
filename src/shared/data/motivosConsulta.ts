@@ -1,51 +1,62 @@
 export interface MotivoConsulta {
   numero: string;
+  especialidad: string;
   titulo: string;
   descripcion: string;
+  ubicacion: string;
   key: string;
+  seccion: string;
+  imagen?: string;
+  alt?: string;
 }
 
 export const MOTIVOS_CONSULTA: MotivoConsulta[] = [
   {
     numero: "01",
+    especialidad: "Oftalmología",
     titulo: "Veo borroso o me cansa la vista",
     descripcion:
-      "Revisión visual completa, graduación, cataratas, glaucoma, retina y cirugía refractiva. Es el área con la que nació el hospital.",
+      "Revisión visual completa, graduación, cataratas, glaucoma, retina y cirugía refractiva con tecnología de vanguardia.",
+    ubicacion: "Torre Médica · Piso 2 · Citas disponibles",
     key: "oftalmologia",
+    seccion: "especialidades",
+    imagen: "/atender/ojo.png",
+    alt: "Oftalmología - Cuidado de la vista y cirugía refractiva",
   },
   {
     numero: "02",
-    titulo: "Mi médico me pidió un estudio",
+    especialidad: "Cardiología",
+    titulo: "Me preocupa mi corazón o mi presión",
     descripcion:
-      "Resonancia, tomografía, ultrasonido, rayos X y laboratorio clínico. Traes tu orden, te agendamos y entregamos resultados con interpretación.",
-    key: "imagenologia",
+      "Electrocardiograma, Holter, MAPA, prueba de esfuerzo, cardiorresonancia y angiotac coronario de alta resolución.",
+    ubicacion: "Centro Cardiovascular · Piso 1 · Monitoreo 24h",
+    key: "cardiologia",
+    seccion: "especialidades",
+    imagen: "/atender/corazon.png",
+    alt: "Cardiología - Salud cardiovascular y estudios especializados",
   },
   {
     numero: "03",
+    especialidad: "Medicina del Dolor",
     titulo: "Tengo un dolor que no cede",
     descripcion:
-      "Dolor crónico de espalda, articular, neuropático u oncológico, tratado por un equipo que combina bloqueos, medicación y rehabilitación.",
+      "Tratamiento de dolor crónico de columna, articular, neuropático y oncológico con bloqueos y rehabilitación integral.",
+    ubicacion: "Clínica del Dolor · Torre A · Valoración experta",
     key: "dolor",
+    seccion: "especialidades",
+    imagen: "/atender/esqueleto.png",
+    alt: "Medicina del dolor - Columna, huesos y articulaciones",
   },
   {
     numero: "04",
-    titulo: "Me preocupa mi corazón o mi presión",
+    especialidad: "Cirugía General",
+    titulo: "Necesito una cirugía o procedimiento",
     descripcion:
-      "Electrocardiograma, Holter, MAPA y prueba de esfuerzo. También cardiorresonancia y angiotac de coronarias, poco disponibles en la región.",
-    key: "cardiologia",
-  },
-  {
-    numero: "05",
-    titulo: "Algo anda mal con mi digestión",
-    descripcion:
-      "Endoscopía, colonoscopía, CPRE y elastografía hepática, con sedación y monitoreo en quirófano, no en consultorio.",
-    key: "gastro",
-  },
-  {
-    numero: "06",
-    titulo: "Me falta el aire o ronco al dormir",
-    descripcion:
-      "Espirometría, FeNO y poligrafía de sueño para adultos y niños, más terapia de higiene bronquial.",
-    key: "neumologia",
+      "Valoración quirúrgica y cirugías de mínima invasión y laparoscopía, con 5 quirófanos equipados y hospitalización propia.",
+    ubicacion: "Unidad Quirúrgica · Piso 3 · Quirófanos propios",
+    key: "cirugia",
+    seccion: "especialidades",
+    imagen: "/atender/cirugia.png",
+    alt: "Cirugía general - Quirófanos y procedimientos de mínima invasión",
   },
 ];

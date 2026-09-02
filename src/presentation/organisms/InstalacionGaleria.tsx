@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { Instalacion } from "@/shared/data/instalaciones";
+import { Icon } from "@/presentation/atoms/Icon";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
 import { cn } from "@/shared/lib/utils";
 
@@ -46,7 +47,7 @@ export function InstalacionGaleria({ instalacion, onClose }: InstalacionGaleriaP
           aria-labelledby="instalacionGaleriaTitle"
         >
           <button className="cita-modal-close" aria-label={t("modal.close")} onClick={onClose}>
-            ×
+            <Icon name="x" strokeWidth={2.2} />
           </button>
           {/* key remonta el contenido (y su índice de foto) al cambiar de instalación */}
           <InstalacionGaleriaContent key={instalacion.num} instalacion={instalacion} />

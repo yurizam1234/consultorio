@@ -1,7 +1,9 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useMemo } from "react";
 import type { ReactNode } from "react";
+
+const PORTAL_URL = process.env.NEXT_PUBLIC_PORTAL_URL || "/portal-paciente";
 
 interface CitaModalContextValue {
   isOpen: boolean;
@@ -11,28 +13,22 @@ interface CitaModalContextValue {
 
 const CitaModalContext = createContext<CitaModalContextValue | null>(null);
 
+// "Agendar cita" ya no abre un modal propio: la web pública sólo redirige al
+// Portal del Paciente — la validación de sesión y todo el flujo de agenda
+// viven ahí (ver PanelAccessButton.tsx, que sigue el mismo criterio para
+// login). "isOpen"/"close" quedan como no-ops: se conservan para no romper
+// a quien siga llamando a este hook (Hero, FloatingDock, Especialidades,
+// PaquetesPreventivos...), pero CitaModal.tsx ya nunca llega a abrirse.
 export function CitaModalProvider({ children }: { children: ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    function handleEscape(event: KeyboardEvent) {
-      if (event.key === "Escape") setIsOpen(false);
-    }
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [isOpen]);
-
   const value = useMemo<CitaModalContextValue>(
-    () => ({ isOpen, open: () => setIsOpen(true), close: () => setIsOpen(false) }),
-    [isOpen]
+    () => ({
+      isOpen: false,
+      open: () => {
+        window.location.href = `${PORTAL_URL}/agenda`;
+      },
+      close: () => {},
+    }),
+    []
   );
 
   return <CitaModalContext.Provider value={value}>{children}</CitaModalContext.Provider>;

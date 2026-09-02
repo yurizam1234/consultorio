@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
 import { LanguageProvider } from "@/presentation/hooks/useLanguage";
 import { AuthProvider } from "@/presentation/hooks/useAuth";
+import { EmergencyModalProvider } from "@/presentation/hooks/useEmergencyModal";
+import { CitaModalProvider } from "@/presentation/hooks/useCitaModal";
+import { AssistantModalProvider } from "@/presentation/hooks/useAssistantModal";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -37,7 +40,15 @@ export default function RootLayout({
           {/* A nivel raíz (no sólo dentro de /panel) para que el nav de la
               landing/Historia también sepa si hay sesión iniciada — ver
               PanelAccessButton.tsx. */}
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <EmergencyModalProvider>
+              <CitaModalProvider>
+                <AssistantModalProvider>
+                  {children}
+                </AssistantModalProvider>
+              </CitaModalProvider>
+            </EmergencyModalProvider>
+          </AuthProvider>
         </LanguageProvider>
       </body>
     </html>

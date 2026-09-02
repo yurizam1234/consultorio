@@ -5,6 +5,7 @@ import { HeartHandshake, Award, Eye, ShieldCheck } from "lucide-react";
 import { Navbar } from "@/presentation/organisms/Navbar";
 import { Footer } from "@/presentation/organisms/Footer";
 import { ScrollEffects } from "@/presentation/organisms/ScrollEffects";
+import { LandingOverlays } from "@/presentation/pages/LandingOverlays";
 import { Reveal } from "@/presentation/atoms/Reveal";
 import { SplitChars } from "@/presentation/atoms/SplitChars";
 import { SectionHead } from "@/presentation/molecules/SectionHead";
@@ -50,7 +51,7 @@ export default function HistoriaPage() {
           <div className="historia-hero-media full-bleed">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/instalaciones/consultorios/con2.JPG"
+              src="/img/equipo.jpg"
               alt=""
               className="historia-hero-img"
               fetchPriority="high"
@@ -117,6 +118,7 @@ export default function HistoriaPage() {
         </section>
 
         <Footer />
+        <LandingOverlays />
       </div>
     </>
   );

@@ -1,9 +1,8 @@
 "use client";
 
-import { Reveal } from "@/presentation/atoms/Reveal";
-import { SplitChars } from "@/presentation/atoms/SplitChars";
 import { Icon } from "@/presentation/atoms/Icon";
 import { StepCard } from "@/presentation/molecules/StepCard";
+import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { agendaSteps } from "@/shared/data/contacto";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
 
@@ -13,15 +12,7 @@ export function AgendarInfo() {
   return (
     <section className="band" id="agendar-info">
       <div className="wrap">
-        <span className="feature-badge-pill" data-reveal-name>
-          {t("agendar.badge")}
-        </span>
-        <Reveal className="feature-intro">
-          <h2 className="feature-title" aria-label={t("agendar.title")}>
-            <SplitChars text={t("agendar.title")} />
-          </h2>
-          <p className="feature-desc">{t("agendar.desc")}</p>
-        </Reveal>
+        <SectionHead eyebrow={t("agendar.badge")} title={t("agendar.title")} description={t("agendar.desc")} />
 
         <div className="agenda-steps">
           {agendaSteps.map((step) => (

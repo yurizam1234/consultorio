@@ -12,14 +12,21 @@ export function Instalaciones() {
   const [galeriaAbierta, setGaleriaAbierta] = useState<Instalacion | null>(null);
 
   return (
-    <section id="instalaciones" style={{ padding: "20px 0 56px" }}>
+    <section id="instalaciones" style={{ padding: "0 0 56px" }}>
       <div className="wrap">
-        <SectionHead eyebrow={t("instalaciones.eyebrow")} />
+        <div className="instalaciones-gallery-frame full-bleed">
+          {/* Centrado sobre la galería (no arriba, en flujo normal): píldora
+              oscura detrás para que el eyebrow blanco se lea bien sobre
+              cualquier foto, sin depender de qué tan clara/oscura sea. */}
+          <div className="instalaciones-overlay-head">
+            <SectionHead eyebrow={t("instalaciones.eyebrow")} />
+          </div>
 
-        <div className="diagonal-container full-bleed">
-          {instalaciones.map((item) => (
-            <DiagonalPanelItem key={item.num} instalacion={item} onOpenGaleria={setGaleriaAbierta} />
-          ))}
+          <div className="diagonal-container">
+            {instalaciones.map((item) => (
+              <DiagonalPanelItem key={item.num} instalacion={item} onOpenGaleria={setGaleriaAbierta} />
+            ))}
+          </div>
         </div>
       </div>
 

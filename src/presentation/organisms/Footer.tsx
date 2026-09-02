@@ -10,13 +10,14 @@ export function Footer() {
   const { t } = useLanguage();
 
   return (
-    <div className="footer-band full-bleed">
-      <div className="wrap">
-        <footer className="footer">
+        <footer className="footer footer-band">
           <div className="foot-brand">
             <div className="foot-logo">
-              <div className="logo-icon" />
-              <span>SH Arboledas</span>
+              <div className="foot-logo-mark">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/img/logo-blanco.png" alt="" aria-hidden="true" />
+              </div>
+           
             </div>
             <p>{t("footer.desc")}</p>
             <div className="foot-badges">
@@ -26,7 +27,7 @@ export function Footer() {
           </div>
           <div className="footer-links">
             {navLinks
-              .filter((link) => link.href !== "/#agendar-info")
+              .filter((link) => link.href !== "/agendar")
               .map((link) => (
                 <a key={link.href} href={link.href}>
                   {t(link.labelKey)}
@@ -48,7 +49,6 @@ export function Footer() {
             ))}
           </div>
         </footer>
-      </div>
-    </div>
+   
   );
 }

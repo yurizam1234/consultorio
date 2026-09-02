@@ -22,7 +22,7 @@ export function DoctorModal({ doctor, onClose }: DoctorModalProps) {
       {doctor && (
         <div className="cita-modal doctor-modal" role="dialog" aria-modal="true" aria-labelledby="doctorModalTitle">
           <button className="cita-modal-close" aria-label={t("modal.close")} onClick={onClose}>
-            ×
+            <Icon name="x" strokeWidth={2.2} />
           </button>
 
           <div className="doctor-modal-card">
