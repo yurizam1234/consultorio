@@ -32,7 +32,7 @@ export function Convenios() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            (961) 602-9586
+	    {contactoInfo.telefonoUrgencias}
           </a>{" "}
           y revisamos tu caso. También atendemos pacientes particulares con
           costos cerrados por paquete.

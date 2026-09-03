@@ -1,3 +1,5 @@
+import { contactoInfo } from "@/shared/data/contacto";
+
 export type Lang = "es" | "en";
 
 export const translations = {
@@ -246,7 +248,7 @@ export const translations = {
       "La mayoría de los estudios de laboratorio de rutina se entregan en 24 horas. Los estudios de imagen con interpretación del radiólogo suelen estar el mismo día o al siguiente. Los estudios especializados y las biopsias tienen tiempos distintos que te informamos al agendar.",
     "faq.q5": "¿Puedo ir sin cita a urgencias?",
     "faq.a5":
-      "Sí. Urgencias no requiere cita ni horario: estamos abiertos las 24 horas, los 365 días del año. Si puedes, llámanos en camino al (961) 602-9586 para tener el área lista cuando llegues.",
+      `Sí. Urgencias no requiere cita ni horario: estamos abiertos las 24 horas, los 365 días del año. Si puedes, llámanos en camino al ${contactoInfo.telefonoUrgencias} para tener el área lista cuando llegues.`,
     "faq.q6": "¿Atienden niños?",
     "faq.a6":
       "Sí. Medicina general, laboratorio, imagenología y estudios de función pulmonar atienden población pediátrica. Para procedimientos que requieren sedación, valoramos cada caso previamente con el anestesiólogo.",
@@ -691,7 +693,7 @@ export const translations = {
       "Most routine lab studies are delivered in 24 hours. Imaging studies with radiologist interpretation are usually ready the same day or the next. Specialized studies and biopsies have different timelines that we'll tell you when you book.",
     "faq.q5": "Can I come to the ER without an appointment?",
     "faq.a5":
-      "Yes. The ER needs no appointment or schedule: we're open 24 hours, 365 days a year. If you can, call us on your way at (961) 602-9586 so the area is ready when you arrive.",
+      `Yes. The ER needs no appointment or schedule: we're open 24 hours, 365 days a year. If you can, call us on your way at ${contactoInfo.telefonoUrgencias} so the area is ready when you arrive.`,
     "faq.q6": "Do you see children?",
     "faq.a6":
       "Yes. General medicine, lab, imaging, and pulmonary function studies serve pediatric patients. For procedures requiring sedation, we evaluate each case beforehand with the anesthesiologist.",

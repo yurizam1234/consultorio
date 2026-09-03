@@ -1,3 +1,4 @@
+import { contactoInfo } from "./contacto";
 export interface PreguntaFrecuente {
   pregunta: string;
   respuesta: string;
@@ -29,7 +30,7 @@ export const PREGUNTAS_FRECUENTES: PreguntaFrecuente[] = [
   {
     pregunta: "¿Puedo ir sin cita a urgencias?",
     respuesta:
-      "Sí. Urgencias no requiere cita ni horario: estamos abiertos las 24 horas, los 365 días del año. Si puedes, llámanos en camino al (961) 602-9586 para tener el área lista cuando llegues.",
+      `Sí. Urgencias no requiere cita ni horario: estamos abiertos las 24 horas, los 365 días del año. Si puedes, llámanos en camino al ${contactoInfo.telefonoUrgencias} para tener el área lista cuando llegues.`,
   },
   {
     pregunta: "¿Atienden niños?",
