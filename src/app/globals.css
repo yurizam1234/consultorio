@@ -2788,19 +2788,19 @@ section[id] {
 /* ── Formulario Ancho en Escritorio (>= 992px) ── */
 @media (min-width: 992px) {
   .hero-video-wrap .cita-card {
-    width: min(94vw, 1060px);
+    width: min(60vw, 560px);
   }
 
   .hero-video-wrap .cita-card-inner {
     max-height: none;
     overflow: visible;
-    padding: 22px 28px;
+    padding: 18px 24px;
   }
 }
 
 @media (min-width: 1300px) {
   .hero-video-wrap .cita-card {
-    width: min(94vw, 1100px);
+    width: min(60vw, 560px);
   }
 
   .hero-video-wrap .cita-card-inner {
