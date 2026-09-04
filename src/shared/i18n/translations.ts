@@ -248,13 +248,13 @@ export const translations = {
       "La mayoría de los estudios de laboratorio de rutina se entregan en 24 horas. Los estudios de imagen con interpretación del radiólogo suelen estar el mismo día o al siguiente. Los estudios especializados y las biopsias tienen tiempos distintos que te informamos al agendar.",
     "faq.q5": "¿Puedo ir sin cita a urgencias?",
     "faq.a5":
-      `Sí. Urgencias no requiere cita ni horario: estamos abiertos las 24 horas, los 365 días del año. Si puedes, llámanos en camino al ${contactoInfo.telefonoUrgencias} para tener el área lista cuando llegues.`,
+      `Sí. Urgencias no requiere cita ni horario: estamos abiertos las 24 horas, los 365 días del año. Si puedes, llámanos en camino al ${contactoInfo.telefonoUrgencias} o al ${contactoInfo.telefonoUrgencias2} para tener el área lista cuando llegues.`,
     "faq.q6": "¿Atienden niños?",
     "faq.a6":
       "Sí. Medicina general, laboratorio, imagenología y estudios de función pulmonar atienden población pediátrica. Para procedimientos que requieren sedación, valoramos cada caso previamente con el anestesiólogo.",
     "faq.q7": "¿Hay estacionamiento y acceso para silla de ruedas?",
     "faq.a7":
-      "Contamos con estacionamiento para pacientes y accesos con rampa para silla de ruedas. Si quieres confirmar disponibilidad o resolver otra duda, llámanos al (961) 404-7409.",
+      "Contamos con estacionamiento para pacientes y accesos con rampa para silla de ruedas. Si quieres confirmar disponibilidad o resolver otra duda, llámanos al ${contactoInfo.telefonoUrgencias2}.",
     "faq.q8": "¿Soy cirujano externo, puedo operar en sus quirófanos?",
     "faq.a8":
       "Sí. Rentamos sala equipada con servicio de esterilización, personal de quirófano y hospitalización para tu paciente. Escríbenos con el procedimiento y la fecha estimada y te enviamos disponibilidad y cotización.",
@@ -693,13 +693,13 @@ export const translations = {
       "Most routine lab studies are delivered in 24 hours. Imaging studies with radiologist interpretation are usually ready the same day or the next. Specialized studies and biopsies have different timelines that we'll tell you when you book.",
     "faq.q5": "Can I come to the ER without an appointment?",
     "faq.a5":
-      `Yes. The ER needs no appointment or schedule: we're open 24 hours, 365 days a year. If you can, call us on your way at ${contactoInfo.telefonoUrgencias} so the area is ready when you arrive.`,
+      `Yes. The ER needs no appointment or schedule: we're open 24 hours, 365 days a year. If you can, call us on your way at ${contactoInfo.telefonoUrgencias} or ${contactoInfo.telefonoUrgencias2} so the area is ready when you arrive.`,
     "faq.q6": "Do you see children?",
     "faq.a6":
       "Yes. General medicine, lab, imaging, and pulmonary function studies serve pediatric patients. For procedures requiring sedation, we evaluate each case beforehand with the anesthesiologist.",
     "faq.q7": "Is there parking and wheelchair access?",
     "faq.a7":
-      "We have patient parking and wheelchair ramps. To confirm availability or ask anything else, call us at (961) 404-7409.",
+      "We have patient parking and wheelchair ramps. To confirm availability or ask anything else, call us at ${contactoInfo.telefonoUrgencias2}.",
     "faq.q8": "I'm an outside surgeon — can I operate in your operating rooms?",
     "faq.a8":
       "Yes. We rent equipped rooms with sterilization service, operating room staff, and hospital stay for your patient. Message us with the procedure and estimated date and we'll send availability and a quote.",

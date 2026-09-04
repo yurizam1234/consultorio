@@ -10,6 +10,11 @@ export const contactoInfo = {
   telefonoUrgencias: "(961) 602-9586",
   telefonoUrgenciasHref: "+529616029586",
   whatsappHref: "https://wa.me/529616029586",
+
+  // 2da linea
+  telefonoUrgencias2: "(961) 404-7409",
+  telefonoUrgenciasHref2: "+529614047409",
+  whatsappHref2: "https://wa.me/529614047409",
   // Línea de citas/agendar (distinta de la de urgencias 24/7 de arriba) — se
   // etiqueta como tal en Contacto.tsx ("contact.phone_citas").
   telefonoConmutador: "(961) 404-7409",

@@ -30,7 +30,7 @@ export const PREGUNTAS_FRECUENTES: PreguntaFrecuente[] = [
   {
     pregunta: "¿Puedo ir sin cita a urgencias?",
     respuesta:
-      `Sí. Urgencias no requiere cita ni horario: estamos abiertos las 24 horas, los 365 días del año. Si puedes, llámanos en camino al ${contactoInfo.telefonoUrgencias} para tener el área lista cuando llegues.`,
+      `Sí. Urgencias no requiere cita ni horario: estamos abiertos las 24 horas, los 365 días del año. Si puedes, llámanos en camino al ${contactoInfo.telefonoUrgencias} o al ${contactoInfo.telefonoUrgencias2} para tener el área lista cuando llegues.`,
   },
   {
     pregunta: "¿Atienden niños?",
