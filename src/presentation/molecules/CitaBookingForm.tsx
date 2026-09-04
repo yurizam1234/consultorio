@@ -70,10 +70,17 @@ export function CitaBookingForm() {
           </button>
           <strong>{t("modal.urgencia_title")}</strong>
           <p>{t("modal.urgencia_body")}</p>
+
           <div className="cita-route-actions">
             <a className="cita-route-btn cita-route-btn-danger" href={`tel:${contactoInfo.telefonoUrgenciasHref}`}>
-              {t("modal.urgencia_call")}
+              {t("modal.urgencia_call")}  {contactoInfo.telefonoUrgencias}
             </a>
+	    <a
+		className="cita-route-btn cita-route-btn-danger"
+		href={`tel:${contactoInfo.telefonoUrgenciasHref2}`}
+		>
+		{t("modal.urgencia_call")} {contactoInfo.telefonoUrgencias2}
+	    </a>
             <a
               className="cita-route-btn cita-route-btn-line"
               href={whatsappHref}
@@ -83,6 +90,7 @@ export function CitaBookingForm() {
               {t("modal.urgencia_whatsapp")}
             </a>
           </div>
+
         </div>
       ) : esHospitalario ? (
         <div className="cita-route-card cita-route-hospitalario">

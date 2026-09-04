@@ -34,6 +34,15 @@ export function Convenios() {
           >
 	    {contactoInfo.telefonoUrgencias}
           </a>{" "}
+	  o al{" "}
+  <a
+    href={contactoInfo.whatsappHref2}
+    className="text-teal-600 hover:underline font-medium"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    {contactoInfo.telefonoUrgencias2}
+  </a>{" "}
           y revisamos tu caso. También atendemos pacientes particulares con
           costos cerrados por paquete.
         </p>

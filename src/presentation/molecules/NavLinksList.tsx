@@ -176,6 +176,17 @@ export function NavLinksList({ links, mobileOpen, onLinkClick }: NavLinksListPro
                 {t("nav.urgencias_247")}: <strong>{contactoInfo.telefonoUrgencias}</strong>
               </span>
             </a>
+	    <a
+	      href={`tel:${contactoInfo.telefonoUrgenciasHref2}`}
+	      className="mobile-drawer-phone-cta"
+	      onClick={onLinkClick}
+	      >
+	    <span className="mobile-drawer-phone-pulse" />
+		  <Phone size={16} strokeWidth={2.2} />
+		  <span>
+		  {t("nav.urgencias_247")}: <strong>{contactoInfo.telefonoUrgencias2}</strong>
+	    </span>
+	    </a>
 
             {/* Selector de idioma segmentado */}
             <div className="mobile-drawer-lang-row">

@@ -75,8 +75,54 @@ export function EmergencyModal() {
                   <Icon name="chevron-right" strokeWidth={2.2} />
                 </div>
               </a>
-            </div>
+	    
+	      {/* Línea secundaria */}
+  <a
+    href={`tel:${contactoInfo.telefonoUrgenciasHref2}`}
+    className="emergency-action-card emergency-action-call"
+  >
+    <div className="emergency-action-icon">
+      <Icon name="phone" strokeWidth={2.2} />
+    </div>
 
+    <div className="emergency-action-content">
+      <span className="emergency-action-tag">
+        Línea Alternativa de Urgencias
+      </span>
+
+      <strong className="emergency-action-num">
+        {contactoInfo.telefonoUrgencias2}
+      </strong>
+
+      <span className="emergency-action-hint">
+        Línea secundaria de contacto — Tuxtla Gutiérrez
+      </span>
+    </div>
+
+    <div className="emergency-action-arrow">
+      <Icon name="chevron-right" strokeWidth={2.2} />
+    </div>
+  </a>
+
+              <a
+                href={contactoInfo.whatsappHref2}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="emergency-action-card emergency-action-whatsapp"
+              >
+                <div className="emergency-action-icon">
+                  <Icon name="whatsapp" strokeWidth={1.9} />
+                </div>
+                <div className="emergency-action-content">
+                  <span className="emergency-action-tag">Recepción Médica Alternativa</span>
+                  <strong className="emergency-action-num">Escribir por WhatsApp</strong>
+                  <span className="emergency-action-hint">Respuesta y orientación clínica inmediata</span>
+                </div>
+                <div className="emergency-action-arrow">
+                  <Icon name="chevron-right" strokeWidth={2.2} />
+                </div>
+              </a>
+            </div>
             {/* Pie con dirección y estado */}
             <div className="emergency-modal-footer">
               <div className="emergency-footer-item">

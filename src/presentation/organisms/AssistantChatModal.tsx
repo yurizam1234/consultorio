@@ -110,8 +110,8 @@ export function AssistantChatModal() {
     if (text.includes("urgencia") || text.includes("emergencia") || text.includes("dolor") || text.includes("grave") || text.includes("emergency") || text.includes("urgent")) {
       return {
         text: isEn
-          ? `🚨 We operate 24/7 Emergency Care with on-duty physicians, surgery suites, and imaging. Emergency hotline: ${contactoInfo.telefonoUrgencias}`
-          : `🚨 Nuestro servicio de Urgencias Médicas está activo las 24 horas, los 365 días del año. Contamos con médicos de guardia, quirófanos y tomografía/rayos X inmediatos. Teléfono directo: ${contactoInfo.telefonoUrgencias}`,
+          ? `🚨 We operate 24/7 Emergency Care with on-duty physicians, surgery suites, and imaging. Emergency hotline: ${contactoInfo.telefonoUrgencias} / ${contactoInfo.telefonoUrgencias2}`
+          : `🚨 Nuestro servicio de Urgencias Médicas está activo las 24 horas, los 365 días del año. Contamos con médicos de guardia, quirófanos y tomografía/rayos X inmediatos. Teléfono directo: ${contactoInfo.telefonoUrgencias} / ${contactoInfo.telefonoUrgencias2}`,
         actions: [
           { label: isEn ? "Contact Emergency Hotline" : "🚨 Ver Contacto de Urgencias", icon: "phone", actionType: "emergency" },
           { label: isEn ? "WhatsApp Urgent Care" : "💬 WhatsApp Urgencias", icon: "whatsapp", actionType: "whatsapp", payload: "¡Hola! Tengo una urgencia médica en este momento." },
