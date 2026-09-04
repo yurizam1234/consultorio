@@ -5754,6 +5754,7 @@ section[id] {
 
 .cita-modal-shell.emergency-modal-shell {
   max-width: min(92vw, 460px);
+   transform: translateY(-55px);
 }
 
 .cita-modal {
