@@ -9984,6 +9984,8 @@ button.cita-modal-close:active {
 
 .medico {
   border: 1px solid var(--border-light);
+   max-width: 320px;
+  width: 90%;
   background: var(--white);
   /* --radius-lg (no -md): mismo tamaño de esquina que el resto de cards de
      perfil/persona del sitio (".emergency-modal-card", ".instalacion-modal-card"). */
@@ -9997,6 +9999,44 @@ button.cita-modal-close:active {
   border: none;
   border-bottom: 1px solid var(--border-light);
   background: var(--bg-page);
+}
+
+/* Foto real del personal en "Quién te atiende" */
+.medico .medico-photo-slot {
+  position: relative;
+  min-height: 170px;
+  height: 170px;
+  padding: 0;
+  overflow: hidden;
+  background: var(--bg-page);
+}
+
+.medico .medico-photo-img {
+  object-fit: cover;
+  object-position: center top;
+}
+
+.medico .medico-credenciales {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.medico .medico-credenciales p {
+  margin: 0;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.medico .medico-descripcion {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-light);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-muted);
 }
 
 .medico .txt {

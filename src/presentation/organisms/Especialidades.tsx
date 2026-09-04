@@ -13,6 +13,8 @@ import { Reveal } from "@/presentation/atoms/Reveal";
 import { contactoInfo } from "@/shared/data/contacto";
 import { useCitaModal } from "@/presentation/hooks/useCitaModal";
 import { CITA_PRESELECT_EVENT } from "@/presentation/hooks/useCitaBooking";
+import { getPersonalPorEspecialidad } from "@/shared/data/personalPorEspecialidad";
+import type { CedulasPersonal } from "@/shared/data/personalHospital";
 
 interface EspecialidadesProps {
   // Controlado desde LandingPage: así "¿Qué necesitas atender?" puede
@@ -23,10 +25,35 @@ interface EspecialidadesProps {
   onSelectKey: (key: string) => void;
 }
 
+function formatearCedulas(cedulas?: CedulasPersonal): string {
+  if (!cedulas) return "";
+
+  const partes: string[] = [];
+
+  if (cedulas.profesional) {
+    partes.push(`Cédula profesional ${cedulas.profesional}`);
+  }
+
+  if (cedulas.especialidad) {
+    partes.push(`Cédula de especialidad ${cedulas.especialidad}`);
+  }
+
+  if (cedulas.subespecialidad) {
+    partes.push(`Cédula de subespecialidad ${cedulas.subespecialidad}`);
+  }
+
+  return partes.join(" · ");
+}
+
 export function Especialidades({ selectedKey, onSelectKey }: EspecialidadesProps) {
   const especialidad = ESPECIALIDADES[selectedKey];
-  const { open: openCita } = useCitaModal();
+  
+  const personalEspecialidad = useMemo(
+    () => getPersonalPorEspecialidad(selectedKey),
+    [selectedKey]
+  );
 
+  const { open: openCita } = useCitaModal();
   // Buscador: filtra las pestañas por nombre de especialidad o por cualquiera
   // de sus procedimientos (así "endoscopía" encuentra "Gastroenterología" sin
   // que el usuario tenga que saber el nombre exacto de la especialidad).
@@ -230,26 +257,39 @@ export function Especialidades({ selectedKey, onSelectKey }: EspecialidadesProps
                 </a>
               </div>
             </div>
+	    {personalEspecialidad.length > 0 && (
+  <div>
+    <p className="eyebrow" style={{ marginBottom: "14px" }}>
+      Quién te atiende
+    </p>
 
-            <div>
-              <p className="eyebrow" style={{ marginBottom: "14px" }}>
-                Quién te atiende
-              </p>
-              <div className="medicos">
-                {especialidad.med.map((medico, index) => (
-                  <MedicoCard
-                    key={index}
-                    nombre={medico.n}
-                    especialidad={medico.e}
-                    cedula={medico.c}
-                  />
-                ))}
-              </div>
-              <p className="text-xs text-muted-foreground mt-4">
-                Puedes verificar cualquier cédula en el Registro Nacional de
-                Profesionistas de la SEP.
-              </p>
-            </div>
+    <div className="medicos">
+      {personalEspecialidad.map((persona) => (
+        <MedicoCard
+          key={persona.id}
+          nombre={persona.nombre}
+          especialidad={persona.cargoEspecialidad}
+          foto={persona.foto}
+          cedula={formatearCedulas(persona.cedulas)}
+          descripcion={persona.descripcion}
+          credenciales={persona.credenciales}
+        />
+      ))}
+    </div>
+
+    {personalEspecialidad.some(
+      (persona) =>
+        persona.cedulas?.profesional ||
+        persona.cedulas?.especialidad ||
+        persona.cedulas?.subespecialidad
+    ) && (
+      <p className="text-xs text-muted-foreground mt-4">
+        Puedes verificar cualquier cédula en el Registro Nacional de
+        Profesionistas de la SEP.
+      </p>
+    )}
+  </div>
+)}
           </div>
         </Reveal>
         )}
