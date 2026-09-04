@@ -33,194 +33,83 @@ export interface GrupoProcedimientos {
 // Contenido editable aquí mismo cuando se confirmen más procedimientos.
 export const catalogoProcedimientos: GrupoProcedimientos[] = [
   {
-    id: "cirugia-general",
-    especialidad: { es: "Cirugía General", en: "General Surgery" },
+    id: "diagnostico-por-imagen",
+    especialidad: { es: "Diagnóstico por imagen", en: "Imaging Diagnostics" },
     subtitulo: {
-      es: "Procedimientos quirúrgicos realizados por especialistas certificados.",
-      en: "Surgical procedures performed by certified specialists.",
+      es: "Estudios de imagen para un diagnóstico preciso, con equipo de última generación.",
+      en: "Imaging studies for an accurate diagnosis, using the latest-generation equipment.",
     },
     procedimientos: [
       {
-        es: "Colecistectomía",
-        en: "Cholecystectomy",
-        titulo: { es: "Colecistectomía", en: "Cholecystectomy" },
+        es: "Resonancia magnética simple",
+        en: "MRI (simple)",
+        titulo: { es: "RM simple", en: "MRI – simple" },
         desc: {
-          es: "Extracción quirúrgica de la vesícula biliar, generalmente por laparoscopía.",
-          en: "Surgical removal of the gallbladder, usually done laparoscopically.",
+          es: "Estudio de resonancia magnética sin contraste para evaluar tejidos blandos y estructuras internas.",
+          en: "MRI study without contrast to evaluate soft tissue and internal structures.",
         },
-        img: "/instalaciones/quirofanos/qx1.webp",
+        img: "/instalaciones/areas-diagnosticas/reso3.jpg",
       },
       {
-        es: "Apendicectomía",
-        en: "Appendectomy",
-        titulo: { es: "Apendicectomía", en: "Appendectomy" },
+        es: "Resonancia magnética contrastada",
+        en: "MRI (contrast)",
+        titulo: { es: "RM contrastada", en: "MRI – contrast" },
         desc: {
-          es: "Extracción quirúrgica del apéndice inflamado para tratar la apendicitis.",
-          en: "Surgical removal of the inflamed appendix to treat appendicitis.",
+          es: "Resonancia magnética con medio de contraste para mayor detalle diagnóstico.",
+          en: "MRI performed with contrast medium for greater diagnostic detail.",
         },
-        img: "/instalaciones/quirofanos/qx1.webp",
+        img: "/instalaciones/areas-diagnosticas/reso4.jpeg",
+      },
+      {
+        es: "Tomografía simple",
+        en: "CT scan (simple)",
+        titulo: { es: "TAC simple", en: "CT – simple" },
+        desc: {
+          es: "Tomografía computarizada sin contraste para una evaluación rápida y detallada.",
+          en: "CT scan without contrast for a fast, detailed evaluation.",
+        },
+        img: "/instalaciones/areas-diagnosticas/tac2.jpeg",
+      },
+      {
+        es: "Tomografía contrastada",
+        en: "CT scan (contrast)",
+        titulo: { es: "TAC contrastada", en: "CT – contrast" },
+        desc: {
+          es: "Tomografía computarizada con medio de contraste para mayor precisión diagnóstica.",
+          en: "CT scan with contrast medium for greater diagnostic precision.",
+        },
+        img: "/instalaciones/areas-diagnosticas/tac2.jpeg",
+      },
+      {
+        es: "Ultrasonido",
+        en: "Ultrasound",
+        titulo: { es: "Ultrasonido", en: "Ultrasound" },
+        desc: {
+          es: "Estudio de imagen por ultrasonido para la evaluación de órganos y tejidos blandos.",
+          en: "Ultrasound imaging study to evaluate organs and soft tissue.",
+        },
+        img: "/instalaciones/areas-diagnosticas/usg.jpg",
+      },
+      {
+        es: "Mastografía",
+        en: "Mammography",
+        titulo: { es: "Mastografía", en: "Mammography" },
+        desc: {
+          es: "Estudio de imagen para la detección temprana de alteraciones en el tejido mamario.",
+          en: "Imaging study for the early detection of abnormalities in breast tissue.",
+        },
+        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
       },
     ],
   },
   {
-    id: "ginecologia-obstetricia",
-    especialidad: { es: "Ginecología y Obstetricia", en: "Gynecology & Obstetrics" },
+    id: "estudios-diagnosticos",
+    especialidad: { es: "Estudios diagnósticos", en: "Diagnostic Studies" },
     subtitulo: {
-      es: "Atención integral del embarazo, el parto y la salud ginecológica.",
-      en: "Comprehensive care for pregnancy, delivery, and gynecological health.",
+      es: "Pruebas complementarias para apoyar el diagnóstico médico.",
+      en: "Complementary tests to support medical diagnosis.",
     },
     procedimientos: [
-      {
-        es: "Parto",
-        en: "Delivery",
-        titulo: { es: "Parto", en: "Delivery" },
-        desc: {
-          es: "Atención del nacimiento con acompañamiento médico especializado.",
-          en: "Delivery care with specialized medical support.",
-        },
-        img: "/instalaciones/habitaciones/hs2.jpg",
-      },
-      {
-        es: "Cesárea",
-        en: "C-section",
-        titulo: { es: "Cesárea", en: "C-section" },
-        desc: {
-          es: "Procedimiento quirúrgico para el nacimiento cuando el parto vaginal no es recomendable.",
-          en: "Surgical delivery procedure when a vaginal birth isn't advisable.",
-        },
-        img: "/instalaciones/habitaciones/hs2.jpg",
-      },
-      {
-        es: "Histerectomía",
-        en: "Hysterectomy",
-        titulo: { es: "Histerectomía", en: "Hysterectomy" },
-        desc: {
-          es: "Extracción quirúrgica del útero para tratar diversas condiciones ginecológicas.",
-          en: "Surgical removal of the uterus to treat various gynecological conditions.",
-        },
-        img: "/instalaciones/habitaciones/hs2.jpg",
-      },
-    ],
-  },
-  {
-    id: "quirofano",
-    especialidad: { es: "Quirófano", en: "Operating Room" },
-    subtitulo: {
-      es: "Infraestructura quirúrgica de alta especialidad, disponible para procedimientos externos.",
-      en: "Highly specialized surgical facilities, available for outside procedures.",
-    },
-    procedimientos: [
-      {
-        es: "Renta de quirófano",
-        en: "Operating room rental",
-        titulo: { es: "Renta de quirófano", en: "OR rental" },
-        desc: {
-          es: "Sala equipada disponible para cirujanos externos que requieran realizar procedimientos.",
-          en: "Fully equipped room available for outside surgeons who need to perform procedures.",
-        },
-        img: "/instalaciones/quirofanos/qx7.webp",
-      },
-      {
-        es: "Servicio de esterilización",
-        en: "Sterilization service",
-        titulo: { es: "Esterilización", en: "Sterilization" },
-        desc: {
-          es: "Procesamiento y esterilización de instrumental quirúrgico con estándares hospitalarios.",
-          en: "Processing and sterilization of surgical instruments to hospital standards.",
-        },
-        img: "/instalaciones/quirofanos/qx7.webp",
-      },
-    ],
-  },
-  {
-    id: "biopsias",
-    especialidad: { es: "Biopsias", en: "Biopsies" },
-    subtitulo: {
-      es: "Estudios especializados para diagnóstico preciso y toma de tejido guiado por imagen.",
-      en: "Specialized studies for accurate diagnosis and image-guided tissue sampling.",
-    },
-    procedimientos: [
-      {
-        es: "Biopsia de próstata por fusión guiada por ultrasonido",
-        en: "Fusion-guided prostate biopsy (MRI/ultrasound)",
-        exclusivo: true,
-        titulo: { es: "Próstata", en: "Prostate" },
-        desc: {
-          es: "Biopsia por fusión guiada por ultrasonido y resonancia magnética para mayor precisión.",
-          en: "Fusion-guided biopsy combining ultrasound and MRI for greater precision.",
-        },
-        img: "/instalaciones/areas-diagnosticas/usg2.jpg",
-      },
-      {
-        es: "Biopsia de mama",
-        en: "Breast biopsy",
-        titulo: { es: "Mama", en: "Breast" },
-        desc: {
-          es: "Procedimiento mínimamente invasivo para el diagnóstico preciso de lesiones mamarias.",
-          en: "Minimally invasive procedure for the accurate diagnosis of breast lesions.",
-        },
-        img: "/instalaciones/areas-diagnosticas/usg2.jpg",
-      },
-      {
-        es: "Biopsia de tiroides",
-        en: "Thyroid biopsy",
-        titulo: { es: "Tiroides", en: "Thyroid" },
-        desc: {
-          es: "Punción con aguja fina guiada por ultrasonido para evaluar nódulos tiroideos.",
-          en: "Ultrasound-guided fine-needle aspiration to evaluate thyroid nodules.",
-        },
-        img: "/instalaciones/areas-diagnosticas/usg2.jpg",
-      },
-      {
-        es: "Biopsia de hígado",
-        en: "Liver biopsy",
-        titulo: { es: "Hígado", en: "Liver" },
-        desc: {
-          es: "Estudio especializado para diagnóstico de enfermedades hepáticas y toma de tejido.",
-          en: "Specialized study for diagnosing liver disease through tissue sampling.",
-        },
-        img: "/instalaciones/areas-diagnosticas/usg2.jpg",
-      },
-    ],
-  },
-  {
-    id: "cardiologia",
-    especialidad: { es: "Cardiología", en: "Cardiology" },
-    subtitulo: {
-      es: "Evaluación y monitoreo de la salud cardiovascular.",
-      en: "Evaluation and monitoring of cardiovascular health.",
-    },
-    procedimientos: [
-      {
-        es: "Prueba de esfuerzo",
-        en: "Stress test",
-        titulo: { es: "Prueba de esfuerzo", en: "Stress test" },
-        desc: {
-          es: "Evaluación de la respuesta del corazón ante actividad física controlada.",
-          en: "Assessment of the heart's response to controlled physical activity.",
-        },
-        img: "/instalaciones/consultorios/dr3.webp",
-      },
-      {
-        es: "Holter",
-        en: "Holter monitor",
-        titulo: { es: "Holter", en: "Holter" },
-        desc: {
-          es: "Monitoreo continuo del ritmo cardíaco durante 24 horas o más.",
-          en: "Continuous heart rhythm monitoring over 24 hours or longer.",
-        },
-        img: "/instalaciones/consultorios/dr3.webp",
-      },
-      {
-        es: "MAPA (monitoreo ambulatorio de presión arterial)",
-        en: "Ambulatory blood pressure monitoring",
-        titulo: { es: "MAPA", en: "Ambulatory BP" },
-        desc: {
-          es: "Monitoreo ambulatorio de la presión arterial a lo largo del día.",
-          en: "Ambulatory blood pressure monitoring throughout the day.",
-        },
-        img: "/instalaciones/consultorios/dr3.webp",
-      },
       {
         es: "Electrocardiograma",
         en: "Electrocardiogram",
@@ -231,7 +120,178 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
         },
         img: "/instalaciones/consultorios/dr3.webp",
       },
+      {
+        es: "Electroencefalograma",
+        en: "Electroencephalogram",
+        titulo: { es: "Electroencefalograma", en: "EEG" },
+        desc: {
+          es: "Registro de la actividad eléctrica cerebral para evaluar el funcionamiento neurológico.",
+          en: "Recording of brain electrical activity to assess neurological function.",
+        },
+        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
+      },
+      {
+        es: "Estudios de Laboratorio",
+        en: "Lab Tests",
+        titulo: { es: "Laboratorio", en: "Lab tests" },
+        desc: {
+          es: "Análisis clínicos de sangre, orina y otras muestras para apoyar el diagnóstico.",
+          en: "Clinical analysis of blood, urine, and other samples to support diagnosis.",
+        },
+        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
+      },
+      {
+        es: "Biopsia de próstata",
+        en: "Prostate Biopsy",
+        titulo: { es: "Biopsia de próstata", en: "Prostate biopsy" },
+        desc: {
+          es: "Toma de tejido prostático guiada por imagen para un diagnóstico preciso.",
+          en: "Image-guided prostate tissue sampling for an accurate diagnosis.",
+        },
+        img: "/instalaciones/areas-diagnosticas/usg2.jpg",
+      },
     ],
+  },
+  {
+    id: "atencion-medica",
+    especialidad: { es: "Atención médica", en: "Medical Care" },
+    subtitulo: {
+      es: "Consultas y valoraciones médicas para el cuidado integral de la salud.",
+      en: "Medical consultations and assessments for comprehensive health care.",
+    },
+    procedimientos: [
+      {
+        es: "Consulta General",
+        en: "General Consultation",
+        titulo: { es: "Consulta General", en: "General consultation" },
+        desc: {
+          es: "Valoración médica general para atender cualquier padecimiento o duda de salud.",
+          en: "General medical assessment to address any condition or health concern.",
+        },
+        img: "/instalaciones/consultorios/con1.jpg",
+      },
+      {
+        es: "Atención Médica",
+        en: "Medical Care",
+        titulo: { es: "Atención Médica", en: "Medical care" },
+        desc: {
+          es: "Atención médica personalizada a cargo de nuestro equipo de especialistas.",
+          en: "Personalized medical care provided by our team of specialists.",
+        },
+        img: "/instalaciones/consultorios/con3.webp",
+      },
+      {
+        es: "Check Up",
+        en: "Check-up",
+        titulo: { es: "Check Up", en: "Check-up" },
+        desc: {
+          es: "Revisión médica preventiva integral para detectar oportunamente cualquier alteración.",
+          en: "Comprehensive preventive medical exam to catch any issue early.",
+        },
+        img: "/instalaciones/consultorios/con5.jpg",
+      },
+    ],
+  },
+  {
+    id: "servicios-hospitalarios",
+    especialidad: { es: "Servicios hospitalarios", en: "Hospital Services" },
+    subtitulo: {
+      es: "Instalaciones hospitalarias para la internación y recuperación de pacientes.",
+      en: "Hospital facilities for patient admission and recovery.",
+    },
+    procedimientos: [
+      {
+        es: "Hospitalización",
+        en: "Hospitalization",
+        titulo: { es: "Hospitalización", en: "Hospitalization" },
+        desc: {
+          es: "Internación hospitalaria con atención médica y de enfermería las 24 horas.",
+          en: "Hospital admission with round-the-clock medical and nursing care.",
+        },
+        img: "/instalaciones/habitaciones/hs2.jpg",
+      },
+      {
+        es: "Estancia Ambulatoria",
+        en: "Outpatient Stay",
+        titulo: { es: "Estancia Ambulatoria", en: "Outpatient stay" },
+        desc: {
+          es: "Área de recuperación de corta estancia para procedimientos ambulatorios.",
+          en: "Short-stay recovery area for outpatient procedures.",
+        },
+        img: "/instalaciones/habitaciones/hs5.jpeg",
+      },
+    ],
+  },
+  {
+    id: "oftalmologia",
+    especialidad: { es: "Oftalmología", en: "Ophthalmology" },
+    subtitulo: {
+      es: "Consultas y procedimientos quirúrgicos para el cuidado de la salud visual.",
+      en: "Consultations and surgical procedures for eye health care.",
+    },
+    procedimientos: [
+      {
+        es: "Consultas de Oftalmología",
+        en: "Ophthalmology Consultations",
+        titulo: { es: "Consulta de Oftalmología", en: "Ophthalmology consultation" },
+        desc: {
+          es: "Valoración oftalmológica para el diagnóstico y seguimiento de la salud visual.",
+          en: "Ophthalmology assessment for diagnosing and monitoring eye health.",
+        },
+        img: "/instalaciones/consultorios/con4.webp",
+      },
+      {
+        es: "Procedimientos quirúrgicos de Oftalmología",
+        en: "Ophthalmology Surgical Procedures",
+        titulo: { es: "Cirugía Oftalmológica", en: "Eye surgery" },
+        desc: {
+          es: "Procedimientos quirúrgicos especializados para el tratamiento de padecimientos oculares.",
+          en: "Specialized surgical procedures to treat eye conditions.",
+        },
+        img: "/instalaciones/quirofanos/qx3.jpg",
+      },
+    ],
+  },
+  {
+    id: "servicios-quirurgicos",
+    especialidad: { es: "Servicios quirúrgicos", en: "Surgical Services" },
+    subtitulo: {
+      es: "Paquetes quirúrgicos con todo lo necesario para tu procedimiento.",
+      en: "Surgical packages with everything you need for your procedure.",
+    },
+    procedimientos: [
+      {
+        es: "Paquetes Quirúrgicos",
+        en: "Surgical Packages",
+        titulo: { es: "Paquetes Quirúrgicos", en: "Surgical packages" },
+        desc: {
+          es: "Paquetes que integran quirófano, hospitalización y honorarios para tu procedimiento.",
+          en: "Packages that bundle the operating room, hospital stay, and fees for your procedure.",
+        },
+        img: "/instalaciones/quirofanos/qx1.webp",
+      },
+    ],
+  },
+  // Especialidades pendientes de confirmación de procedimientos (ver PDF de
+  // servicios) — se muestran como especialidad pero sin cards de
+  // procedimiento hasta que el cliente confirme cuáles publicar.
+  {
+    id: "cardiologia",
+    especialidad: { es: "Cardiología", en: "Cardiology" },
+    subtitulo: {
+      es: "Diagnóstico y tratamiento de enfermedades del corazón y el sistema circulatorio.",
+      en: "Diagnosis and treatment of heart and circulatory system conditions.",
+    },
+    procedimientos: [],
+  },
+  {
+    id: "medicina-del-dolor",
+    especialidad: { es: "Medicina del Dolor", en: "Pain Medicine" },
+    subtitulo: {
+      es: "Manejo especializado del dolor agudo y crónico.",
+      en: "Specialized management of acute and chronic pain.",
+    },
+    procedimientos: [],
   },
   {
     id: "gastroenterologia",
@@ -240,209 +300,87 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
       es: "Diagnóstico y tratamiento de enfermedades del sistema digestivo.",
       en: "Diagnosis and treatment of digestive system conditions.",
     },
-    procedimientos: [
-      {
-        es: "Endoscopía diagnóstica y terapéutica",
-        en: "Diagnostic and therapeutic endoscopy",
-        titulo: { es: "Endoscopía", en: "Endoscopy" },
-        desc: {
-          es: "Exploración del tracto digestivo superior con fines diagnósticos y terapéuticos.",
-          en: "Exploration of the upper digestive tract for diagnostic and therapeutic purposes.",
-        },
-        img: "/instalaciones/quirofanos/qx2.jpg",
-      },
-      {
-        es: "Colonoscopía",
-        en: "Colonoscopy",
-        titulo: { es: "Colonoscopía", en: "Colonoscopy" },
-        desc: {
-          es: "Exploración del colon para la detección de pólipos y otras alteraciones.",
-          en: "Examination of the colon to detect polyps and other abnormalities.",
-        },
-        img: "/instalaciones/quirofanos/qx2.jpg",
-      },
-      {
-        es: "Enteroscopía",
-        en: "Enteroscopy",
-        titulo: { es: "Enteroscopía", en: "Enteroscopy" },
-        desc: {
-          es: "Exploración especializada del intestino delgado.",
-          en: "Specialized examination of the small intestine.",
-        },
-        img: "/instalaciones/quirofanos/qx2.jpg",
-      },
-      {
-        es: "CPRE (colangiopancreatografía retrógrada endoscópica)",
-        en: "ERCP",
-        titulo: { es: "CPRE", en: "ERCP" },
-        desc: {
-          es: "Estudio endoscópico de las vías biliares y el páncreas.",
-          en: "Endoscopic examination of the bile ducts and pancreas.",
-        },
-        img: "/instalaciones/quirofanos/qx2.jpg",
-      },
-      {
-        es: "Elastografía hepática",
-        en: "Liver elastography",
-        titulo: { es: "Elastografía hepática", en: "Liver elastography" },
-        desc: {
-          es: "Medición no invasiva de la rigidez del hígado para evaluar fibrosis.",
-          en: "Non-invasive measurement of liver stiffness to assess fibrosis.",
-        },
-        img: "/instalaciones/quirofanos/qx2.jpg",
-      },
-    ],
+    procedimientos: [],
   },
   {
-    id: "neumologia",
-    especialidad: { es: "Neumología", en: "Pulmonology" },
+    id: "endocrinologia",
+    especialidad: { es: "Endocrinología", en: "Endocrinology" },
     subtitulo: {
-      es: "Estudios de función pulmonar para adultos y niños.",
-      en: "Pulmonary function studies for adults and children.",
+      es: "Diagnóstico y tratamiento de trastornos hormonales y metabólicos.",
+      en: "Diagnosis and treatment of hormonal and metabolic disorders.",
     },
-    procedimientos: [
-      {
-        es: "Espirometría simple y con broncodilatador",
-        en: "Simple and post-bronchodilator spirometry",
-        titulo: { es: "Espirometría", en: "Spirometry" },
-        desc: {
-          es: "Medición de la capacidad y función pulmonar, con y sin broncodilatador.",
-          en: "Measurement of lung capacity and function, with and without a bronchodilator.",
-        },
-        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
-      },
-      {
-        es: "FeNO (óxido nítrico exhalado)",
-        en: "FeNO (exhaled nitric oxide)",
-        titulo: { es: "FeNO", en: "FeNO" },
-        desc: {
-          es: "Medición del óxido nítrico exhalado para evaluar inflamación de las vías respiratorias.",
-          en: "Measurement of exhaled nitric oxide to assess airway inflammation.",
-        },
-        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
-      },
-      {
-        es: "Poligrafía de sueño",
-        en: "Sleep polygraphy",
-        titulo: { es: "Poligrafía de sueño", en: "Sleep polygraphy" },
-        desc: {
-          es: "Estudio del sueño para detectar apnea y otros trastornos respiratorios nocturnos.",
-          en: "Sleep study to detect apnea and other nighttime breathing disorders.",
-        },
-        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
-      },
-      {
-        es: "Dinamometría",
-        en: "Dynamometry",
-        titulo: { es: "Dinamometría", en: "Dynamometry" },
-        desc: {
-          es: "Medición de la fuerza muscular respiratoria.",
-          en: "Measurement of respiratory muscle strength.",
-        },
-        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
-      },
-      {
-        es: "Higiene bronquial con chaleco percutor",
-        en: "Bronchial hygiene with percussion vest",
-        titulo: { es: "Chaleco percutor", en: "Percussion vest" },
-        desc: {
-          es: "Terapia de higiene bronquial mediante vibración para ayudar a despejar las vías respiratorias.",
-          en: "Vibration-based bronchial hygiene therapy that helps clear the airways.",
-        },
-        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
-      },
-      {
-        es: "Higiene bronquial con máquina de tos",
-        en: "Bronchial hygiene with cough assist machine",
-        titulo: { es: "Máquina de tos", en: "Cough assist" },
-        desc: {
-          es: "Asistencia mecánica para la expulsión de secreciones en pacientes con tos débil.",
-          en: "Mechanical assistance to clear secretions in patients with weak cough.",
-        },
-        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
-      },
-    ],
+    procedimientos: [],
   },
   {
-    id: "resonancia",
-    especialidad: { es: "Resonancia Magnética", en: "MRI" },
+    id: "ginecoobstetricia",
+    especialidad: { es: "Ginecoobstetricia", en: "Obstetrics & Gynecology" },
     subtitulo: {
-      es: "Estudios de resonancia magnética con equipo de última generación.",
-      en: "MRI studies with the latest-generation equipment.",
+      es: "Atención integral de la salud ginecológica y el embarazo.",
+      en: "Comprehensive care for gynecological health and pregnancy.",
     },
-    procedimientos: [
-      {
-        es: "Resonancia bajo sedación",
-        en: "MRI under sedation",
-        titulo: { es: "Bajo sedación", en: "Under sedation" },
-        desc: {
-          es: "Estudio de resonancia realizado con sedación para pacientes que lo requieran.",
-          en: "MRI study performed under sedation for patients who need it.",
-        },
-        img: "/instalaciones/areas-diagnosticas/reso4.jpeg",
-      },
-      {
-        es: "Cardiorresonancia",
-        en: "Cardiac MRI",
-        exclusivo: true,
-        titulo: { es: "Cardiorresonancia", en: "Cardiac MRI" },
-        desc: {
-          es: "Evaluación detallada de la estructura y función del corazón por resonancia magnética.",
-          en: "Detailed evaluation of the heart's structure and function via MRI.",
-        },
-        img: "/instalaciones/areas-diagnosticas/reso4.jpeg",
-      },
-      {
-        es: "Detección de placenta previa",
-        en: "Placenta previa detection",
-        titulo: { es: "Placenta previa", en: "Placenta previa" },
-        desc: {
-          es: "Detección de placenta previa mediante resonancia magnética.",
-          en: "Detection of placenta previa using MRI.",
-        },
-        img: "/instalaciones/areas-diagnosticas/reso4.jpeg",
-      },
-      {
-        es: "Difusión de cuerpo completo (pacientes oncológicos)",
-        en: "Whole-body diffusion (oncology patients)",
-        titulo: { es: "Cuerpo completo", en: "Whole body" },
-        desc: {
-          es: "Estudio de difusión de cuerpo completo para seguimiento de pacientes oncológicos.",
-          en: "Whole-body diffusion study for monitoring oncology patients.",
-        },
-        img: "/instalaciones/areas-diagnosticas/reso4.jpeg",
-      },
-    ],
+    procedimientos: [],
   },
   {
-    id: "tomografia",
-    especialidad: { es: "Tomografía", en: "CT Scan" },
+    id: "implantologia-oral",
+    especialidad: { es: "Implantología Oral", en: "Oral Implantology" },
     subtitulo: {
-      es: "Estudios de tomografía computarizada de alta resolución.",
-      en: "High-resolution CT scan studies.",
+      es: "Colocación de implantes dentales para restaurar piezas perdidas.",
+      en: "Placement of dental implants to restore missing teeth.",
     },
-    procedimientos: [
-      {
-        es: "Protocolo TAVI",
-        en: "TAVI protocol",
-        exclusivo: true,
-        titulo: { es: "Protocolo TAVI", en: "TAVI protocol" },
-        desc: {
-          es: "Evaluación tomográfica previa al implante valvular aórtico transcatéter.",
-          en: "CT evaluation prior to transcatheter aortic valve implantation.",
-        },
-        img: "/instalaciones/areas-diagnosticas/tac2.jpeg",
-      },
-      {
-        es: "Angiotac de coronarias",
-        en: "Coronary CT angiography",
-        titulo: { es: "Angiotac de coronarias", en: "Coronary CT angio" },
-        desc: {
-          es: "Estudio no invasivo de las arterias coronarias por tomografía.",
-          en: "Non-invasive study of the coronary arteries using CT.",
-        },
-        img: "/instalaciones/areas-diagnosticas/tac2.jpeg",
-      },
-    ],
+    procedimientos: [],
+  },
+  {
+    id: "medicina-interna",
+    especialidad: { es: "Medicina Interna", en: "Internal Medicine" },
+    subtitulo: {
+      es: "Diagnóstico y tratamiento integral de enfermedades en el adulto.",
+      en: "Comprehensive diagnosis and treatment of adult diseases.",
+    },
+    procedimientos: [],
+  },
+  {
+    id: "nefrologia",
+    especialidad: { es: "Nefrología", en: "Nephrology" },
+    subtitulo: {
+      es: "Diagnóstico y tratamiento de enfermedades renales.",
+      en: "Diagnosis and treatment of kidney disease.",
+    },
+    procedimientos: [],
+  },
+  {
+    id: "ortodoncia",
+    especialidad: { es: "Ortodoncia", en: "Orthodontics" },
+    subtitulo: {
+      es: "Corrección de la posición dental y alineación de la mordida.",
+      en: "Correction of tooth position and bite alignment.",
+    },
+    procedimientos: [],
+  },
+  {
+    id: "pediatria",
+    especialidad: { es: "Pediatría", en: "Pediatrics" },
+    subtitulo: {
+      es: "Atención médica integral para bebés, niños y adolescentes.",
+      en: "Comprehensive medical care for infants, children, and adolescents.",
+    },
+    procedimientos: [],
+  },
+  {
+    id: "psicologia",
+    especialidad: { es: "Psicología", en: "Psychology" },
+    subtitulo: {
+      es: "Evaluación y acompañamiento psicológico para la salud emocional.",
+      en: "Psychological assessment and support for emotional well-being.",
+    },
+    procedimientos: [],
+  },
+  {
+    id: "urologia",
+    especialidad: { es: "Urología", en: "Urology" },
+    subtitulo: {
+      es: "Diagnóstico y tratamiento de enfermedades del sistema urinario y reproductor masculino.",
+      en: "Diagnosis and treatment of urinary tract and male reproductive conditions.",
+    },
+    procedimientos: [],
   },
 ];

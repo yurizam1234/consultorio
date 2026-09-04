@@ -83,6 +83,17 @@ export default function ProcedimientosPage() {
       .filter((grupo) => grupo.procedimientos.length > 0);
   }, [query, activeEspecialidad, lang]);
 
+  // Especialidades como Cardiología o Pediatría existen en el catálogo (para
+  // el chip de filtro) pero todavía no tienen procedimientos cargados. En vez
+  // de un mensaje suelto sin contexto cuando "grupos" sale vacío, buscamos la
+  // especialidad activa en el catálogo completo para poder mantener el mismo
+  // recuadro blanco (título + subtítulo) que ven las especialidades con
+  // procedimientos, con el aviso de "sin resultados" centrado adentro.
+  const selectedGrupo = useMemo(
+    () => (activeEspecialidad ? catalogoProcedimientos.find((grupo) => grupo.id === activeEspecialidad) ?? null : null),
+    [activeEspecialidad]
+  );
+
   return (
     <>
       <ScrollEffects />
@@ -164,7 +175,19 @@ export default function ProcedimientosPage() {
             </div>
 
             {grupos.length === 0 ? (
-              <p className="procedimientos-empty">{t("procedimientos.no_results")}</p>
+              selectedGrupo ? (
+                <div className="procedimientos-sections">
+                  <section className="procedimientos-section">
+                    <h3 className="procedimientos-section-title">{selectedGrupo.especialidad[lang]}</h3>
+                    <p className="procedimientos-section-subtitle">{selectedGrupo.subtitulo[lang]}</p>
+                    <div className="procedimientos-cards-grid procedimientos-cards-grid-empty">
+                      <p className="procedimientos-empty">{t("procedimientos.no_results")}</p>
+                    </div>
+                  </section>
+                </div>
+              ) : (
+                <p className="procedimientos-empty">{t("procedimientos.no_results")}</p>
+              )
             ) : (
               <div className="procedimientos-sections">
                 {/* Sin <Reveal>: ese componente depende de que ScrollEffects.tsx
