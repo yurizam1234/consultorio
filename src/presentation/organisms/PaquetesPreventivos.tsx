@@ -87,12 +87,14 @@ export function PaquetesPreventivos({ initialKey = "basico" }: PaquetesPreventiv
   return (
     <section id="paquetes-preventivos" className="paquetes-section-wrap">
       <div className="wrap">
+      {/*
         <SectionHead
           eyebrow="Medicina preventiva y diagnóstico"
           title="Paquetes de salud y check-ups."
           description="Estudios coordinados en una sola visita para cuidar de ti y tu familia con resultados claros, interpretación médica y precios accesibles."
         />
-
+	*/}
+      {/*
         <Reveal>
           <div className="especialidades-tabs-row">
             <button
@@ -140,9 +142,11 @@ export function PaquetesPreventivos({ initialKey = "basico" }: PaquetesPreventiv
             </button>
           </div>
         </Reveal>
+	*/}
 
         <Reveal>
           <div className="panel">
+	{/*
             <div className="panel-visual">
               <Image
                 key={selectedKey}
@@ -156,7 +160,8 @@ export function PaquetesPreventivos({ initialKey = "basico" }: PaquetesPreventiv
               <div className="panel-visual-scrim" />
               <span className="panel-visual-tag">{paquete.n}</span>
             </div>
-
+	    */}
+	{/*
             <div className="panel-info">
               <div className="flex items-center gap-2 mb-2">
                 <span className="badge-pill-accent">
@@ -216,7 +221,6 @@ export function PaquetesPreventivos({ initialKey = "basico" }: PaquetesPreventiv
                 </a>
               </div>
             </div>
-
             <div>
               <p className="eyebrow" style={{ marginBottom: "14px" }}>
                 Coordinación y entrega médica
@@ -241,6 +245,7 @@ export function PaquetesPreventivos({ initialKey = "basico" }: PaquetesPreventiv
                 </p>
               </div>
             </div>
+	    */}
           </div>
         </Reveal>
       </div>
