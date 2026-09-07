@@ -174,7 +174,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
         c: "Cédula profesional 0000000 · Cédula de especialidad 0000000",
       },
     ],
-  },
+  }, /*
   gastro: {
     n: "Gastroenterología",
     tipo: ["consulta", "estudio"],
@@ -377,6 +377,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
       },
     ],
   },
+*/
 };
 
 export const ESPECIALIDADES_KEYS = Object.keys(ESPECIALIDADES);
