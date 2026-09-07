@@ -20,7 +20,7 @@ export const MOTIVOS_CONSULTA: MotivoConsulta[] = [
     ubicacion: "Torre Médica · Piso 2 · Citas disponibles",
     key: "oftalmologia",
     seccion: "especialidades",
-    imagen: "/atender/ojo.png",
+    imagen: "/oftamologia/intervencion.webp",
     alt: "Oftalmología - Cuidado de la vista y cirugía refractiva",
   },
   {

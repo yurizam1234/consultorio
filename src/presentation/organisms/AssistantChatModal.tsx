@@ -246,7 +246,7 @@ export function AssistantChatModal() {
       openEmergency();
     } else if (action.actionType === "whatsapp") {
       const msg = action.payload || "Hola, me gustaría solicitar información sobre sus servicios médicos.";
-      window.open(`${CONTACTO.whatsappHref}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
+      window.open(`${contactoInfo.whatsappHref}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
     } else if (action.actionType === "maps") {
       window.open(mapsDirectionsHref, "_blank", "noopener,noreferrer");
     }

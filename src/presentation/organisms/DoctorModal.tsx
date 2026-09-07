@@ -56,26 +56,34 @@ export function DoctorModal({ doctor, onClose }: DoctorModalProps) {
                 <p className="doctor-modal-desc">{t("equipo.credentials_pending")}</p>
               )}
 
-              <div className="doctor-modal-divider" />
+              {(doctor.cedulaProfesional || doctor.cedulaEspecialidad) && (
+                <>
+                  <div className="doctor-modal-divider" />
 
-              <div className="doctor-modal-cedulas">
-                <span>
-                  <b>{t("equipo.cedula_profesional_label")}:</b> {doctor.cedulaProfesional ?? t("equipo.cedula_pending")}
-                </span>
-                <span>
-                  <b>{t("equipo.cedula_especialidad_label")}:</b> {doctor.cedulaEspecialidad ?? t("equipo.cedula_pending")}
-                </span>
-                {doctor.cedulaProfesional && (
-                  <a
-                    className="doctor-modal-cedula-verify"
-                    href="https://cedulaprofesional.sep.gob.mx"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {t("equipo.cedula_verify_link")}
-                  </a>
-                )}
-              </div>
+                  <div className="doctor-modal-cedulas">
+                    {doctor.cedulaProfesional && (
+                      <span>
+                        <b>{t("equipo.cedula_profesional_label")}:</b> {doctor.cedulaProfesional}
+                      </span>
+                    )}
+                    {doctor.cedulaEspecialidad && (
+                      <span>
+                        <b>{t("equipo.cedula_especialidad_label")}:</b> {doctor.cedulaEspecialidad}
+                      </span>
+                    )}
+                    {doctor.cedulaProfesional && (
+                      <a
+                        className="doctor-modal-cedula-verify"
+                        href="https://cedulaprofesional.sep.gob.mx"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {t("equipo.cedula_verify_link")}
+                      </a>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

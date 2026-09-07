@@ -4792,9 +4792,34 @@ section[id] {
   }
 }
 
+/* Flechas a los costados de la barra de equipo: sin ellas, con mouse normal
+   (sin scroll horizontal nativo) no había forma de alcanzar a los
+   integrantes que quedaban fuera de vista — mismo patrón que
+   ".especialidades-tabs-row"/".servicios-fullscreen-controls". */
+.equipo-v2-team-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.equipo-v2-team-bar-btn {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  font-size: 1.15rem;
+}
+
 .equipo-v2-team-bar {
   display: flex;
-  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  /* "safe center": con más integrantes de los que caben, un "center" a secas
+     deja la mitad del desborde pegado a la izquierda sin forma de hacer
+     scroll hasta ahí (scrollLeft no baja de 0) — el primer integrante queda
+     recortado e imposible de seleccionar. "safe" hace que el navegador
+     use alineación al inicio en ese caso, sin perder el centrado cuando
+     todos entran cómodos. */
+  justify-content: safe center;
   gap: 6px;
   overflow-x: auto;
   scrollbar-width: none;
@@ -4936,6 +4961,12 @@ section[id] {
     justify-content: flex-start;
     gap: 16px;
     padding: 14px 32px;
+  }
+
+  /* El swipe nativo ya cubre la navegación en móvil (ver comentario arriba);
+     las flechas son sólo para mouse en escritorio. */
+  .equipo-v2-team-bar-btn {
+    display: none;
   }
 
   .equipo-v2-team-item {
@@ -7998,6 +8029,14 @@ button.cita-modal-close:active {
   transition: filter 0.45s ease, transform 0.45s ease;
 }
 
+/* Foto de "Aseguradora" (ver instalaciones.ts): es un retrato de personal, no
+   una foto de ambiente como el resto — con el centrado 50/50 por defecto, el
+   panel (bajo y ancho) recortaba justo la cabeza. Sube el encuadre para que
+   la cara quede dentro del recorte. */
+.diagonal-panel img[src*="aseguradora"] {
+  object-position: center 15%;
+}
+
 /* Sin foto real todavía (ver instalaciones.ts): en vez de un ícono chico
    centrado -que se leía como "contenido faltante"-, un brillo teal de marca
    más un ícono grande en la esquina a modo de textura decorativa, para que
@@ -8295,7 +8334,10 @@ button.cita-modal-close:active {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* Un solo bloque de texto ahora (todo junto abajo, ver AreaMedicaCard.tsx):
+     "space-between" necesitaba dos hijos (barra superior + panel inferior)
+     para repartir el espacio; con uno solo lo mandaba arriba en vez de abajo. */
+  justify-content: flex-end;
   padding-top: 84px;
   padding-bottom: 110px;
   box-sizing: border-box;

@@ -24,12 +24,6 @@ const departamentos: Departamento[] = [
   "intendencia",
 ];
 
-// Foto de prueba (recorte tipo "cutout"): ninguno de los integrantes reales tiene
-// todavía una foto en este formato (las de doctores.ts/equipoOtrasAreas.ts son
-// fotos de estudio normales, usadas en el carrusel de abajo) — se usa la misma
-// para todos mientras tanto, sólo para ver terminado el nuevo diseño.
-const FOTO_RECORTE_PRUEBA = "/doctor-cutout-demo.png";
-
 export function Equipo() {
   const { t, lang } = useLanguage();
   const [dept, setDept] = useState<Departamento>("medicos");
@@ -63,6 +57,14 @@ export function Equipo() {
     teamItemRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   }
 
+  // Sin flechas, la barra sólo se podía desplazar con touch/trackpad — con
+  // mouse normal (sin scroll horizontal nativo) los integrantes que quedaban
+  // fuera de vista (ej. desde "Arturo" en adelante) eran imposibles de
+  // alcanzar y por lo tanto de seleccionar.
+  function scrollTeamBar(direction: 1 | -1) {
+    teamBarRef.current?.scrollBy({ left: direction * 220, behavior: "smooth" });
+  }
+
   // Al cambiar de departamento la barra debe volver al inicio: si no se
   // reinicia el scroll a mano, se queda mostrando el hueco donde estaba el
   // integrante que se veía en el departamento anterior (activeIndex ya
@@ -75,13 +77,20 @@ export function Equipo() {
   // globals.css, con scroll-snap): al deslizar con el dedo no hay ningún
   // evento de click, así que este listener detecta cuál circulito quedó
   // centrado en la barra y actualiza activeIndex para que la foto/nombre/bio
-  // de arriba cambien junto con el swipe.
+  // de arriba cambien junto con el swipe. Sólo aplica en móvil (≤900px, ver
+  // ese mismo breakpoint en ".equipo-v2-team-bar" en globals.css): en
+  // escritorio la barra no tiene scroll-snap de "uno a la vez", y clickear
+  // a alguien cerca del borde dispara un scroll (scrollIntoView) que este
+  // mismo listener reinterpretaba como "el más cercano al centro", pisando
+  // la selección real con la de otra persona — algunos integrantes no se
+  // dejaban seleccionar.
   useEffect(() => {
     const bar = teamBarRef.current;
     if (!bar) return;
     let rafId = 0;
     function syncActiveFromScroll() {
       rafId = 0;
+      if (window.innerWidth > 900) return;
       const barRect = bar!.getBoundingClientRect();
       const barCenter = barRect.left + barRect.width / 2;
       let closestIndex = 0;
@@ -217,14 +226,20 @@ export function Equipo() {
                     <h3 className="equipo-v2-name">{activeDoctor?.name ?? t("equipo.name_pending")}</h3>
                     <p className="equipo-v2-role">{activeDoctor?.specialty?.[lang] ?? t("equipo.specialty_pending")}</p>
                     {activeDoctor?.desc && <p className="equipo-v2-bio">{activeDoctor.desc[lang]}</p>}
-                    <div className="equipo-v2-cedulas">
-                      <span>
-                        {t("equipo.cedula_profesional_label")}: {activeDoctor?.cedulaProfesional ?? t("equipo.cedula_pending")}
-                      </span>
-                      <span>
-                        {t("equipo.cedula_especialidad_label")}: {activeDoctor?.cedulaEspecialidad ?? t("equipo.cedula_pending")}
-                      </span>
-                    </div>
+                    {(activeDoctor?.cedulaProfesional || activeDoctor?.cedulaEspecialidad) && (
+                      <div className="equipo-v2-cedulas">
+                        {activeDoctor?.cedulaProfesional && (
+                          <span>
+                            {t("equipo.cedula_profesional_label")}: {activeDoctor.cedulaProfesional}
+                          </span>
+                        )}
+                        {activeDoctor?.cedulaEspecialidad && (
+                          <span>
+                            {t("equipo.cedula_especialidad_label")}: {activeDoctor.cedulaEspecialidad}
+                          </span>
+                        )}
+                      </div>
+                    )}
                     <button type="button" className="equipo-v2-cta" onClick={() => setModalDoctor(activeDoctor)}>
                       {t("equipo.view_profile")}
                       <Icon name="arrow-right" strokeWidth={2.2} />
@@ -233,38 +248,69 @@ export function Equipo() {
                 ) : (
                   <>
                     {activeMiembro?.esJefe && <span className="equipo-v2-badge">{t("equipo.jefe_badge")}</span>}
-                    <h3 className="equipo-v2-name">{activeMiembro?.role ?? t("equipo.role_pending")}</h3>
+                    <h3 className="equipo-v2-name">{activeMiembro?.name ?? t("equipo.name_pending")}</h3>
+                    <p className="equipo-v2-role">{activeMiembro?.role ?? t("equipo.role_pending")}</p>
                   </>
                 )}
               </div>
 
               <div className="equipo-v2-photo-col">
+                {/* La foto grande usa "imgMedioCuerpo" (recorte de medio
+                    cuerpo) cuando existe — es la pensada para este recuadro
+                    ancho; "img" (recorte de estudio, para el circulito de
+                    abajo) queda como respaldo mientras no todos la tengan. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={FOTO_RECORTE_PRUEBA} alt="" className="equipo-v2-photo" loading="lazy" />
+                <img
+                  key={activeDoctor?.imgMedioCuerpo ?? active.img}
+                  src={activeDoctor?.imgMedioCuerpo ?? active.img}
+                  alt={activeDoctor?.name ?? activeMiembro?.name ?? ""}
+                  className="equipo-v2-photo"
+                  loading="lazy"
+                />
               </div>
             </main>
 
-            <aside className="equipo-v2-team-bar" ref={teamBarRef}>
-              {items.map((item, index) => (
-                <button
-                  key={item.img}
-                  type="button"
-                  ref={(el) => {
-                    teamItemRefs.current[index] = el;
-                  }}
-                  className={cn("equipo-v2-team-item", index === activeIndex && "active")}
-                  onClick={() => handleSelectTeamItem(index)}
-                >
-                  <span className="equipo-v2-avatar">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={item.img} alt="" loading="lazy" />
-                  </span>
-                  <span className="equipo-v2-member-name">
-                    {isMedicos ? (item as Doctor).name ?? t("equipo.name_pending") : (item as MiembroOtraArea).role ?? t("equipo.role_pending")}
-                  </span>
-                </button>
-              ))}
-            </aside>
+            <div className="equipo-v2-team-bar-row">
+              <button
+                type="button"
+                className="carousel-btn equipo-v2-team-bar-btn"
+                aria-label={t("aria.prev_area")}
+                onClick={() => scrollTeamBar(-1)}
+              >
+                ‹
+              </button>
+
+              <aside className="equipo-v2-team-bar" ref={teamBarRef}>
+                {items.map((item, index) => (
+                  <button
+                    key={item.img}
+                    type="button"
+                    ref={(el) => {
+                      teamItemRefs.current[index] = el;
+                    }}
+                    className={cn("equipo-v2-team-item", index === activeIndex && "active")}
+                    onClick={() => handleSelectTeamItem(index)}
+                  >
+                    <span className="equipo-v2-avatar">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={item.img} alt="" loading="lazy" />
+                    </span>
+                    <span className="equipo-v2-member-name">
+                      {isMedicos ? (item as Doctor).name ?? t("equipo.name_pending") : (item as MiembroOtraArea).name ?? t("equipo.name_pending")}
+                    </span>
+                  </button>
+                ))}
+              </aside>
+
+              <button
+                type="button"
+                className="carousel-btn equipo-v2-team-bar-btn"
+                aria-label={t("aria.next_area")}
+                onClick={() => scrollTeamBar(1)}
+              >
+                ›
+              </button>
+            </div>
           </Reveal>
         </div>
       </div>

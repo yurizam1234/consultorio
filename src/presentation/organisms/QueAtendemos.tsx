@@ -10,6 +10,7 @@ import { MOTIVOS_CONSULTA } from "@/shared/data/motivosConsulta";
 import { cn } from "@/shared/lib/utils";
 
 interface QueAtendemosProps {
+  
   onSelectEspecialidad: (key: string, seccion: string) => void;
 }
 

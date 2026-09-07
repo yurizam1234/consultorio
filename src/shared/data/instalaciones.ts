@@ -94,7 +94,13 @@ export const instalaciones: Instalacion[] = [
       en: "Assistance and paperwork with your insurance provider.",
     },
     tag: { es: "📋 Trámites", en: "📋 Paperwork" },
-    // Sin foto real todavía (agregar cuando exista una foto del área/oficina).
-    galeria: [],
+    // Todavía no hay foto del área/oficina en sí: se usa el retrato del
+    // personal de aseguradora (ver "Nuestro Equipo") como imagen provisional,
+    // a pedido, hasta que exista una foto real del espacio físico.
+    img: "/nuestro-equipo/aseguradora/asglis.webp",
+    galeria: [
+      "/nuestro-equipo/aseguradora/asglis.webp",
+      "/nuestro-equipo/aseguradora/asgsadi.webp",
+    ],
   },
 ];

@@ -25,7 +25,7 @@ export const areasMedicas: AreaMedica[] = [
       es: "Diagnóstico y tratamiento visual con especialistas certificados en cirugía refractiva y patologías oculares complejas.",
       en: "Visual diagnosis and treatment with specialists certified in refractive surgery and complex eye conditions.",
     },
-    img: "/servicios/oftalmologia.png",
+    img: "/oftamologia/instalaciones.jpg",
   },
   {
     tagline: { es: "Resultados confiables", en: "Reliable results" },
@@ -52,7 +52,7 @@ export const areasMedicas: AreaMedica[] = [
       es: "Cinco quirófanos propios totalmente equipados con tecnología de mínima invasión y servicio de esterilización.",
       en: "Five fully equipped operating rooms of our own, with minimally invasive technology and sterilization service.",
     },
-    img: "/instalaciones/quirofanos/qx2.jpg",
+    img: "/instalaciones/quirofanos/equipo.jpeg",
   },
   {
     tagline: { es: "Salud del corazón", en: "Heart health" },
@@ -70,7 +70,7 @@ export const areasMedicas: AreaMedica[] = [
       es: "Tratamiento de dolor crónico y agudo de columna y articulaciones con bloqueos ecoguiados y rehabilitación.",
       en: "Treatment of chronic and acute spine and joint pain with ultrasound-guided blocks and rehabilitation.",
     },
-    img: "/instalaciones/areas-diagnosticas/usg2.jpg",
+    img: "/servicios/medicinadolor.jpg",
   },
   {
     tagline: { es: "Atención primaria", en: "Primary care" },

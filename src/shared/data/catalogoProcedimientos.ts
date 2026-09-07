@@ -141,9 +141,9 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
         img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
       },
       {
-        es: "Biopsia de próstata",
+        es: "Biopsia de próstata por fusión",
         en: "Prostate Biopsy",
-        titulo: { es: "Biopsia de próstata", en: "Prostate biopsy" },
+        titulo: { es: "Biopsia de próstata por Fusión", en: "Prostate biopsy" },
         desc: {
           es: "Toma de tejido prostático guiada por imagen para un diagnóstico preciso.",
           en: "Image-guided prostate tissue sampling for an accurate diagnosis.",

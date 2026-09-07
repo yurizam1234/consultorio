@@ -6,9 +6,9 @@ export interface SocialLink {
   icon: IconName;
 }
 
-// Placeholders: reemplaza cada href con la URL real del hospital cuando la tengas.
+// TikTok sigue como placeholder: reemplaza el href cuando tengas la URL real.
 export const socialLinks: SocialLink[] = [
-  { platform: "Facebook", href: "#", icon: "facebook" },
-  { platform: "Instagram", href: "#", icon: "instagram" },
+  { platform: "Facebook", href: "https://www.facebook.com/SHospitalarioArboledas/", icon: "facebook" },
+  { platform: "Instagram", href: "https://www.instagram.com/s.h.arboledas", icon: "instagram" },
   { platform: "TikTok", href: "#", icon: "tiktok" },
 ];
