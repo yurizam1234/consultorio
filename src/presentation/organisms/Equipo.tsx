@@ -56,6 +56,13 @@ export function Equipo() {
     const image = new window.Image();
     image.src = src;
   });
+  // Precargar imágenes grandes de las demás áreas
+  Object.values(equipoOtrasAreas)
+    .flat()
+    .forEach((persona) => {
+      const image = new window.Image();
+      image.src = persona.imgMedioCuerpo ?? persona.img;
+    });
 }, []);
     useEffect(() => {
   return () => {
@@ -335,11 +342,11 @@ function handleSelectTeamItem(index: number) {
                     abajo) queda como respaldo mientras no todos la tengan. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-		    src={activeDoctor?.imgMedioCuerpo ?? active.img}
-  alt={activeDoctor?.name ?? activeMiembro?.name ?? ""}
-  className="equipo-v2-photo"
-  loading="eager"
-  decoding="async"
+		    src={activeDoctor?.imgMedioCuerpo ?? activeMiembro?.imgMedioCuerpo ?? active.img}
+		      alt={activeDoctor?.name ?? activeMiembro?.name ?? ""}
+		      className="equipo-v2-photo"
+		      loading="eager"
+		      decoding="async"
                 />
               </div>
             </main>
