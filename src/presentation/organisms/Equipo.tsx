@@ -45,6 +45,14 @@ export function Equipo() {
   const active = items[Math.min(activeIndex, items.length - 1)];
   const activeDoctor = isMedicos ? (active as Doctor) : null;
   const activeMiembro = !isMedicos ? (active as MiembroOtraArea) : null;
+  useEffect(() => {
+  doctores.forEach((doctor) => {
+    const src = doctor.imgMedioCuerpo ?? doctor.img;
+
+    const image = new window.Image();
+    image.src = src;
+  });
+}, []);
 
   function handleSelectDept(next: Departamento) {
     setDept(next);
@@ -54,7 +62,34 @@ export function Equipo() {
 
   function handleSelectTeamItem(index: number) {
     setActiveIndex(index);
-    teamItemRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+
+  const bar = teamBarRef.current;
+  const item = teamItemRefs.current[index];
+
+  if (!bar || !item) return;
+
+  // En móvil se mantiene el comportamiento actual con scroll-snap.
+  if (window.innerWidth <= 900) {
+    item.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+    return;
+  }
+
+  // En desktop mover SOLO el carrusel horizontal.
+  // No mover el viewport/página verticalmente.
+  const itemCenter =
+    item.offsetLeft + item.offsetWidth / 2;
+
+  const targetLeft =
+    itemCenter - bar.clientWidth / 2;
+
+  bar.scrollTo({
+    left: targetLeft,
+    behavior: "smooth",
+  });
   }
 
   // Sin flechas, la barra sólo se podía desplazar con touch/trackpad — con
@@ -261,11 +296,11 @@ export function Equipo() {
                     abajo) queda como respaldo mientras no todos la tengan. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  key={activeDoctor?.imgMedioCuerpo ?? active.img}
-                  src={activeDoctor?.imgMedioCuerpo ?? active.img}
-                  alt={activeDoctor?.name ?? activeMiembro?.name ?? ""}
-                  className="equipo-v2-photo"
-                  loading="lazy"
+		    src={activeDoctor?.imgMedioCuerpo ?? active.img}
+  alt={activeDoctor?.name ?? activeMiembro?.name ?? ""}
+  className="equipo-v2-photo"
+  loading="eager"
+  decoding="async"
                 />
               </div>
             </main>
