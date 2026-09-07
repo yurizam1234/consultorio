@@ -4637,6 +4637,40 @@ section[id] {
   max-width: 1600px;
   margin: 0 auto;
 }
+/* =========================================================
+   TRANSICIÓN SUAVE AL CAMBIAR PERFIL — NUESTRO EQUIPO
+   ========================================================= */
+
+.equipo-v2-profile-transition .equipo-v2-info,
+.equipo-v2-profile-transition .equipo-v2-photo-col {
+  transition:
+    opacity 0.28s ease,
+    transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+
+  will-change: opacity, transform;
+}
+
+/* Perfil completamente visible */
+.equipo-v2-profile-transition.profile-visible .equipo-v2-info {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.equipo-v2-profile-transition.profile-visible .equipo-v2-photo-col {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Perfil saliendo */
+.equipo-v2-profile-transition.profile-hidden .equipo-v2-info {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.equipo-v2-profile-transition.profile-hidden .equipo-v2-photo-col {
+  opacity: 0;
+  transform: translateY(8px) scale(0.985);
+}
 
 .equipo-v2-info {
   flex: 1.1;

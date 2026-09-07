@@ -28,6 +28,10 @@ export function Equipo() {
   const { t, lang } = useLanguage();
   const [dept, setDept] = useState<Departamento>("medicos");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [displayIndex, setDisplayIndex] = useState(0);
+  const [profileVisible, setProfileVisible] = useState(true);
+
+  const profileTransitionTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [modalDoctor, setModalDoctor] = useState<Doctor | null>(null);
   // Sólo se usa en la versión móvil (ver ".equipo-v2-dept-select" en
   // globals.css) — en desktop los departamentos se quedan como pestañas de
@@ -42,7 +46,7 @@ export function Equipo() {
 
   const isMedicos = dept === "medicos";
   const items: { img: string }[] = isMedicos ? doctores : equipoOtrasAreas[dept];
-  const active = items[Math.min(activeIndex, items.length - 1)];
+  const active = items[Math.min(displayIndex, items.length - 1)];
   const activeDoctor = isMedicos ? (active as Doctor) : null;
   const activeMiembro = !isMedicos ? (active as MiembroOtraArea) : null;
   useEffect(() => {
@@ -53,22 +57,53 @@ export function Equipo() {
     image.src = src;
   });
 }, []);
+    useEffect(() => {
+  return () => {
+    if (profileTransitionTimer.current) {
+      clearTimeout(profileTransitionTimer.current);
+    }
+  };
+}, []);
 
   function handleSelectDept(next: Departamento) {
-    setDept(next);
-    setActiveIndex(0);
-    setDeptMenuOpen(false);
+     setDept(next);
+  setActiveIndex(0);
+  setDisplayIndex(0);
+  setProfileVisible(true);
+  setDeptMenuOpen(false);
   }
 
-  function handleSelectTeamItem(index: number) {
-    setActiveIndex(index);
+function handleSelectTeamItem(index: number) {
+  if (index === activeIndex) return;
+
+  // El circulito seleccionado cambia inmediatamente.
+  setActiveIndex(index);
+
+  // Cancela una transición anterior si el usuario hace clicks rápidos.
+  if (profileTransitionTimer.current) {
+    clearTimeout(profileTransitionTimer.current);
+  }
+
+  // 1. Desvanecer suavemente el perfil actual.
+  setProfileVisible(false);
+
+  // 2. Cambiar el contenido cuando ya casi desapareció.
+  profileTransitionTimer.current = setTimeout(() => {
+    setDisplayIndex(index);
+
+    // 3. Esperar a que React pinte el nuevo médico y hacerlo aparecer.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setProfileVisible(true);
+      });
+    });
+  }, 180);
 
   const bar = teamBarRef.current;
   const item = teamItemRefs.current[index];
 
   if (!bar || !item) return;
 
-  // En móvil se mantiene el comportamiento actual con scroll-snap.
   if (window.innerWidth <= 900) {
     item.scrollIntoView({
       behavior: "smooth",
@@ -78,8 +113,6 @@ export function Equipo() {
     return;
   }
 
-  // En desktop mover SOLO el carrusel horizontal.
-  // No mover el viewport/página verticalmente.
   const itemCenter =
     item.offsetLeft + item.offsetWidth / 2;
 
@@ -90,7 +123,7 @@ export function Equipo() {
     left: targetLeft,
     behavior: "smooth",
   });
-  }
+}
 
   // Sin flechas, la barra sólo se podía desplazar con touch/trackpad — con
   // mouse normal (sin scroll horizontal nativo) los integrantes que quedaban
@@ -253,7 +286,13 @@ export function Equipo() {
               </div>
             </header>
 
-            <main className="equipo-v2-main">
+	    <main
+	    className={cn(
+		    "equipo-v2-main",
+		    "equipo-v2-profile-transition",
+		    profileVisible ? "profile-visible" : "profile-hidden"
+		    )}
+	    >
               <div className="equipo-v2-info">
                 {isMedicos ? (
                   <>
