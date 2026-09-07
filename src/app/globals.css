@@ -4745,6 +4745,7 @@ section[id] {
   position: relative;
   z-index: 2;
   margin-bottom: -122px;
+  pointer-events: none;
 }
 
 /* Ver comentario junto a ".equipo-v2-info" (arriba): sin "grow" en fila esta
@@ -4797,6 +4798,9 @@ section[id] {
    integrantes que quedaban fuera de vista — mismo patrón que
    ".especialidades-tabs-row"/".servicios-fullscreen-controls". */
 .equipo-v2-team-bar-row {
+      position: relative;
+  z-index: 5;
+
   display: flex;
   align-items: center;
   gap: 8px;
