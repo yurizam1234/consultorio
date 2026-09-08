@@ -39,7 +39,7 @@ export const instalaciones: Instalacion[] = [
       en: "Welcoming spaces for personalized, confidential care.",
     },
     tag: { es: "Consulta", en: "Consultation" },
-    img: "/instalaciones/consultorios/con1.jpg",
+    img: "/instalaciones/consultorios/consultorio.jpg",
     galeria: [
       "/instalaciones/consultorios/con1.jpg",
       "/instalaciones/consultorios/con2.JPG",
@@ -94,10 +94,7 @@ export const instalaciones: Instalacion[] = [
       en: "Assistance and paperwork with your insurance provider.",
     },
     tag: { es: "Trámites", en: "Paperwork" },
-    // Todavía no hay foto del área/oficina en sí: se usa el retrato del
-    // personal de aseguradora (ver "Nuestro Equipo") como imagen provisional,
-    // a pedido, hasta que exista una foto real del espacio físico.
-    img: "/nuestro-equipo/aseguradora/asglis.webp",
+    img: "/nuestro-equipo/aseguradora/aseguradora.jpg",
     galeria: [
       "/nuestro-equipo/aseguradora/asglis.webp",
       "/nuestro-equipo/aseguradora/asgsadi.webp",
