@@ -19,7 +19,7 @@ export const instalaciones: Instalacion[] = [
       es: "Equipos de última generación para estudios precisos y rápidos.",
       en: "Latest-generation equipment for precise, fast studies.",
     },
-    tag: { es: "📡 Imagenología", en: "📡 Imaging" },
+    tag: { es: "Imagenología", en: "Imaging" },
     img: "/instalaciones/areas-diagnosticas/usg.jpg",
     galeria: [
       "/instalaciones/areas-diagnosticas/usg.jpg",
@@ -38,7 +38,7 @@ export const instalaciones: Instalacion[] = [
       es: "Espacios acogedores para una atención personalizada y confidencial.",
       en: "Welcoming spaces for personalized, confidential care.",
     },
-    tag: { es: "🩺 Consulta", en: "🩺 Consultation" },
+    tag: { es: "Consulta", en: "Consultation" },
     img: "/instalaciones/consultorios/con1.jpg",
     galeria: [
       "/instalaciones/consultorios/con1.jpg",
@@ -57,7 +57,7 @@ export const instalaciones: Instalacion[] = [
       es: "Ambiente cómodo y tranquilo para tu recuperación.",
       en: "A comfortable, calm environment for your recovery.",
     },
-    tag: { es: "🛏️ Hospitalización", en: "🛏️ Inpatient care" },
+    tag: { es: "Hospitalización", en: "Inpatient care" },
     img: "/instalaciones/habitaciones/hs1.jpeg",
     galeria: [
       "/instalaciones/habitaciones/hs1.jpeg",
@@ -74,7 +74,7 @@ export const instalaciones: Instalacion[] = [
       es: "Cinco quirófanos propios, totalmente equipados.",
       en: "Five fully equipped operating rooms of our own.",
     },
-    tag: { es: "🏥 Cirugía", en: "🏥 Surgery" },
+    tag: { es: "Cirugía", en: "Surgery" },
     img: "/instalaciones/quirofanos/qx2.jpg",
     galeria: [
       "/instalaciones/quirofanos/qx2.jpg",
@@ -93,7 +93,7 @@ export const instalaciones: Instalacion[] = [
       es: "Atención y gestión de trámites con tu aseguradora.",
       en: "Assistance and paperwork with your insurance provider.",
     },
-    tag: { es: "📋 Trámites", en: "📋 Paperwork" },
+    tag: { es: "Trámites", en: "Paperwork" },
     // Todavía no hay foto del área/oficina en sí: se usa el retrato del
     // personal de aseguradora (ver "Nuestro Equipo") como imagen provisional,
     // a pedido, hasta que exista una foto real del espacio físico.
