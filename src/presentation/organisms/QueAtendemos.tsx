@@ -6,6 +6,7 @@ import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { MotivoCard } from "@/presentation/molecules/MotivoCard";
 import { Reveal } from "@/presentation/atoms/Reveal";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
+import { useEmergencyModal } from "@/presentation/hooks/useEmergencyModal";
 import { MOTIVOS_CONSULTA } from "@/shared/data/motivosConsulta";
 import { cn } from "@/shared/lib/utils";
 
@@ -27,6 +28,7 @@ const START_INDEX = N * 2;
 
 export function QueAtendemos({ onSelectEspecialidad }: QueAtendemosProps) {
   const { t } = useLanguage();
+  const { open: openEmergency } = useEmergencyModal();
   const [displayIndex, setDisplayIndex] = useState(START_INDEX);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
@@ -48,6 +50,17 @@ export function QueAtendemos({ onSelectEspecialidad }: QueAtendemosProps) {
   }, []);
 
   const realIndex = ((displayIndex % N) + N) % N;
+
+  const handleSelectMotivo = useCallback(
+    (key: string, seccion: string) => {
+      if (key === "urgencia") {
+        openEmergency();
+        return;
+      }
+      onSelectEspecialidad(key, seccion);
+    },
+    [onSelectEspecialidad, openEmergency]
+  );
 
   const next = useCallback(() => {
     setIsTransitioning(true);
@@ -213,6 +226,7 @@ export function QueAtendemos({ onSelectEspecialidad }: QueAtendemosProps) {
             <MotivoCard
               key={`${motivo.key}-${index}`}
               numero={motivo.numero}
+              total={String(N).padStart(2, "0")}
               especialidad={motivo.especialidad}
               titulo={motivo.titulo}
               descripcion={motivo.descripcion}
@@ -221,9 +235,10 @@ export function QueAtendemos({ onSelectEspecialidad }: QueAtendemosProps) {
               seccion={motivo.seccion}
               imagen={motivo.imagen}
               alt={motivo.alt}
+              comingSoon={motivo.comingSoon}
               isActive={index === displayIndex}
               offsetFromActive={index - displayIndex}
-              onSelect={onSelectEspecialidad}
+              onSelect={handleSelectMotivo}
               onClickCard={() => {
                 if (Math.abs(dragDelta) > 5) return;
                 setIsTransitioning(true);
@@ -273,7 +288,7 @@ export function QueAtendemos({ onSelectEspecialidad }: QueAtendemosProps) {
             className="text-teal-700 hover:underline font-semibold"
             onClick={() => onSelectEspecialidad("general", "especialidades")}
           >
-            medicina general, imagenología, gastroenterología, ginecología, neumología y biopsias guiadas por imagen
+            ginecología y biopsias guiadas por imagen
           </button>
           .
         </p>

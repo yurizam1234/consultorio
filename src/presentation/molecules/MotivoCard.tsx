@@ -7,6 +7,7 @@ import { cn } from "@/shared/lib/utils";
 
 interface MotivoCardProps {
   numero: string;
+  total?: string;
   especialidad?: string;
   titulo: string;
   descripcion: string;
@@ -15,6 +16,7 @@ interface MotivoCardProps {
   seccion: string;
   imagen?: string;
   alt?: string;
+  comingSoon?: boolean;
   isActive?: boolean;
   offsetFromActive?: number;
   onSelect: (key: string, seccion: string) => void;
@@ -26,6 +28,7 @@ interface MotivoCardProps {
 export const MotivoCard = forwardRef<HTMLDivElement, MotivoCardProps>(function MotivoCard(
   {
     numero,
+    total,
     especialidad,
     titulo,
     descripcion,
@@ -34,6 +37,7 @@ export const MotivoCard = forwardRef<HTMLDivElement, MotivoCardProps>(function M
     seccion,
     imagen,
     alt,
+    comingSoon,
     isActive,
     onSelect,
     onClickCard,
@@ -52,6 +56,7 @@ export const MotivoCard = forwardRef<HTMLDivElement, MotivoCardProps>(function M
       return;
     }
     e.preventDefault();
+    if (comingSoon) return;
     onSelect(especialidadKey, seccion);
   };
 
@@ -157,12 +162,12 @@ export const MotivoCard = forwardRef<HTMLDivElement, MotivoCardProps>(function M
         {/* Title + Index Row */}
         <div className="visionos-title-bar">
           <h3 className="visionos-title">{especialidad || titulo}</h3>
-          <span className="visionos-index">{numero} / 04</span>
+          <span className="visionos-index">{numero}{total ? ` / ${total}` : ""}</span>
         </div>
 
         {/* Subtitle / Symptom trigger */}
         <div className="visionos-symptom-tag">
-          <span>{titulo}</span>
+          <span>{comingSoon ? "Muy pronto" : titulo}</span>
         </div>
 
         {/* Description body */}
