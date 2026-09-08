@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import type { LucideIcon } from "lucide-react";
-import { HeartHandshake, Award, Eye, ShieldCheck } from "lucide-react";
+import { HeartHandshake, Award, Eye, ShieldCheck, ChevronDown } from "lucide-react";
 import { Navbar } from "@/presentation/organisms/Navbar";
 import { Footer } from "@/presentation/organisms/Footer";
 import { ScrollEffects } from "@/presentation/organisms/ScrollEffects";
@@ -36,6 +37,7 @@ const valores: ValorItem[] = [
 
 export default function HistoriaPage() {
   const { t } = useLanguage();
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <>
@@ -83,12 +85,27 @@ export default function HistoriaPage() {
               <p>{t("historia.intro_body1")}</p>
               <p>{t("historia.intro_body2")}</p>
               <p>{t("historia.intro_body3")}</p>
-              <p>{t("historia.intro_body4")}</p>
-              <p>{t("historia.intro_body5")}</p>
-              <p>{t("historia.intro_body6")}</p>
-              <p>{t("historia.intro_body7")}</p>
-              <p>{t("historia.intro_body8")}</p>
-              <p>{t("historia.intro_body9")}</p>
+
+              <div className={`historia-intro-extra${expanded ? " is-expanded" : ""}`}>
+                <div className="historia-intro-extra-inner">
+                  <p>{t("historia.intro_body4")}</p>
+                  <p>{t("historia.intro_body5")}</p>
+                  <p>{t("historia.intro_body6")}</p>
+                  <p>{t("historia.intro_body7")}</p>
+                  <p>{t("historia.intro_body8")}</p>
+                  <p>{t("historia.intro_body9")}</p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="historia-vermas-btn"
+                aria-expanded={expanded}
+                onClick={() => setExpanded((prev) => !prev)}
+              >
+                {expanded ? t("historia.ver_menos") : t("historia.ver_mas")}
+                <ChevronDown size={16} strokeWidth={2.2} className="historia-vermas-icon" />
+              </button>
             </Reveal>
           </div>
         </section>

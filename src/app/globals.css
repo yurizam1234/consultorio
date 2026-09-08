@@ -8803,6 +8803,60 @@ button.cita-modal-close:active {
   color: var(--text-muted);
 }
 
+/* Truco de grid-template-rows 0fr -> 1fr para animar una altura que no
+   conocemos de antemano (el texto cambia de largo entre es/en) sin medir
+   con JS. El contenido real vive en ".historia-intro-extra-inner" porque
+   la transición de grid-template-rows necesita exactamente un hijo. */
+.historia-intro-extra {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.5s ease, opacity 0.4s ease;
+}
+
+.historia-intro-extra.is-expanded {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.historia-intro-extra-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow: hidden;
+}
+
+.historia-vermas-btn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--teal-start);
+  background: transparent;
+  color: var(--teal-end);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.historia-vermas-btn:hover {
+  background: var(--teal-start);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.historia-vermas-icon {
+  transition: transform 0.3s ease;
+}
+
+.historia-vermas-btn[aria-expanded="true"] .historia-vermas-icon {
+  transform: rotate(180deg);
+}
+
 .historia-eyebrow-small {
   font-size: 0.78rem;
   font-weight: 700;
