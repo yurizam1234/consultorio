@@ -13,12 +13,10 @@ import { SectionHead } from "@/presentation/molecules/SectionHead";
 import { PhotoStack } from "@/presentation/molecules/PhotoStack";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
 
-// Genéricas por ahora — reemplazar por fotos reales del hospital cuando estén
-// disponibles (mismo criterio que las de Nuestra Historia en la landing).
 const historiaPhotos = [
-  { src: "https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&q=80", alt: "Equipo médico SH Arboledas" },
-  { src: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80", alt: "Equipamiento de diagnóstico" },
-  { src: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80", alt: "Instalaciones SH Arboledas" },
+  { src: "/nuestro-equipo/medicos/drsolano.webp", alt: "Dr. Edgar A. Solano Tego, fundador de SH Arboledas" },
+  { src: "/instalaciones/habitaciones/enf3.jpeg", alt: "Equipo médico y de enfermería de SH Arboledas" },
+  { src: "/instalaciones/areas-diagnosticas/reso3.jpg", alt: "Equipo de resonancia magnética de SH Arboledas" },
 ];
 
 interface ValorItem {
