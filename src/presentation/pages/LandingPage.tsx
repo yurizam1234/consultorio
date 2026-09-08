@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Navbar } from "@/presentation/organisms/Navbar";
 import { Hero } from "@/presentation/organisms/Hero";
 import { TrustIntro } from "@/presentation/organisms/TrustIntro";
-import { ServiciosSlider } from "@/presentation/organisms/ServiciosSlider";
+// import { ServiciosSlider } from "@/presentation/organisms/ServiciosSlider";
 import { Instalaciones } from "@/presentation/organisms/Instalaciones";
 import { Equipo } from "@/presentation/organisms/Equipo";
 import { Testimonios } from "@/presentation/organisms/Testimonios";
@@ -32,12 +32,8 @@ export function LandingPage() {
         <Hero />
         <TrustIntro />
         <QueAtendemos onSelectEspecialidad={handleSelectEspecialidad} />
-        <ServiciosSlider onSelectEspecialidad={handleSelectEspecialidad} />
+        {/* <ServiciosSlider onSelectEspecialidad={handleSelectEspecialidad} /> */}
 
-        {/* Sin línea antes de la primera (Instalaciones): ServiciosSlider ya
-            tiene su propio corte sin costuras hacia ella (ver
-            ".servicios-fullscreen-section { margin: -26px 0 }" en
-            globals.css) — meter algo ahí reintroduciría el hueco. */}
         <Instalaciones />
 
         <Equipo />
