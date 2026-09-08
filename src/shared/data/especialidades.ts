@@ -24,7 +24,7 @@ export const ESPECIALIDADES: Record<string, Especialidad> = {
     n: "Oftalmología",
     tipo: ["consulta", "estudio"],
     d: "El área con la que nació el hospital. Revisión visual completa, seguimiento de patología ocular y cirugía refractiva, con equipo de diagnóstico propio.",
-    img: "/servicios/oftalmologia.png",
+    img: "/servicios/oftalmologia.webp",
     procs: [
       {
         n: "Consulta y revisión visual",

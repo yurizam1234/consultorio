@@ -1566,6 +1566,11 @@ section[id] {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* La foto es vertical (edificio de abajo hacia arriba) y el hero es
+     horizontal — con el centrado por defecto el recorte se quedaba a la
+     altura del letrero "436" y dejaba la puerta principal (hasta abajo de
+     la foto) fuera de cuadro. */
+  object-position: center 88%;
   border: none;
 }
 

@@ -16,12 +16,12 @@ export function Hero() {
   return (
     <section className="hero" id="inicio">
       <div className="hero-video-wrap">
-        <video
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           className="hero-video"
-          src="/videos/hero_arboledas_scrub.mp4"
-          muted
-          playsInline
-          preload="auto"
+          src="/hero/hospital.jpg"
+          alt=""
+          fetchPriority="high"
           aria-hidden="true"
         />
         <div className="hero-video-scrim" />

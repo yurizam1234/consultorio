@@ -53,7 +53,7 @@ export function ScrollEffects() {
     // quedarían congelados en el frame 0 para siempre, porque el scrub normal es lo
     // único que los mueve. Se reproducen en bucle, sin depender del scroll.
     if (prefersReducedMotion) {
-      const heroVideo = document.querySelector<HTMLVideoElement>(".hero-video");
+      const heroVideo = document.querySelector<HTMLVideoElement>("video.hero-video");
       const contactoVideo = document.querySelector<HTMLVideoElement>(".contacto-video");
       [heroVideo, contactoVideo].forEach((video) => {
         if (!video) return;
@@ -70,7 +70,12 @@ export function ScrollEffects() {
     // y React Strict Mode (dev) monta este efecto dos veces (mount → cleanup → mount):
     // sin esto, el listener del primer montaje "fantasma" podría sobrevivir al cleanup
     // y disparar un segundo montaje duplicado más tarde.
-    const heroVideo = document.querySelector<HTMLVideoElement>(".hero-video");
+    // Selector con tag ("video.hero-video", no sólo ".hero-video"): el hero
+    // ahora puede mostrar una foto estática (<img class="hero-video">, ver
+    // Hero.tsx) en vez del video — con el selector genérico, heroVideo
+    // hubiera "encontrado" esa <img> igual (mal tipada como video) y
+    // heroVideo.pause()/.duration más abajo habría roto todo en runtime.
+    const heroVideo = document.querySelector<HTMLVideoElement>("video.hero-video");
     const contactoVideo = document.querySelector<HTMLVideoElement>(".contacto-video");
     let ctx: gsap.Context | null = null;
     let cancelled = false;
@@ -129,8 +134,14 @@ export function ScrollEffects() {
         const citaCardWrap = document.querySelector<HTMLElement>(".cita-card-wrap");
         const heroSubtitle = document.querySelector<HTMLElement>(".hero-video-subtitle");
 
-        if (heroVideo && heroVideoWrap) {
-          primeVideoForScrub(heroVideo);
+        if (heroVideoWrap) {
+          // Con foto estática (ver Hero.tsx) no hay "heroVideo" real —
+          // sigue igual el pin + el parallax de título/cards/cita-card de
+          // abajo (no dependen del video), sólo se salta el scrub de
+          // cuadros del video, que no aplica a una imagen fija.
+          if (heroVideo) {
+            primeVideoForScrub(heroVideo);
+          }
 
           // Título, card(s) y la pestaña de "Agendar cita" se manejan a mano dentro del
           // MISMO onUpdate del pin (en vez de scrollTriggers propios con su propio scrub)
@@ -138,7 +149,7 @@ export function ScrollEffects() {
           // independientes, un scroll rápido hacía que siguieran "alcanzando" su valor
           // final después de que el pin ya se hubiera liberado (fuera de pantalla).
           const syncHero = (progress: number) => {
-            if (heroVideo.duration) {
+            if (heroVideo && heroVideo.duration) {
               const target = clampToBuffered(heroVideo, progress * heroVideo.duration);
               if (Math.abs(heroVideo.currentTime - target) > 0.02) {
                 heroVideo.currentTime = target;
@@ -205,9 +216,12 @@ export function ScrollEffects() {
           // Ver el comentario junto a "resyncHero" más arriba: sin esto, si el video
           // aún no tenía metadata/buffer suficiente en el último scroll, se queda
           // pegado hasta el PRÓXIMO scroll del usuario en vez de ponerse al día solo.
-          resyncHero = () => syncHero(heroTrigger.progress);
-          heroVideo.addEventListener("loadedmetadata", resyncHero);
-          heroVideo.addEventListener("progress", resyncHero);
+          // Sólo aplica si hay video real (nada que resincronizar en una foto fija).
+          if (heroVideo) {
+            resyncHero = () => syncHero(heroTrigger.progress);
+            heroVideo.addEventListener("loadedmetadata", resyncHero);
+            heroVideo.addEventListener("progress", resyncHero);
+          }
         } else {
           // Páginas sin hero de video (/historia, /procedimientos,
           // /especialidades, /agendar): el dock flotante sólo se revela vía
