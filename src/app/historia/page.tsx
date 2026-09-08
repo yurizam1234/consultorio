@@ -82,6 +82,13 @@ export default function HistoriaPage() {
               <h2>{t("historia.intro_title")}</h2>
               <p>{t("historia.intro_body1")}</p>
               <p>{t("historia.intro_body2")}</p>
+              <p>{t("historia.intro_body3")}</p>
+              <p>{t("historia.intro_body4")}</p>
+              <p>{t("historia.intro_body5")}</p>
+              <p>{t("historia.intro_body6")}</p>
+              <p>{t("historia.intro_body7")}</p>
+              <p>{t("historia.intro_body8")}</p>
+              <p>{t("historia.intro_body9")}</p>
             </Reveal>
           </div>
         </section>
