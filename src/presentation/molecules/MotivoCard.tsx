@@ -112,6 +112,7 @@ export const MotivoCard = forwardRef<HTMLDivElement, MotivoCardProps>(function M
 
       {/* 2. Top Floating Controls Row (Match Expand + Menu from Reference) */}
       <div className="visionos-card-header">
+         {/*
         <div className="visionos-expand-pill">
           <svg
             width="12"
@@ -131,7 +132,7 @@ export const MotivoCard = forwardRef<HTMLDivElement, MotivoCardProps>(function M
           </svg>
           <span>Expand</span>
         </div>
-
+*/}
         <div className="visionos-menu-btn" aria-hidden="true">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
             <circle cx="12" cy="12" r="2.2" />
