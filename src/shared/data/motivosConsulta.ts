@@ -21,7 +21,7 @@ export const MOTIVOS_CONSULTA: MotivoConsulta[] = [
     ubicacion: "Torre Médica · Piso 2 · Citas disponibles",
     key: "oftalmologia",
     seccion: "especialidades",
-    imagen: "/oftamologia/intervencion.webp",
+    imagen: "/atender/ojo.png",
     alt: "Oftalmología - Cuidado de la vista y cirugía refractiva",
   },
   {
@@ -69,7 +69,7 @@ export const MOTIVOS_CONSULTA: MotivoConsulta[] = [
     ubicacion: "Área de Imagenología · Estudios el mismo día",
     key: "imagenologia",
     seccion: "especialidades",
-    imagen: "/instalaciones/areas-diagnosticas/reso3.jpg",
+    imagen: "/atender/imagenologia.png",
     alt: "Imagenología - Resonancia, tomografía, ultrasonido y rayos X",
   },
   {
@@ -81,7 +81,7 @@ export const MOTIVOS_CONSULTA: MotivoConsulta[] = [
     ubicacion: "Laboratorio Clínico · Resultados en 24h",
     key: "laboratorio",
     seccion: "especialidades",
-    imagen: "/servicios/laboratorio-clinico.png",
+    imagen: "/atender/laboratorio.png",
     alt: "Laboratorio clínico - Toma de muestras y procesamiento de alta precisión",
   },
   {
@@ -93,7 +93,7 @@ export const MOTIVOS_CONSULTA: MotivoConsulta[] = [
     ubicacion: "Urgencias · Atención inmediata las 24 horas",
     key: "urgencia",
     seccion: "urgencia",
-    imagen: "/instalaciones/areas-diagnosticas/urgencia.jpeg",
+    imagen: "/atender/urgencias.png",
     alt: "Urgencias 24/7 - Atención médica inmediata los 365 días del año",
   },
   {
@@ -105,7 +105,7 @@ export const MOTIVOS_CONSULTA: MotivoConsulta[] = [
     ubicacion: "Unidad Quirúrgica · 5 quirófanos equipados",
     key: "quirofano",
     seccion: "especialidades",
-    imagen: "/instalaciones/quirofanos/equipo.jpeg",
+    imagen: "/atender/quirofano.png",
     alt: "Quirófanos - Cinco salas equipadas con tecnología de mínima invasión",
   },
   {
@@ -117,7 +117,7 @@ export const MOTIVOS_CONSULTA: MotivoConsulta[] = [
     ubicacion: "Consulta Externa · Citas disponibles",
     key: "general",
     seccion: "especialidades",
-    imagen: "/instalaciones/consultorios/con1.jpg",
+    imagen: "/atender/medicinageneral.png",
     alt: "Medicina General - Consulta general y preventiva para toda la familia",
   },
   {
@@ -129,7 +129,7 @@ export const MOTIVOS_CONSULTA: MotivoConsulta[] = [
     ubicacion: "Endoscopía · Diagnóstico digestivo avanzado",
     key: "gastro",
     seccion: "especialidades",
-    imagen: "/instalaciones/areas-diagnosticas/usg.jpg",
+    imagen: "/atender/gastroenterologia.png",
     alt: "Gastroenterología - Endoscopía, colonoscopía y elastografía hepática",
   },
   {
@@ -141,7 +141,7 @@ export const MOTIVOS_CONSULTA: MotivoConsulta[] = [
     ubicacion: "Función Pulmonar · Citas disponibles",
     key: "neumologia",
     seccion: "especialidades",
-    imagen: "/instalaciones/areas-diagnosticas/reso4.jpeg",
+    imagen: "/atender/neumologia.png",
     alt: "Neumología - Espirometría, poligrafía de sueño y rehabilitación respiratoria",
   },
   {
@@ -153,7 +153,7 @@ export const MOTIVOS_CONSULTA: MotivoConsulta[] = [
     ubicacion: "Muy pronto disponible",
     key: "domicilio",
     seccion: "proximamente",
-    imagen: "/img/equipo.jpg",
+    imagen: "/atender/atencion-domicilio.png",
     alt: "Atención a domicilio - Rayos X, laboratorio y enfermería en casa",
     comingSoon: true,
   },
