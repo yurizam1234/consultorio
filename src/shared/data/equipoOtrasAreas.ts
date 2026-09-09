@@ -22,14 +22,14 @@ export interface MiembroOtraArea {
 
 export const equipoOtrasAreas: Record<OtroDepartamento, MiembroOtraArea[]> = {
   enfermeria: [
-    { id: "enf-1", img: "/nuestro-equipo/enfermeria/enflinda.webp", name: "Enf. Linda Azucena Ramirez Nañez", role: "Jefa de Enfermería", esJefe: true },
-    { id: "enf-2", img: "/nuestro-equipo/enfermeria/enfangelita.webp", name: "Enf. Angelita Robres Ramos", role: "Enfermería" },
-    { id: "enf-3", img: "/nuestro-equipo/enfermeria/enfdiana.webp", name: "Enf. Diana Iris de la Cruz Castellanos", role: "Enfermería" },
-    { id: "enf-4", img: "/nuestro-equipo/enfermeria/enfnancy.webp", name: "Enf. Nancy Vianney Gutierrez Ramos", role: "Enfermería" },
-    { id: "enf-5", img: "/nuestro-equipo/enfermeria/enfraquel.webp", name: "Enf. Raquel Morales Ramirez", role: "Enfermería" },
-    { id: "enf-6", img: "/nuestro-equipo/enfermeria/enfsamuel.webp", name: "Enf. Samuel Blas Jiménez", role: "Enfermería" },
-    { id: "enf-7", img: "/nuestro-equipo/enfermeria/enftrini.webp", name: "Enf. Trinidad Pérez López", role: "Enfermería" },
-    { id: "enf-8", img: "/nuestro-equipo/enfermeria/enfvero.webp", name: "Enf. Veronica Aguilar Jimenez", role: "Enfermería" },
+    { id: "enf-1", img: "/nuestro-equipo/enfermeria/enflinda.webp", imgMedioCuerpo: "/nuestro-equipo/enfermeria/enflindamediocuerpo.png", name: "Enf. Linda Azucena Ramirez Nañez", role: "Jefa de Enfermería", esJefe: true },
+    { id: "enf-2", img: "/nuestro-equipo/enfermeria/enfangelita.webp", imgMedioCuerpo: "/nuestro-equipo/enfermeria/enfangelitamediocuerpo.png", name: "Enf. Angelita Robres Ramos", role: "Enfermería" },
+    { id: "enf-3", img: "/nuestro-equipo/enfermeria/enfdiana.webp", imgMedioCuerpo: "/nuestro-equipo/enfermeria/enfdianamediocuerpo.png", name: "Enf. Diana Iris de la Cruz Castellanos", role: "Enfermería" },
+    { id: "enf-4", img: "/nuestro-equipo/enfermeria/enfnancy.webp", imgMedioCuerpo: "/nuestro-equipo/enfermeria/enfnancymediocuerpo.png", name: "Enf. Nancy Vianney Gutierrez Ramos", role: "Enfermería" },
+    { id: "enf-5", img: "/nuestro-equipo/enfermeria/enfraquel.webp", imgMedioCuerpo: "/nuestro-equipo/enfermeria/enfraquelmiedocuerpo.png", name: "Enf. Raquel Morales Ramirez", role: "Enfermería" },
+    { id: "enf-6", img: "/nuestro-equipo/enfermeria/enfsamuel.webp", imgMedioCuerpo: "/nuestro-equipo/enfermeria/enfsamuelmediocuerpo.png", name: "Enf. Samuel Blas Jiménez", role: "Enfermería" },
+    { id: "enf-7", img: "/nuestro-equipo/enfermeria/enftrini.webp", imgMedioCuerpo: "/nuestro-equipo/enfermeria/enftrinimediocuerpo.png", name: "Enf. Trinidad Pérez López", role: "Enfermería" },
+    { id: "enf-8", img: "/nuestro-equipo/enfermeria/enfvero.webp", imgMedioCuerpo: "/nuestro-equipo/enfermeria/enfveromediocuerpo.png", name: "Enf. Veronica Aguilar Jimenez", role: "Enfermería" },
   ],
   quirofano: [
     { id: "qui-1", img: "/nuestro-equipo/quirofano/enfceci.webp", name: "Enf. Cecilia Pérez Albores", role: "Jefa de Quirófano", esJefe: true },
