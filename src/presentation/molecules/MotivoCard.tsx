@@ -132,7 +132,7 @@ export const MotivoCard = forwardRef<HTMLDivElement, MotivoCardProps>(function M
           </svg>
           <span>Expand</span>
         </div>
-*/}
+
         <div className="visionos-menu-btn" aria-hidden="true">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
             <circle cx="12" cy="12" r="2.2" />
@@ -140,6 +140,7 @@ export const MotivoCard = forwardRef<HTMLDivElement, MotivoCardProps>(function M
             <circle cx="5" cy="12" r="2.2" />
           </svg>
         </div>
+        */}
       </div>
 
       {/* 3. Hero Visual Image Stage */}
