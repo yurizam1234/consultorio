@@ -14,21 +14,17 @@ export interface Instalacion {
 export const instalaciones: Instalacion[] = [
   {
     num: "01",
-    title: { es: "Áreas diagnósticas", en: "Diagnostic areas" },
+    title: { es: "Farmacia", en: "Pharmacy" },
     desc: {
-      es: "Equipos de última generación para estudios precisos y rápidos.",
-      en: "Latest-generation equipment for precise, fast studies.",
+      es: "Encuentra tus medicamentos y productos de salud en un solo lugar.",
+      en: "Find all the medications and health products you need in one place.",
     },
-    tag: { es: "Imagenología", en: "Imaging" },
-    img: "/instalaciones/areas-diagnosticas/usg.webp",
+    tag: { es: "Farmacia", en: "Pharmacy" },
+    img: "/instalaciones/areas-diagnosticas/farmacia.webp",
     galeria: [
-      "/instalaciones/areas-diagnosticas/usg.webp",
-      "/instalaciones/areas-diagnosticas/usg2.webp",
-      "/instalaciones/areas-diagnosticas/estudio.webp",
-      "/instalaciones/areas-diagnosticas/reso3.webp",
-      "/instalaciones/areas-diagnosticas/reso4.webp",
-      "/instalaciones/areas-diagnosticas/tac2.webp",
-      "/instalaciones/areas-diagnosticas/urgencia.webp",
+      "/instalaciones/areas-diagnosticas/farmacia1.webp", 
+      "/instalaciones/areas-diagnosticas/farmacia2.webp",
+      "/instalaciones/areas-diagnosticas/farmacia3.webp",
     ],
   },
   {
@@ -41,13 +37,16 @@ export const instalaciones: Instalacion[] = [
     tag: { es: "Consulta", en: "Consultation" },
     img: "/instalaciones/areas-diagnosticas/consultario.webp",
     galeria: [
+      
       "/instalaciones/consultorios/con1.webp",
-      "/instalaciones/consultorios/con2.webp",
-      "/instalaciones/consultorios/con3.webp",
-      "/instalaciones/consultorios/con4.webp",
-      "/instalaciones/consultorios/con5.webp",
       "/instalaciones/consultorios/dr3.webp",
-      "/instalaciones/consultorios/dr5.webp",
+      "/instalaciones/consultorios/con3.webp",
+      "/instalaciones/consultorios/con2.webp",
+      "/instalaciones/consultorios/con5.webp",
+      "/instalaciones/consultorios/con6.webp",
+      "/instalaciones/consultorios/con7.webp",
+      
+      
     ],
   },
   {
@@ -60,11 +59,9 @@ export const instalaciones: Instalacion[] = [
     tag: { es: "Hospitalización", en: "Inpatient care" },
     img: "/instalaciones/habitaciones/hs1.webp",
     galeria: [
-      "/instalaciones/habitaciones/hs1.webp",
-      "/instalaciones/habitaciones/hs2.webp",
+      "/instalaciones/habitaciones/hs3.webp",
       "/instalaciones/habitaciones/hs5.webp",
-      "/instalaciones/habitaciones/hs6.webp",
-      "/instalaciones/habitaciones/enf3.webp",
+      "/instalaciones/habitaciones/hs2.webp",
     ],
   },
   {
@@ -75,7 +72,7 @@ export const instalaciones: Instalacion[] = [
       en: "Five fully equipped operating rooms of our own.",
     },
     tag: { es: "Cirugía", en: "Surgery" },
-    img: "/instalaciones/quirofanos/qx2.webp",
+    img: "/instalaciones/quirofanos/qx8.webp",
     galeria: [
       "/instalaciones/quirofanos/qx2.webp",
       "/instalaciones/quirofanos/qx1.webp",

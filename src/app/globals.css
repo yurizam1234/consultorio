@@ -8049,29 +8049,28 @@ button.cita-modal-close:active {
    revertido, con el ECG de SectionHead). */
 .instalaciones-gallery-frame {
   position: relative;
+  z-index: 1;
+  isolation: isolate;
 }
 
 .instalaciones-overlay-head {
   position: absolute;
   inset: 0;
-  z-index: 6;
+  z-index: 30;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 24px;
-  /* Deja pasar los clicks/hover a los paneles de abajo — el texto es sólo
-     decorativo, no interactivo. */
   pointer-events: none;
 }
 
 .instalaciones-overlay-head .eyebrow {
+  position: relative;
+  z-index: 1;
   width: auto;
   margin: 0;
   padding: 14px 32px;
   border-radius: 9999px;
-  /* Sin backdrop-filter: el blur se recalculaba en cada frame mientras los
-     paneles de abajo se animan al entrar (scrub de ScrollEffects.tsx). Un
-     fondo algo más opaco da la misma legibilidad sin ese costo. */
   background: rgba(var(--dark-shadow-rgb), 0.6);
   color: var(--white);
   text-shadow: 0 2px 10px rgba(var(--dark-shadow-rgb), 0.5);
@@ -8355,7 +8354,7 @@ button.cita-modal-close:active {
   .diagonal-panel-content p,
   .diagonal-panel-content .tag,
   .diagonal-panel-content .ver-mas-btn {
-    opacity: 1;
+    opacity: 0.5;
     transform: none;
     max-height: none;
   }
