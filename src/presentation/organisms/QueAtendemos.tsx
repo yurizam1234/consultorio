@@ -36,7 +36,12 @@ export function QueAtendemos({ onSelectEspecialidad }: QueAtendemosProps) {
   const [dragging, setDragging] = useState(false);
   const [dragDelta, setDragDelta] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  
+  // Fuera de pantalla el autoplay no aporta nada y cada avance re-renderiza
+  // todas las tarjetas 3D del carrusel: se pausa mientras la sección no se
+  // ve, para no sumar trabajo mientras se scrollea por otras secciones.
+  const [isOnScreen, setIsOnScreen] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
   const dragStartX = useRef(0);
   const isJumpingRef = useRef(false);
 
@@ -106,12 +111,20 @@ export function QueAtendemos({ onSelectEspecialidad }: QueAtendemosProps) {
   }, []);
 
   useEffect(() => {
-    if (isPaused || dragging) return;
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(([entry]) => setIsOnScreen(entry.isIntersecting));
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (isPaused || dragging || !isOnScreen) return;
     const interval = setInterval(() => {
       next();
     }, AUTOPLAY_MS);
     return () => clearInterval(interval);
-  }, [isPaused, dragging, next]);
+  }, [isPaused, dragging, isOnScreen, next]);
 
   useEffect(() => {
     if (!isTransitioning) return;
@@ -199,7 +212,7 @@ export function QueAtendemos({ onSelectEspecialidad }: QueAtendemosProps) {
   };
 
   return (
-    <section id="atender" className="motivos-section-wrap coverflow-mode overflow-hidden py-8 md:py-16">
+    <section ref={sectionRef} id="atender" className="motivos-section-wrap coverflow-mode overflow-hidden py-8 md:py-16">
       <div className="wrap relative z-10">
         <SectionHead
           eyebrow="Por dónde empezar"

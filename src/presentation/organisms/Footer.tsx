@@ -15,7 +15,7 @@ export function Footer() {
             <div className="foot-logo">
               <div className="foot-logo-mark">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/img/logo-blanco.png" alt="" aria-hidden="true" />
+                <img src="/img/logo-blanco.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
               </div>
            
             </div>

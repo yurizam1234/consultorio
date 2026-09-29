@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:static": "next build",
+    "build:static": "node scripts/build-static.mjs",
+    "zip": "powershell -Command \"Compress-Archive -Path 'out\\*', 'out\\.htaccess' -DestinationPath 'out.zip' -Force\"",
     "start": "next start",
     "lint": "eslint"
   },

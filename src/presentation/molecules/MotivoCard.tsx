@@ -153,7 +153,12 @@ export const MotivoCard = forwardRef<HTMLDivElement, MotivoCardProps>(function M
             width={320}
             height={320}
             className="visionos-visual-img"
-            priority={numero === "01" || numero === "02"}
+            // Las tarjetas fuera de rango del carrusel están en display:none y
+            // con carga "lazy" no se pedían hasta rotar, así que aparecían en
+            // blanco un instante. Se piden todas de entrada pero con prioridad
+            // baja, para no competir con la foto del hero.
+            loading="eager"
+            fetchPriority="low"
             unoptimized
           />
         </div>

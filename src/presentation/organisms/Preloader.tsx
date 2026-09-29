@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
 import { cn } from "@/shared/lib/utils";
 
@@ -20,6 +20,17 @@ const MAX_WAIT_MS = 6000;
 // el documento) y vuelve a "/", este componente se vuelve a montar y repite
 // los ~3s de espera de nuevo, aunque el video ya esté en caché.
 const PRELOADER_SESSION_KEY = "sh-preloader-shown";
+
+// sessionStorage se lee con useSyncExternalStore (mismo patrón que
+// useLanguage.tsx), NO en un lazy initializer de useState: el servidor siempre
+// renderiza "no visto", y leerlo durante el primer render del cliente daba
+// "visto" al recargar dentro de la sesión → error de hidratación (className y
+// aria-hidden distintos). Así la hidratación usa el valor del servidor y React
+// aplica el real justo después; en una navegación SPA de vuelta a "/" (sin
+// hidratación) se lee directo y el preloader no llega a pintarse.
+const subscribeNoop = () => () => {};
+const readShownThisSession = () => sessionStorage.getItem(PRELOADER_SESSION_KEY) === "1";
+const readShownOnServer = () => false;
 
 // ¿Ya se descargó el archivo completo (no sólo "puede reproducirse desde el
 // inicio")? El scroll-scrub salta a cualquier punto del video de golpe; con
@@ -67,77 +78,112 @@ function waitForFullDownload(maybeVideo: HTMLVideoElement | null, onDone: () => 
   return cleanup;
 }
 
+// Espera a que la foto esté descargada Y decodificada: así, al quitarse la
+// pantalla de carga, el hero ya se pinta completo en vez de aparecer a medias.
+function waitForImage(img: HTMLImageElement | null, onDone: () => void) {
+  if (!img) {
+    onDone();
+    return () => {};
+  }
+  let cancelled = false;
+  const finish = () => {
+    if (cancelled) return;
+    img.decode().catch(() => {}).then(() => {
+      if (!cancelled) onDone();
+    });
+  };
+  if (img.complete) {
+    finish();
+    return () => {
+      cancelled = true;
+    };
+  }
+  img.addEventListener("load", finish, { once: true });
+  img.addEventListener("error", finish, { once: true });
+  return () => {
+    cancelled = true;
+    img.removeEventListener("load", finish);
+    img.removeEventListener("error", finish);
+  };
+}
+
 // Pantalla de carga: fondo blanco + logo + etiqueta de texto. Se ve desde el
 // HTML servido por el servidor (sin depender de JS) para evitar cualquier
-// parpadeo; mientras tanto el resto del árbol (Hero, Contacto,
-// videos...) ya está montado detrás y descargando en segundo plano. JS sólo
-// decide CUÁNDO desvanecerla: cuando los videos de scroll-scrub (hero y
-// contacto) ya se descargaron por completo, con un mínimo (para que no sea un
+// parpadeo; mientras tanto el resto del árbol ya está montado detrás y
+// descargando en segundo plano. JS sólo decide CUÁNDO desvanecerla: cuando
+// el hero (foto o video) ya está listo, con un mínimo (para que no sea un
 // parpadeo) y un máximo (para no dejar a alguien con conexión lenta atrapado).
 export function Preloader() {
   const { t } = useLanguage();
-  // Lazy initializer (no un useEffect con setState): así en una navegación de
-  // vuelta a "/" dentro de la misma sesión arranca directo en "ready=true" —
-  // sin eso, aunque el efecto de abajo lo corrija enseguida, se alcanza a
-  // pintar un primer frame con el preloader visible.
-  const [ready, setReady] = useState(
-    () => typeof window !== "undefined" && sessionStorage.getItem(PRELOADER_SESSION_KEY) === "1"
-  );
+  const shownThisSession = useSyncExternalStore(subscribeNoop, readShownThisSession, readShownOnServer);
+  const [finished, setFinished] = useState(false);
+  const ready = shownThisSession || finished;
   const [mounted, setMounted] = useState(true);
 
   useEffect(() => {
-    if (sessionStorage.getItem(PRELOADER_SESSION_KEY) === "1") {
-      // "ready" ya salió en true del lazy initializer de arriba.
-      return;
-    }
-    sessionStorage.setItem(PRELOADER_SESSION_KEY, "1");
+    // Ya se vio en esta sesión: "ready" sale en true de shownThisSession.
+    if (readShownThisSession()) return;
 
     document.body.style.overflow = "hidden";
 
     const start = Date.now();
     let settled = false;
     let heroDone = false;
-    let contactoDone = false;
 
     const finishIfDone = () => {
-      if (settled || !heroDone || !contactoDone) return;
+      if (settled || !heroDone) return;
       settled = true;
       window.clearTimeout(maxTimer);
       const elapsed = Date.now() - start;
-      window.setTimeout(() => setReady(true), Math.max(0, MIN_VISIBLE_MS - elapsed));
+      window.setTimeout(() => setFinished(true), Math.max(0, MIN_VISIBLE_MS - elapsed));
     };
 
     const forceFinish = () => {
       if (settled) return;
       settled = true;
       const elapsed = Date.now() - start;
-      window.setTimeout(() => setReady(true), Math.max(0, MIN_VISIBLE_MS - elapsed));
+      window.setTimeout(() => setFinished(true), Math.max(0, MIN_VISIBLE_MS - elapsed));
     };
 
     const maxTimer = window.setTimeout(forceFinish, MAX_WAIT_MS);
 
-    const heroVideo = document.querySelector<HTMLVideoElement>(".hero-video");
-    const contactoVideo = document.querySelector<HTMLVideoElement>(".contacto-video");
-
-    const cleanupHero = waitForFullDownload(heroVideo, () => {
+    // El hero hoy es una foto (<img class="hero-video">, ver Hero.tsx), no un
+    // video: esperar "descarga completa de video" sobre un <img> nunca se
+    // cumplía y la pantalla de carga se quedaba SIEMPRE hasta MAX_WAIT_MS.
+    // Si vuelve a ser video, se sigue usando la espera de video de siempre.
+    const heroEl = document.querySelector<HTMLElement>(".hero-video");
+    const onHeroDone = () => {
       heroDone = true;
       finishIfDone();
-    });
-    const cleanupContacto = waitForFullDownload(contactoVideo, () => {
-      contactoDone = true;
-      finishIfDone();
-    });
+    };
+    const cleanupHero =
+      heroEl instanceof HTMLVideoElement
+        ? waitForFullDownload(heroEl, onHeroDone)
+        : waitForImage(heroEl instanceof HTMLImageElement ? heroEl : null, onHeroDone);
+
+    // El video de Contacto (8 MB, muy abajo en la página) ya no retiene la
+    // pantalla de carga: con preload="metadata" nunca llegaba a descargarse
+    // completo, así que sólo sumaba espera. Se descarga en segundo plano
+    // en cuanto la página ya está visible (ver el efecto de "ready").
 
     return () => {
       window.clearTimeout(maxTimer);
       cleanupHero();
-      cleanupContacto();
     };
   }, []);
 
   useEffect(() => {
     if (!ready) return;
+    // Se marca como visto recién al terminar (no al arrancar): si se marcara
+    // antes, cualquier re-render durante la espera leería "visto" en
+    // shownThisSession y cortaría la animación a medias.
+    sessionStorage.setItem(PRELOADER_SESSION_KEY, "1");
     document.body.style.overflow = "";
+    // Ya con la página visible y las imágenes de arriba cargadas, se pide el
+    // video de Contacto completo para que su scroll-scrub esté fluido al
+    // llegar ahí, sin competir con las imágenes durante la carga inicial.
+    const contactoVideo = document.querySelector<HTMLVideoElement>(".contacto-video");
+    if (contactoVideo) contactoVideo.preload = "auto";
     const id = window.setTimeout(() => setMounted(false), 650);
     return () => window.clearTimeout(id);
   }, [ready]);
@@ -153,15 +199,15 @@ export function Preloader() {
           el archivo una vez (misma URL), así que no pesa más que antes. */}
       <div className="preloader-logo-wrap" role="img" aria-label="SH Arboledas">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/img/logo-fondo.png" alt="" aria-hidden="true" className="preloader-logo-piece piece-top" />
+        <img src="/img/logo-fondo.webp" alt="" aria-hidden="true" className="preloader-logo-piece piece-top" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/img/logo-fondo.png" alt="" aria-hidden="true" className="preloader-logo-piece piece-left" />
+        <img src="/img/logo-fondo.webp" alt="" aria-hidden="true" className="preloader-logo-piece piece-left" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/img/logo-fondo.png" alt="" aria-hidden="true" className="preloader-logo-piece piece-right" />
+        <img src="/img/logo-fondo.webp" alt="" aria-hidden="true" className="preloader-logo-piece piece-right" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/img/logo-fondo.png" alt="" aria-hidden="true" className="preloader-logo-piece piece-bottom" />
+        <img src="/img/logo-fondo.webp" alt="" aria-hidden="true" className="preloader-logo-piece piece-bottom" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/img/logo-fondo.png" alt="" aria-hidden="true" className="preloader-logo-piece piece-text" />
+        <img src="/img/logo-fondo.webp" alt="" aria-hidden="true" className="preloader-logo-piece piece-text" />
       </div>
       <span className="preloader-label">{t("preloader.loading")}</span>
     </div>

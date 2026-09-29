@@ -43,6 +43,13 @@ export function Equipo() {
   // scrollIntoView al hacer click o al cambiar de departamento.
   const teamBarRef = useRef<HTMLDivElement>(null);
   const teamItemRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  // El listener de scroll (más abajo) necesita el índice activo más reciente
+  // sin re-suscribirse en cada cambio — de ahí el ref en vez de leer
+  // "activeIndex" directo dentro de ese efecto.
+  const activeIndexRef = useRef(activeIndex);
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   const isMedicos = dept === "medicos";
   const items: { img: string }[] = isMedicos ? doctores : equipoOtrasAreas[dept];
@@ -80,13 +87,11 @@ export function Equipo() {
   setDeptMenuOpen(false);
   }
 
-function handleSelectTeamItem(index: number) {
-  if (index === activeIndex) return;
-
+function updateActiveProfile(index: number) {
   // El circulito seleccionado cambia inmediatamente.
   setActiveIndex(index);
 
-  // Cancela una transición anterior si el usuario hace clicks rápidos.
+  // Cancela una transición anterior si el usuario hace clicks/swipes rápidos.
   if (profileTransitionTimer.current) {
     clearTimeout(profileTransitionTimer.current);
   }
@@ -105,6 +110,12 @@ function handleSelectTeamItem(index: number) {
       });
     });
   }, 180);
+}
+
+function handleSelectTeamItem(index: number) {
+  if (index === activeIndex) return;
+
+  updateActiveProfile(index);
 
   const bar = teamBarRef.current;
   const item = teamItemRefs.current[index];
@@ -179,7 +190,9 @@ function handleSelectTeamItem(index: number) {
           closestIndex = index;
         }
       });
-      setActiveIndex((prev) => (prev === closestIndex ? prev : closestIndex));
+      if (activeIndexRef.current !== closestIndex) {
+        updateActiveProfile(closestIndex);
+      }
     }
     function handleScroll() {
       if (rafId) return;

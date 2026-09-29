@@ -6,6 +6,13 @@ import { Icon } from "@/presentation/atoms/Icon";
 import { useLanguage } from "@/presentation/hooks/useLanguage";
 import { cn } from "@/shared/lib/utils";
 
+// Las miniaturas (68×52) usan una versión chica "-thumb.webp" generada junto a
+// cada foto (136×104, ~3 KB) en vez de bajar la foto completa (~100 KB).
+// Al agregar una foto a una galería hay que generar también su miniatura.
+function thumbSrc(src: string) {
+  return src.replace(/\.webp$/, "-thumb.webp");
+}
+
 interface InstalacionGaleriaProps {
   instalacion: Instalacion | null;
   onClose: () => void;
@@ -96,7 +103,7 @@ function InstalacionGaleriaContent({ instalacion }: { instalacion: Instalacion }
               onClick={() => setIndex(i)}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="" loading="lazy" />
+              <img src={thumbSrc(src)} alt="" loading="lazy" decoding="async" width={136} height={104} />
             </button>
           ))}
         </div>

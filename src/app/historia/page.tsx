@@ -15,8 +15,8 @@ import { useLanguage } from "@/presentation/hooks/useLanguage";
 
 const historiaPhotos = [
   { src: "/nuestro-equipo/medicos/drsolano.webp", alt: "Dr. Edgar A. Solano Tego, fundador de SH Arboledas" },
-  { src: "/instalaciones/habitaciones/enf3.jpeg", alt: "Equipo médico y de enfermería de SH Arboledas" },
-  { src: "/instalaciones/areas-diagnosticas/reso3.jpg", alt: "Equipo de resonancia magnética de SH Arboledas" },
+  { src: "/instalaciones/habitaciones/enf3.webp", alt: "Equipo médico y de enfermería de SH Arboledas" },
+  { src: "/instalaciones/areas-diagnosticas/reso3.webp", alt: "Equipo de resonancia magnética de SH Arboledas" },
 ];
 
 interface ValorItem {
@@ -51,7 +51,7 @@ export default function HistoriaPage() {
           <div className="historia-hero-media full-bleed">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/img/equipo.jpg"
+              src="/img/equipo-hero.webp"
               alt=""
               className="historia-hero-img"
               fetchPriority="high"

@@ -26,6 +26,12 @@ export interface GrupoProcedimientos {
   especialidad: Record<Lang, string>;
   subtitulo: Record<Lang, string>;
   procedimientos: Procedimiento[];
+  // Sólo para especialidades sin procedimientos confirmados todavía (ver las
+  // entradas con "procedimientos: []" más abajo): foto de la especialidad
+  // que se usa en su card dentro de la sección "Especialidades" de
+  // /procedimientos (ver page.tsx) mientras no hay procedimientos propios
+  // que mostrar. Se edita acá mismo cuando llegue la foto definitiva.
+  img?: string;
 }
 
 // Catálogo de procedimientos/estudios agrupados por especialidad — fuente
@@ -48,7 +54,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Estudio de resonancia magnética sin contraste para evaluar tejidos blandos y estructuras internas.",
           en: "MRI study without contrast to evaluate soft tissue and internal structures.",
         },
-        img: "/instalaciones/areas-diagnosticas/reso3.jpg",
+        img: "/instalaciones/areas-diagnosticas/reso3.webp",
       },
       {
         es: "Resonancia magnética contrastada",
@@ -58,7 +64,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Resonancia magnética con medio de contraste para mayor detalle diagnóstico.",
           en: "MRI performed with contrast medium for greater diagnostic detail.",
         },
-        img: "/instalaciones/areas-diagnosticas/reso4.jpeg",
+        img: "/instalaciones/areas-diagnosticas/reso4.webp",
       },
       {
         es: "Tomografía simple",
@@ -68,7 +74,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Tomografía computarizada sin contraste para una evaluación rápida y detallada.",
           en: "CT scan without contrast for a fast, detailed evaluation.",
         },
-        img: "/instalaciones/areas-diagnosticas/tac2.jpeg",
+        img: "/instalaciones/areas-diagnosticas/tac2.webp",
       },
       {
         es: "Tomografía contrastada",
@@ -78,7 +84,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Tomografía computarizada con medio de contraste para mayor precisión diagnóstica.",
           en: "CT scan with contrast medium for greater diagnostic precision.",
         },
-        img: "/instalaciones/areas-diagnosticas/tac2.jpeg",
+        img: "/instalaciones/areas-diagnosticas/tomografia.webp",
       },
       {
         es: "Ultrasonido",
@@ -88,7 +94,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Estudio de imagen por ultrasonido para la evaluación de órganos y tejidos blandos.",
           en: "Ultrasound imaging study to evaluate organs and soft tissue.",
         },
-        img: "/instalaciones/areas-diagnosticas/usg.jpg",
+        img: "/instalaciones/areas-diagnosticas/usg.webp",
       },
       {
         es: "Mastografía",
@@ -98,7 +104,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Estudio de imagen para la detección temprana de alteraciones en el tejido mamario.",
           en: "Imaging study for the early detection of abnormalities in breast tissue.",
         },
-        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
+        img: "/instalaciones/areas-diagnosticas/matografia.webp",
       },
     ],
   },
@@ -128,7 +134,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Registro de la actividad eléctrica cerebral para evaluar el funcionamiento neurológico.",
           en: "Recording of brain electrical activity to assess neurological function.",
         },
-        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
+        img: "/instalaciones/areas-diagnosticas/arcoencotro.webp",
       },
       {
         es: "Estudios de Laboratorio",
@@ -138,17 +144,31 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Análisis clínicos de sangre, orina y otras muestras para apoyar el diagnóstico.",
           en: "Clinical analysis of blood, urine, and other samples to support diagnosis.",
         },
-        img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
+        img: "/instalaciones/areas-diagnosticas/laboratorio.webp",
       },
       {
-        es: "Biopsia de próstata por fusión",
-        en: "Prostate Biopsy",
-        titulo: { es: "Biopsia de próstata por Fusión", en: "Prostate biopsy" },
+        // Confirmado por el cliente: sí se hace la biopsia "cognitiva"
+        // (convencional, ver entrada de abajo) también, pero la de fusión es
+        // el diferenciador real que quiere destacado — de ahí el "exclusivo".
+        exclusivo: true,
+        es: "Biopsia de Próstata por Fusión guiada por Ultrasonido",
+        en: "Ultrasound-Guided Prostate Fusion Biopsy",
+        titulo: { es: "Biopsia de próstata por Fusión", en: "Prostate biopsy (fusion)" },
         desc: {
-          es: "Toma de tejido prostático guiada por imagen para un diagnóstico preciso.",
-          en: "Image-guided prostate tissue sampling for an accurate diagnosis.",
+          es: "Combina imágenes de resonancia magnética con ultrasonido en tiempo real para dirigir la toma de tejido con mayor precisión.",
+          en: "Combines MRI and real-time ultrasound imaging to guide tissue sampling with greater precision.",
         },
-        img: "/instalaciones/areas-diagnosticas/usg2.jpg",
+        img: "/instalaciones/areas-diagnosticas/usg2.webp",
+      },
+      {
+        es: "Biopsia de próstata cognitiva",
+        en: "Cognitive Prostate Biopsy",
+        titulo: { es: "Biopsia de próstata Cognitiva", en: "Prostate biopsy (cognitive)" },
+        desc: {
+          es: "Toma de tejido prostático guiada por ultrasonido — la técnica convencional para el diagnóstico.",
+          en: "Prostate tissue sampling guided by ultrasound — the conventional diagnostic technique.",
+        },
+        img: "/instalaciones/areas-diagnosticas/usg23.webp",
       },
     ],
   },
@@ -168,7 +188,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Valoración médica general para atender cualquier padecimiento o duda de salud.",
           en: "General medical assessment to address any condition or health concern.",
         },
-        img: "/instalaciones/consultorios/con1.jpg",
+        img: "/instalaciones/consultorios/con1.webp",
       },
       {
         es: "Atención Médica",
@@ -188,7 +208,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Revisión médica preventiva integral para detectar oportunamente cualquier alteración.",
           en: "Comprehensive preventive medical exam to catch any issue early.",
         },
-        img: "/instalaciones/consultorios/con5.jpg",
+        img: "/instalaciones/consultorios/con5.webp",
       },
     ],
   },
@@ -208,7 +228,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Internación hospitalaria con atención médica y de enfermería las 24 horas.",
           en: "Hospital admission with round-the-clock medical and nursing care.",
         },
-        img: "/instalaciones/habitaciones/hs2.jpg",
+        img: "/instalaciones/habitaciones/hs2.webp",
       },
       {
         es: "Estancia Ambulatoria",
@@ -218,7 +238,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Área de recuperación de corta estancia para procedimientos ambulatorios.",
           en: "Short-stay recovery area for outpatient procedures.",
         },
-        img: "/instalaciones/habitaciones/hs5.jpeg",
+        img: "/instalaciones/habitaciones/hs5.webp",
       },
     ],
   },
@@ -248,7 +268,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
           es: "Procedimientos quirúrgicos especializados para el tratamiento de padecimientos oculares.",
           en: "Specialized surgical procedures to treat eye conditions.",
         },
-        img: "/instalaciones/quirofanos/qx3.jpg",
+        img: "/instalaciones/quirofanos/qx3.webp",
       },
     ],
   },
@@ -283,6 +303,9 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
       en: "Diagnosis and treatment of heart and circulatory system conditions.",
     },
     procedimientos: [],
+    // Foto real del Dr. Werner Schlie Villa, cardiólogo del hospital (ver
+    // doctores.ts) — mejor que reutilizar una foto genérica de instalaciones.
+    img: "/instalaciones/areas-diagnosticas/cardiologia.webp",
   },
   {
     id: "medicina-del-dolor",
@@ -292,6 +315,9 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
       en: "Specialized management of acute and chronic pain.",
     },
     procedimientos: [],
+    // Foto real del Dr. Nelson Jovanny Urbina López, especialista en
+    // medicina del dolor (ver doctores.ts).
+    img: "/instalaciones/areas-diagnosticas/medicinadeldolor.webp",
   },
   {
     id: "gastroenterologia",
@@ -301,6 +327,8 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
       en: "Diagnosis and treatment of digestive system conditions.",
     },
     procedimientos: [],
+    // Endoscopía real (equipo con monitor mostrando el estudio en vivo).
+    img: "/instalaciones/quirofanos/qx2.webp",
   },
   {
     id: "endocrinologia",
@@ -310,6 +338,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
       en: "Diagnosis and treatment of hormonal and metabolic disorders.",
     },
     procedimientos: [],
+    img: "/instalaciones/consultorios/consultorio.webp",
   },
   {
     id: "ginecoobstetricia",
@@ -319,6 +348,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
       en: "Comprehensive care for gynecological health and pregnancy.",
     },
     procedimientos: [],
+    img: "/instalaciones/areas-diagnosticas/ginecologia.webp",
   },
   {
     id: "implantologia-oral",
@@ -328,6 +358,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
       en: "Placement of dental implants to restore missing teeth.",
     },
     procedimientos: [],
+    img: "/instalaciones/habitaciones/hs1.webp",
   },
   {
     id: "medicina-interna",
@@ -337,6 +368,8 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
       en: "Comprehensive diagnosis and treatment of adult diseases.",
     },
     procedimientos: [],
+    // Foto real de la Dra. Julieta, medicina interna (ver doctores.ts).
+    img: "/instalaciones/areas-diagnosticas/medicinaimagen.webp",
   },
   {
     id: "nefrologia",
@@ -346,6 +379,8 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
       en: "Diagnosis and treatment of kidney disease.",
     },
     procedimientos: [],
+    // Foto real del Dr. Martin Chang, nefrólogo (ver doctores.ts).
+    img: "/instalaciones/areas-diagnosticas/netrologia.webp",
   },
   {
     id: "ortodoncia",
@@ -355,6 +390,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
       en: "Correction of tooth position and bite alignment.",
     },
     procedimientos: [],
+    img: "/instalaciones/areas-diagnosticas/dentista.webp",
   },
   {
     id: "pediatria",
@@ -364,6 +400,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
       en: "Comprehensive medical care for infants, children, and adolescents.",
     },
     procedimientos: [],
+    img: "/instalaciones/areas-diagnosticas/urgencia.webp",
   },
   {
     id: "psicologia",
@@ -373,6 +410,7 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
       en: "Psychological assessment and support for emotional well-being.",
     },
     procedimientos: [],
+    img: "/instalaciones/consultorios/dr5.webp",
   },
   {
     id: "urologia",
@@ -382,5 +420,58 @@ export const catalogoProcedimientos: GrupoProcedimientos[] = [
       en: "Diagnosis and treatment of urinary tract and male reproductive conditions.",
     },
     procedimientos: [],
+    img: "/instalaciones/quirofanos/qx7.webp",
+  },
+  {
+    id: "cirujano-dentista",
+    especialidad: { es: "Cirujano Dentista", en: "Dentistry" },
+    subtitulo: {
+      es: "Atención dental integral para el cuidado de tu salud bucal.",
+      en: "Comprehensive dental care for your oral health.",
+    },
+    procedimientos: [],
+    img: "/instalaciones/areas-diagnosticas/ortodoncia.webp",
+  },
+  {
+    id: "cirugia-general",
+    especialidad: { es: "Cirugía General", en: "General Surgery" },
+    subtitulo: {
+      es: "Valoración y procedimientos quirúrgicos para el tratamiento de diversos padecimientos.",
+      en: "Assessment and surgical procedures to treat a wide range of conditions.",
+    },
+    procedimientos: [],
+    // El directorio del lobby muestra "Cirugía General" en el listado.
+    img: "/instalaciones/consultorios/con1.webp",
+  },
+  {
+    id: "cirugia-vascular",
+    especialidad: { es: "Cirugía Vascular (Angiología)", en: "Vascular Surgery (Angiology)" },
+    subtitulo: {
+      es: "Diagnóstico y tratamiento de enfermedades de venas y arterias.",
+      en: "Diagnosis and treatment of vein and artery conditions.",
+    },
+    procedimientos: [],
+    img: "/instalaciones/habitaciones/enf3.webp",
+  },
+  {
+    id: "dietetica-nutricion",
+    especialidad: { es: "Dietética y Nutrición", en: "Dietetics & Nutrition" },
+    subtitulo: {
+      es: "Planes de alimentación personalizados para el cuidado de tu salud.",
+      en: "Personalized nutrition plans to support your health.",
+    },
+    procedimientos: [],
+    img: "/instalaciones/consultorios/dr3.webp",
+  },
+  {
+    id: "ecocardiografia",
+    especialidad: { es: "Ecocardiografía", en: "Echocardiography" },
+    subtitulo: {
+      es: "Estudio de imagen para evaluar la estructura y función del corazón.",
+      en: "Imaging study to assess the heart's structure and function.",
+    },
+    procedimientos: [],
+    // Equipo de ultrasonido real — encaja bien con un eco cardíaco.
+    img: "/instalaciones/areas-diagnosticas/usg.webp",
   },
 ];

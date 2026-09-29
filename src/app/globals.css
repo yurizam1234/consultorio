@@ -1601,14 +1601,33 @@ section[id] {
 .hero-video-title {
   position: relative;
   z-index: 2;
+  display: inline-block;
   max-width: 900px;
-  padding: 0 24px;
+  padding: 20px 40px;
   text-align: center;
   color: #ffffff;
-  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-size: clamp(2.1rem, 5.2vw, 4.3rem);
   font-weight: 700;
   line-height: 1.08;
   letter-spacing: -0.02em;
+  border-radius: 28px;
+  /* Mismo glass que ".historia-hero-title" (ver /historia) — vidrio propio
+     encima del scrim del hero para que el título quede como su propia
+     "placa" en vez de flotar suelto sobre la foto. */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 100%);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow:
+    0 14px 34px -12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 640px) {
+  .hero-video-title {
+    padding: 14px 24px;
+    border-radius: 20px;
+  }
 }
 
 .hero-video-title em {
@@ -4992,40 +5011,48 @@ section[id] {
   }
 
   /* La fila de circulitos ("equipo-v2-team-bar") competía por espacio
-     horizontal y quedaba diminuta en móvil — se convierte en un carrusel de
-     "un integrante a la vez" con scroll-snap nativo: cada tarjeta ocupa casi
-     todo el ancho de la barra (con un pequeño "peek" de la siguiente/anterior
-     como pista de que se puede deslizar) y encaja en el centro al soltar.
-     El listener de scroll en Equipo.tsx sincroniza cuál queda "activo" (foto
-     y datos de arriba) según cuál esté centrado, sin necesitar botones de
-     flecha. */
+     horizontal y quedaba diminuta en móvil — se probó un carrusel de "un
+     integrante a la vez" con scroll-snap (cada tarjeta ocupaba casi todo el
+     ancho, con sólo un pequeño "peek" del siguiente/anterior). En la
+     práctica ese peek era demasiado angosto para tocarlo con el dedo de
+     forma confiable: un toque cerca del borde de un contenedor con scroll
+     suele resolverse como gesto de scroll, no como click, así que no se
+     podía cambiar de integrante tocando el círculo — sólo el que ya estaba
+     centrado (que además es un no-op). Se usa en su lugar el mismo patrón
+     que ya funciona bien en escritorio: fila con scroll horizontal donde
+     cada círculo entero es visible y tocable, sólo agrandado para el dedo.
+     El listener de scroll en Equipo.tsx sigue sincronizando cuál queda
+     "activo" (foto y datos de arriba) según cuál esté más cerca del centro,
+     como plus al deslizar, pero ya no es la única forma de navegar. */
   .equipo-v2-team-bar {
-    scroll-snap-type: x mandatory;
     justify-content: flex-start;
-    gap: 16px;
-    padding: 14px 32px;
+    gap: 10px;
+    padding: 14px 20px;
+    /* Espacio extra a la derecha: el dock flotante fijo (Agendar/WhatsApp/
+       Contacto/Bot, ver ".floating-dock" @media 768px) vive en la columna
+       derecha de la pantalla (right:16px, ~64px de ancho) — sin este
+       colchón, el último circulito al final del scroll queda justo debajo
+       de esos botones fijos y el toque nunca le llega a él. */
+    padding-right: 88px;
   }
 
-  /* El swipe nativo ya cubre la navegación en móvil (ver comentario arriba);
-     las flechas son sólo para mouse en escritorio. */
+  /* El swipe nativo ya cubre el desplazamiento en móvil; las flechas son
+     sólo para mouse en escritorio. */
   .equipo-v2-team-bar-btn {
     display: none;
   }
 
   .equipo-v2-team-item {
-    scroll-snap-align: center;
-    flex: 0 0 calc(100% - 64px);
-    width: auto;
+    width: 84px;
   }
 
   .equipo-v2-avatar {
-    width: 88px;
-    height: 88px;
+    width: 64px;
+    height: 64px;
   }
 
   .equipo-v2-member-name {
-    font-size: 0.9rem;
-    white-space: normal;
+    font-size: 0.72rem;
   }
 }
 
@@ -5040,34 +5067,42 @@ section[id] {
 }
 
 /* ===== TESTIMONIOS (video) ===== */
-.testimonial-carousel {
-  position: relative;
-  max-width: 760px;
-  margin: 0 auto;
-}
-
-.testimonial-track {
-  position: relative;
-  min-height: 280px;
+/* Videos verticales (9:16) lado a lado, todos con el mismo formato. El ancho
+   de cada uno también se limita por la altura de la ventana para que el
+   video no rebase la pantalla en laptops chicas. */
+.testimonial-grid {
+  --testimonial-w: min(340px, 39vh);
+  display: flex;
+  justify-content: center;
+  gap: 28px;
 }
 
 .video-testimonial-card {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(12px);
-  transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s ease;
+  position: relative;
+  flex: 0 0 var(--testimonial-w);
+  aspect-ratio: 9 / 16;
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: 0 20px 50px rgba(var(--teal-end-rgb), 0.06);
+  transition: flex-basis 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease,
+    box-shadow 0.45s ease;
 }
 
-.video-testimonial-card.active {
+/* Mientras uno se reproduce: ese crece y los demás se achican y atenúan.
+   Centrados en vertical para que el cambio de alto no brinque la fila. */
+.testimonial-grid[data-has-active] {
+  align-items: center;
+}
+
+.testimonial-grid[data-has-active] .video-testimonial-card {
+  flex-basis: calc(var(--testimonial-w) * 0.78);
+  opacity: 0.7;
+}
+
+.testimonial-grid[data-has-active] .video-testimonial-card.is-active {
+  flex-basis: calc(var(--testimonial-w) * 1.18);
   opacity: 1;
-  visibility: visible;
-  transform: none;
-  z-index: 1;
+  box-shadow: 0 28px 60px rgba(var(--teal-end-rgb), 0.16);
 }
 
 .video-testimonial-player {
@@ -5149,8 +5184,26 @@ section[id] {
 }
 
 @media (max-width: 640px) {
-  .testimonial-track {
-    min-height: 340px;
+  /* En celular: una fila que se desliza con el dedo, un video por vez con
+     el borde del siguiente asomando para que se note que hay más. Con un
+     solo video, "safe center" lo deja centrado sin cortarlo. */
+  .testimonial-grid {
+    --testimonial-w: min(78vw, 340px);
+    justify-content: safe center;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding: 0 24px 4px;
+    margin: 0 -24px;
+  }
+
+  .testimonial-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .video-testimonial-card {
+    scroll-snap-align: center;
   }
 
   .video-testimonial-empty {
@@ -5660,7 +5713,7 @@ section[id] {
   color: var(--white);
 }
 
-/* "/img/logo-blanco.png" es un lienzo de 1920x1080 con el isotipo chico y
+/* "/img/logo-blanco.webp" es un lienzo de 1920x1080 con el isotipo chico y
    centrado (mucho margen transparente alrededor, pensado para otro uso) —
    se recorta con "overflow: hidden" + la imagen de fondo agrandada y
    desplazada, en vez de mostrar todo el lienzo achicado a 36px (se vería
@@ -8016,9 +8069,10 @@ button.cita-modal-close:active {
   margin: 0;
   padding: 14px 32px;
   border-radius: 9999px;
-  background: rgba(var(--dark-shadow-rgb), 0.45);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
+  /* Sin backdrop-filter: el blur se recalculaba en cada frame mientras los
+     paneles de abajo se animan al entrar (scrub de ScrollEffects.tsx). Un
+     fondo algo más opaco da la misma legibilidad sin ese costo. */
+  background: rgba(var(--dark-shadow-rgb), 0.6);
   color: var(--white);
   text-shadow: 0 2px 10px rgba(var(--dark-shadow-rgb), 0.5);
 }
@@ -8027,9 +8081,10 @@ button.cita-modal-close:active {
   display: flex;
   justify-content: center;
   align-items: stretch;
+  /* Alto completo de la pantalla, sin tope: con el antiguo "max-height: 900px"
+     quedaba un hueco abajo en monitores altos. */
   height: 100vh;
   min-height: 520px;
-  max-height: 900px;
   width: 100%;
 }
 
@@ -8045,6 +8100,9 @@ button.cita-modal-close:active {
   overflow: hidden;
   cursor: pointer;
   transition: flex 0.5s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+  /* ScrollEffects.tsx anima "x" y "opacity" de cada panel con scrub al entrar:
+     en su propia capa, cada frame es sólo composición (GPU), sin repintar la foto. */
+  will-change: transform, opacity;
 }
 
 .diagonal-panel:first-child {
@@ -8068,8 +8126,22 @@ button.cita-modal-close:active {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.55) saturate(0.9);
-  transition: filter 0.45s ease, transform 0.45s ease;
+  transition: transform 0.45s ease;
+}
+
+/* Oscurecido de la foto como capa negra encima, en vez de "filter: brightness()"
+   en la <img> (que obligaba a repintar la foto entera durante la animación de
+   entrada). Negro con opacidad X equivale a brightness(1 - X): 0.45 → 0.55.
+   z-index 1 para quedar sobre la <img>; ".diagonal-panel-placeholder" y
+   "::after" también van en 1 y, por orden en el DOM, quedan encima de ésta. */
+.diagonal-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgb(var(--black-rgb));
+  opacity: 0.45;
+  transition: opacity 0.45s ease;
 }
 
 /* Foto de "Aseguradora" (ver instalaciones.ts): es un retrato de personal, no
@@ -8087,6 +8159,7 @@ button.cita-modal-close:active {
 .diagonal-panel-placeholder {
   position: absolute;
   inset: 0;
+  z-index: 1;
   background:
     radial-gradient(120% 120% at 88% 12%, rgba(var(--teal-start-rgb), 0.4) 0%, transparent 55%),
     linear-gradient(160deg, var(--diagonal-grad-start) 0%, var(--diagonal-grad-end) 100%);
@@ -8105,6 +8178,7 @@ button.cita-modal-close:active {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: linear-gradient(to bottom, rgba(var(--white-rgb), 0.1), transparent 35%, rgba(var(--black-rgb), 0.7));
 }
 
@@ -8188,8 +8262,11 @@ button.cita-modal-close:active {
   box-shadow: 0 25px 60px rgba(var(--black-rgb), 0.45), 0 0 50px rgba(var(--teal-start-rgb), 0.28);
 }
 
+.diagonal-panel:hover::before {
+  opacity: 0.2;
+}
+
 .diagonal-panel:hover img {
-  filter: brightness(0.8) saturate(1);
   transform: scale(1.06);
 }
 
@@ -8210,22 +8287,68 @@ button.cita-modal-close:active {
     flex-direction: column;
     height: auto;
     gap: 14px;
+    /* La galería es "full-bleed" (100vw), así que el aire lateral lo pone este
+       contenedor: sin él, las esquinas redondeadas de cada tarjeta quedaban
+       pegadas al borde de la pantalla. Mismo gutter que ".wrap". */
+    padding: 0 24px;
+    box-sizing: border-box;
   }
 
   .diagonal-panel {
     flex: none;
     margin-left: 0;
-    height: 160px;
     clip-path: none;
     border-radius: var(--radius-lg);
+    /* Antes acá había un "height: 160px" fijo y eso rompía la sección: en
+       mobile la tarjeta muestra TODO su contenido a la vez (número + título +
+       descripción + tag + botón, ver overrides de opacidad abajo), no sólo al
+       hover como en desktop. Ese contenido mide ~200px y no cabía en 160px;
+       como ".diagonal-panel-content" va en "justify-content: flex-end", el
+       sobrante se desbordaba hacia ARRIBA y el "overflow: hidden" del panel
+       recortaba el número y el título. Ahora la tarjeta tiene un alto mínimo
+       y crece con su propio texto, así nunca se recorta. */
+    height: auto;
+    min-height: 210px;
+    display: flex;
+    align-items: flex-end;
   }
 
-  .diagonal-panel img {
-    filter: brightness(0.65);
+  /* ".diagonal-panel:first-child/:last-child" (más arriba) tienen MÁS
+     especificidad que ".diagonal-panel", y un media query no suma
+     especificidad: por eso el "clip-path: none" de acá no les ganaba y las
+     tarjetas de los extremos seguían con el corte diagonal de desktop — a la
+     primera le faltaba la esquina inferior derecha y a la última el corte le
+     comía el número ("05" se veía como "5"). Hay que repetir el selector. */
+  .diagonal-panel:first-child,
+  .diagonal-panel:last-child {
+    clip-path: none;
+  }
+
+  .diagonal-panel::before {
+    opacity: 0.35;
+  }
+
+  /* Degradado inferior más marcado que en desktop: acá el texto está siempre
+     encima de la foto, no sólo durante el hover. */
+  .diagonal-panel::after {
+    background: linear-gradient(
+      to bottom,
+      rgba(var(--black-rgb), 0.15),
+      transparent 30%,
+      rgba(var(--black-rgb), 0.82)
+    );
   }
 
   .diagonal-panel-content {
+    /* Deja de ser un overlay absoluto y pasa a dictar el alto de la tarjeta
+       (ver ".diagonal-panel" arriba). */
+    position: relative;
+    inset: auto;
+    width: 100%;
     max-width: 100%;
+    /* El padding derecho de 56px sólo existía para despejar el corte diagonal,
+       que acá no está (clip-path: none) — estrechaba el texto sin motivo. */
+    padding: 18px 20px 20px;
   }
 
   .diagonal-panel-content h3,
@@ -8237,9 +8360,46 @@ button.cita-modal-close:active {
     max-height: none;
   }
 
+  .diagonal-panel-content .panel-num {
+    /* A 26px le competía el protagonismo al título en una tarjeta angosta. */
+    font-size: 15px;
+    margin-bottom: 2px;
+    opacity: 0.65;
+  }
+
+  .diagonal-panel-content h3 {
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+
+  .diagonal-panel-content .tag {
+    margin-top: 10px;
+  }
+
+  .diagonal-panel-content .ver-mas-btn {
+    margin-top: 12px;
+    /* Con el padding de desktop el botón quedaba en ~30px de alto, por debajo
+       del mínimo cómodo para tocar con el dedo. */
+    padding: 10px 18px;
+    min-height: 44px;
+    font-size: 0.78rem;
+  }
+
+  /* En un dispositivo táctil el :hover se queda "pegado" después de tocar la
+     tarjeta. Sin estos tres overrides quedaba la foto con zoom y el velo
+     oscuro aclarado (::before a 0.2), y el texto blanco encima dejaba de
+     leerse sobre las fotos claras. */
   .diagonal-panel:hover {
     flex: none;
     box-shadow: 0 12px 32px rgba(var(--black-rgb), 0.2);
+  }
+
+  .diagonal-panel:hover::before {
+    opacity: 0.35;
+  }
+
+  .diagonal-panel:hover img {
+    transform: none;
   }
 
   /* En mobile cada tarjeta ya muestra su propio título siempre (no sólo al
@@ -8255,7 +8415,9 @@ button.cita-modal-close:active {
   .instalaciones-overlay-head {
     position: static;
     display: block;
-    padding: 0;
+    /* El contenedor es full-bleed (100vw): sin este gutter el eyebrow podía
+       tocar el borde de la pantalla al partirse en dos líneas. */
+    padding: 0 24px;
     margin-bottom: 20px;
   }
 
@@ -8264,8 +8426,6 @@ button.cita-modal-close:active {
     padding: 0;
     border-radius: 0;
     background: none;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
     color: var(--teal-start);
     text-shadow: none;
   }
@@ -8725,8 +8885,23 @@ button.cita-modal-close:active {
   inset: 0;
   width: 100%;
   height: 100%;
+  transform:  translateY(50%);
   object-fit: cover;
   object-position: 50% 32%;
+}
+
+/* En escritorio se ve bien más abajo — en móvil el 32% de la regla de base
+   ya se ve bien y no se toca (ver breakpoint 900px más abajo, donde vive el
+   resto de ajustes móviles de /historia). La proporción de la foto
+   (1600x1066) es casi igual a la del hero en pantallas anchas, así que
+   "object-position" por sí solo casi no tiene margen para moverla (el
+   "cover" ya deja sólo ~60px de sobra) — hace falta agrandarla un poco de
+   más (scale) para tener margen real y recién ahí desplazarla hacia abajo
+   (translateY) sin que se note el borde de la foto. */
+@media (min-width: 901px) {
+  .historia-hero-img {
+    transform: scale(1.25) translateY(8%);
+  }
 }
 
 .historia-hero-scrim {
@@ -8751,13 +8926,59 @@ button.cita-modal-close:active {
   padding: 120px 24px 0;
 }
 
+/* Vidrio esmerilado detrás del eyebrow/título/subtítulo: el scrim ya daba
+   contraste parejo en toda la foto, pero el texto flotaba "suelto" sobre
+   ella sin nada que lo distinga como bloque — un panel sutil (blur +
+   transparencia, mismo lenguaje que el navbar, ver el comentario de
+   glassmorphism ahí) lo agrupa y hace que se lea mejor sin tapar la foto. */
+.historia-hero-glass {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 48px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 24px 60px -20px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 640px) {
+  .historia-hero-glass {
+    padding: 28px 22px;
+    border-radius: 22px;
+  }
+}
+
 .historia-hero-title {
+  display: inline-block;
   font-size: clamp(2.2rem, 5vw, 3.6rem);
   font-weight: 800;
   color: #ffffff;
   letter-spacing: -0.02em;
   line-height: 1.1;
   margin: 4px 0 18px;
+  padding: 12px 32px;
+  border-radius: 22px;
+  /* Glass propio, un escalón más marcado que el panel grande que lo rodea
+     (.historia-hero-glass) — así el título queda como su propia "placa" en
+     vez de perderse mezclado con el resto del bloque. */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 100%);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow:
+    0 14px 34px -12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 640px) {
+  .historia-hero-title {
+    padding: 10px 20px;
+    border-radius: 18px;
+  }
 }
 
 .historia-hero-subtitle {
@@ -10258,30 +10479,84 @@ button.cita-modal-close:active {
   }
 }
 
-/* ===== CONVENIOS ===== */
-.convenios {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 14px;
+/* ===== CONVENIOS: carrusel infinito de logos ===== */
+/* La fila fija de grid se reemplaza por una cinta que se desliza sola sin
+   parar: la lista de convenios se duplica al renderizar (ver Convenios.tsx)
+   y la animación recorre exactamente el 50% del ancho total de la cinta —
+   justo donde empieza la copia duplicada — así el salto de vuelta al
+   inicio queda invisible y los logos van apareciendo uno por uno. */
+.convenios-marquee {
+  overflow: hidden;
+  padding: 32px 0;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 }
 
-.convenios .slot {
-  min-height: 76px;
-  font-size: 10px;
-  background: var(--white);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-light);
+.convenios-track {
+  display: flex;
+  width: max-content;
+  gap: 20px;
+  animation: convenios-scroll 28s linear infinite;
+}
+
+/* Se pausa al pasar el mouse para poder mirar un logo con calma. */
+.convenios-marquee:hover .convenios-track {
+  animation-play-state: paused;
+}
+
+@keyframes convenios-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .convenios-track {
+    animation: none;
+  }
+}
+
+.convenios-track .convenio-logo-slot {
+  flex: 0 0 220px;
+  width: 220px;
+  height: 130px;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+/* Logos reales de aseguradoras (ver public/aseguradora/) — el "slot"
+   genérico es el rectángulo punteado de placeholder; acá se sobreescribe
+   con un contenedor sólido y position:relative para que Image "fill"
+   funcione, con el logo recortado en "contain" (nunca deformado) y aire
+   alrededor para que no toque el borde de la tarjeta. */
+.convenio-logo-slot {
+  position: relative;
+  padding: 10px;
+}
+
+.convenio-logo-img {
+  object-fit: contain;
+  padding: 16px;
 }
 
 @media (max-width: 768px) {
-  .convenios {
-    grid-template-columns: repeat(3, 1fr);
+  .convenios-track .convenio-logo-slot {
+    flex-basis: 170px;
+    width: 170px;
+    height: 100px;
   }
 }
 
 @media (max-width: 480px) {
-  .convenios {
-    grid-template-columns: repeat(2, 1fr);
+  .convenios-track .convenio-logo-slot {
+    flex-basis: 140px;
+    width: 140px;
+    height: 84px;
   }
 }
 

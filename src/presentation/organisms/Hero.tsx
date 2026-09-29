@@ -19,7 +19,7 @@ export function Hero() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="hero-video"
-          src="/hero/hospital.jpg"
+          src="/hero/hospital.webp"
           alt=""
           fetchPriority="high"
           aria-hidden="true"

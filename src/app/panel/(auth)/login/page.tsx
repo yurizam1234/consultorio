@@ -62,7 +62,7 @@ export default function PanelLoginPage() {
           </Link>
 
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/img/logo.png" alt="SH Arboledas" className="panel-auth-logo" />
+          <img src="/img/logo.webp" alt="SH Arboledas" className="panel-auth-logo" />
           <h1 className="panel-auth-title">{t("panel.login.title")}</h1>
           <p className="panel-auth-subtitle">{t("panel.login.subtitle")}</p>
 

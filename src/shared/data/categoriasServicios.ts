@@ -18,24 +18,24 @@ export const categoriasServicios: CategoriaServicio[] = [
     id: "resonancias",
     labelKey: "panel.servicios.category_resonancias",
     count: 69,
-    img: "/instalaciones/areas-diagnosticas/reso3.jpg",
+    img: "/instalaciones/areas-diagnosticas/reso3.webp",
   },
   {
     id: "tomografias",
     labelKey: "panel.servicios.category_tomografias",
     count: 54,
-    img: "/instalaciones/areas-diagnosticas/tac2.jpeg",
+    img: "/instalaciones/areas-diagnosticas/tac2.webp",
   },
   {
     id: "oftalmologia",
     labelKey: "panel.servicios.category_oftalmologia",
     count: 185,
-    img: "/servicios/oftalmologia.png",
+    img: "/servicios/oftalmologia.webp",
   },
   {
     id: "generales",
     labelKey: "panel.servicios.category_generales",
     count: 42,
-    img: "/instalaciones/areas-diagnosticas/usg.jpg",
+    img: "/instalaciones/areas-diagnosticas/usg.webp",
   },
 ];

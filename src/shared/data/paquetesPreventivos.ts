@@ -26,7 +26,7 @@ export const PAQUETES_PREVENTIVOS: Record<string, PaquetePreventivo> = {
     n: "Check-up Preventivo Básico",
     tag: "Prevención General",
     d: "Evaluación fundamental para conocer tu estado general de salud, detectar anomalías tempranas y valorar el funcionamiento metabólico y renal en una sola sesión.",
-    img: "/instalaciones/consultorios/con2.JPG",
+    img: "/instalaciones/consultorios/con2.webp",
     duracion: "1 a 1.5 horas",
     indicaciones: "Ayuno estricto de 8 a 10 horas. Traer primera muestra de orina de la mañana en frasco estéril.",
     procs: [
@@ -110,7 +110,7 @@ export const PAQUETES_PREVENTIVOS: Record<string, PaquetePreventivo> = {
     n: "Perfil Hombre 40+",
     tag: "Salud Masculina",
     d: "Check-up preventivo diseñado para el monitoreo prostático, cardiovascular, metabólico y hepático enfocado en las necesidades del hombre adulto.",
-    img: "/instalaciones/areas-diagnosticas/estudio.jpeg",
+    img: "/instalaciones/areas-diagnosticas/estudio.webp",
     duracion: "1.5 horas",
     indicaciones: "Ayuno de 8 a 10 horas. 48 horas de abstinencia sexual antes de la toma de muestra para antígeno prostático.",
     procs: [
@@ -152,7 +152,7 @@ export const PAQUETES_PREVENTIVOS: Record<string, PaquetePreventivo> = {
     n: "Check-up Cardiovascular & Metabólico",
     tag: "Salud Cardíaca",
     d: "Evaluación exhaustiva de riesgo cardiovascular, función arterial, detección de hipertensión, dislipidemias y salud del corazón.",
-    img: "/instalaciones/areas-diagnosticas/tac2.jpeg",
+    img: "/instalaciones/areas-diagnosticas/tac2.webp",
     duracion: "2 horas",
     indicaciones: "Ayuno de 10 a 12 horas. Ropa cómoda de dos piezas. No suspender medicamentos habituales salvo indicación médica expresa.",
     procs: [
@@ -194,7 +194,7 @@ export const PAQUETES_PREVENTIVOS: Record<string, PaquetePreventivo> = {
     n: "Check-up Salud Visual Avanzada",
     tag: "Oftalmología Integral",
     d: "Diagnóstico oftalmológico de alta precisión para detectar cataratas, glaucoma, alteraciones en retina y graduación refractiva exacta.",
-    img: "/servicios/oftalmologia.png",
+    img: "/servicios/oftalmologia.webp",
     duracion: "1 hora",
     indicaciones: "Traer lentes de uso actual. Si se requiere dilatación pupilar para fondo de ojo, venir acompañado (no conducir durante 3-4 horas).",
     procs: [

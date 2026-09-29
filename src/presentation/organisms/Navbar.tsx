@@ -62,7 +62,7 @@ export function Navbar() {
         aria-label="Inicio - SH Arboledas"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/img/logo.png" alt="SH Arboledas" />
+        <img src="/img/logo.webp" alt="SH Arboledas" />
       </Link>
 
       {/* Backdrop con desenfoque para móvil */}

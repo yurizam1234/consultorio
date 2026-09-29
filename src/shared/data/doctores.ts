@@ -26,7 +26,7 @@ export interface Doctor {
 export const doctores: Doctor[] = [
   {
     img: "/nuestro-equipo/medicos/drsolano.webp",
-    imgMedioCuerpo: "/nuestro-equipo/medicos/drsolanomediocuerpo.png",
+    imgMedioCuerpo: "/nuestro-equipo/medicos/drsolanomediocuerpo.webp",
     name: "Dr. Edgar A. Solano Tego",
     specialty: { es: "Oftalmología", en: "Ophthalmology" },
     desc: {
@@ -38,7 +38,7 @@ export const doctores: Doctor[] = [
   },
   {
     img: "/nuestro-equipo/medicos/drdario.webp",
-    imgMedioCuerpo: "/nuestro-equipo/medicos/drdariomediocuerpo.png",
+    imgMedioCuerpo: "/nuestro-equipo/medicos/drdariomediocuerpo.webp",
     name: "Dr. Carlos Darío Cabrera Reyes",
     specialty: { es: "Oftalmología", en: "Ophthalmology" },
     desc: {
@@ -50,7 +50,7 @@ export const doctores: Doctor[] = [
   },
   {
     img: "/nuestro-equipo/medicos/drmanuel.webp",
-    imgMedioCuerpo: "/nuestro-equipo/medicos/drmanuelmediocuerpo.png",
+    imgMedioCuerpo: "/nuestro-equipo/medicos/drmanuelmediocuerpo.webp",
     name: "Dr. Manuel Alejandro Trinidad Balboa",
     specialty: { es: "Oftalmología Primer Contacto", en: "First-Contact Ophthalmology" },
     desc: {
@@ -60,15 +60,15 @@ export const doctores: Doctor[] = [
     cedulaProfesional: "4831793 - UAG",
   },
   {
-    img: "/nuestro-equipo/medicos/drmarcoantoniozenteno.jpg",
-    imgMedioCuerpo: "/nuestro-equipo/medicos/drmarcoantoniozentenomediocuerpo.png",
+    img: "/nuestro-equipo/medicos/drmarcoantoniozenteno.webp",
+    imgMedioCuerpo: "/nuestro-equipo/medicos/drmarcoantoniozentenomediocuerpo.webp",
     name: "Dr. Marco Antonio Zenteno Zenteno",
     specialty: { es: "Oftalmología", en: "Ophthalmology" },
     cedulaEspecialidad: "CE 11511570",
   },
   {
     img: "/nuestro-equipo/medicos/drwerner.webp",
-    imgMedioCuerpo: "/nuestro-equipo/medicos/drwernermediocuerpo.png",
+    imgMedioCuerpo: "/nuestro-equipo/medicos/drwernermediocuerpo.webp",
     name: "Dr. Werner Schlie Villa",
     specialty: { es: "Cardiología", en: "Cardiology" },
     desc: {
@@ -80,7 +80,7 @@ export const doctores: Doctor[] = [
   },
   {
     img: "/nuestro-equipo/medicos/drnelson.webp",
-    imgMedioCuerpo: "/nuestro-equipo/medicos/drnelsonmediocuerpo.png",
+    imgMedioCuerpo: "/nuestro-equipo/medicos/drnelsonmediocuerpo.webp",
     name: "Dr. Nelson Jovanny Urbina López",
     specialty: { es: "Medicina del Dolor", en: "Pain Medicine" },
     desc: {
@@ -91,7 +91,7 @@ export const doctores: Doctor[] = [
   },
   {
     img: "/nuestro-equipo/medicos/drarturopaniagua.webp",
-    imgMedioCuerpo: "/nuestro-equipo/medicos/drarturopaniaguamediocuerpo.png",
+    imgMedioCuerpo: "/nuestro-equipo/medicos/drarturopaniaguamediocuerpo.webp",
     name: "Dr. Arturo Gordillo Paniagua",
     specialty: { es: "Coordinador Médico", en: "Medical Coordinator" },
     desc: {
@@ -101,7 +101,7 @@ export const doctores: Doctor[] = [
   },
   {
     img: "/nuestro-equipo/medicos/dramaritza.webp",
-    imgMedioCuerpo: "/nuestro-equipo/medicos/dramaritzamediocuerpo.png",
+    imgMedioCuerpo: "/nuestro-equipo/medicos/dramaritzamediocuerpo.webp",
     name: "Dra. Maritza Gutierrez Zavala",
     specialty: { es: "Médico General", en: "General Practitioner" },
     desc: {
@@ -111,7 +111,7 @@ export const doctores: Doctor[] = [
   },
   {
     img: "/nuestro-equipo/medicos/draelviragabriela.webp",
-    imgMedioCuerpo: "/nuestro-equipo/medicos/draelviragabrielamediocuerpo.png",
+    imgMedioCuerpo: "/nuestro-equipo/medicos/draelviragabrielamediocuerpo.webp",
     name: "Dra. Elvira Gabrielle Solis Chacon",
     specialty: { es: "Médico General", en: "General Practitioner" },
     desc: {
@@ -121,7 +121,7 @@ export const doctores: Doctor[] = [
   },
   {
     img: "/nuestro-equipo/medicos/dradrianadelcarmen.webp",
-    imgMedioCuerpo: "/nuestro-equipo/medicos/dradrianadelcarmenmediocuerpo.png",
+    imgMedioCuerpo: "/nuestro-equipo/medicos/dradrianadelcarmenmediocuerpo.webp",
     name: "Dra. Adriana del Carmen Gutierrez Chavarria",
     specialty: { es: "Médico General", en: "General Practitioner" },
     desc: {
@@ -131,7 +131,7 @@ export const doctores: Doctor[] = [
   },
   {
     img: "/nuestro-equipo/medicos/drluisernesto.webp",
-    imgMedioCuerpo: "/nuestro-equipo/medicos/drluisernestomediocuerpo.png",
+    imgMedioCuerpo: "/nuestro-equipo/medicos/drluisernestomediocuerpo.webp",
     name: "Dr. Luis Ernesto Vazquez Gomez",
     specialty: { es: "Médico General", en: "General Practitioner" },
     desc: {
@@ -140,14 +140,14 @@ export const doctores: Doctor[] = [
     },
   },
   {
-    img: "/nuestro-equipo/medicos/drajulieta.jpg",
-    imgMedioCuerpo: "/nuestro-equipo/medicos/drajulietamediocuerpo.png",
+    img: "/nuestro-equipo/medicos/drajulieta.webp",
+    imgMedioCuerpo: "/nuestro-equipo/medicos/drajulietamediocuerpo.webp",
     name: "Dra. Julieta",
     specialty: { es: "Medicina Interna", en: "Internal Medicine" },
   },
   {
-    img: "/nuestro-equipo/medicos/drmartinchang.jpg",
-    imgMedioCuerpo: "/nuestro-equipo/medicos/drmartinchangmediocuerpo.png",
+    img: "/nuestro-equipo/medicos/drmartinchang.webp",
+    imgMedioCuerpo: "/nuestro-equipo/medicos/drmartinchangmediocuerpo.webp",
     name: "Dr. Martin Chang",
     specialty: { es: "Nefrología", en: "Nephrology" },
   },

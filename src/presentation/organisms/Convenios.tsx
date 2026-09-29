@@ -17,10 +17,16 @@ export function Convenios() {
         />
 
         <Reveal>
-          <div className="convenios">
-            {CONVENIOS.map((nombre, index) => (
-              <ConvenioLogo key={index} nombre={nombre} />
-            ))}
+          <div className="convenios-marquee full-bleed">
+            <div className="convenios-track">
+              {[...CONVENIOS, ...CONVENIOS].map((convenio, index) => (
+                <ConvenioLogo
+                  key={`${convenio.nombre}-${index}`}
+                  nombre={convenio.nombre}
+                  logo={convenio.logo}
+                />
+              ))}
+            </div>
           </div>
         </Reveal>
 

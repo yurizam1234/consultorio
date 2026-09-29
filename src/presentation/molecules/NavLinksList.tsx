@@ -108,7 +108,7 @@ export function NavLinksList({ links, mobileOpen, onLinkClick }: NavLinksListPro
             aria-label="Inicio - SH Arboledas"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/img/logo.png" alt="SH Arboledas" className="mobile-drawer-logo-img" />
+            <img src="/img/logo.webp" alt="SH Arboledas" className="mobile-drawer-logo-img" loading="lazy" decoding="async" />
           </Link>
 
           <button

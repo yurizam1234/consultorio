@@ -68,6 +68,16 @@ export default function ProcedimientosPage() {
   // Filtra por especialidad activa y, dentro de esa (o de todas), por texto —
   // así "ordenar por especialidad" y "buscar directo por el procedimiento"
   // son la misma UI, no dos modos separados.
+  //
+  // Especialidades como Cardiología o Gastroenterología existen en el
+  // catálogo (para el chip de filtro) pero todavía no tienen procedimientos
+  // cargados (ver el comentario junto a esas entradas en
+  // catalogoProcedimientos.ts). Antes sólo se mostraban si el usuario las
+  // elegía directo desde el chip; buscarlas por nombre las hacía
+  // "desaparecer" (el .filter final las tiraba por tener 0 procedimientos).
+  // Ahora una especialidad vacía sigue siendo un resultado válido: en
+  // "Todas" (sin buscar nada) se muestran todas, chip activo o no; al
+  // escribir en el buscador se filtra igual que las demás, por nombre.
   const grupos = useMemo(() => {
     const q = query.trim().toLowerCase();
     return catalogoProcedimientos
@@ -80,19 +90,21 @@ export default function ProcedimientosPage() {
             )
           : grupo.procedimientos,
       }))
-      .filter((grupo) => grupo.procedimientos.length > 0);
+      .filter((grupo) => {
+        if (grupo.procedimientos.length > 0) return true;
+        if (!q) return true;
+        return grupo.especialidad[lang].toLowerCase().includes(q);
+      });
   }, [query, activeEspecialidad, lang]);
 
-  // Especialidades como Cardiología o Pediatría existen en el catálogo (para
-  // el chip de filtro) pero todavía no tienen procedimientos cargados. En vez
-  // de un mensaje suelto sin contexto cuando "grupos" sale vacío, buscamos la
-  // especialidad activa en el catálogo completo para poder mantener el mismo
-  // recuadro blanco (título + subtítulo) que ven las especialidades con
-  // procedimientos, con el aviso de "sin resultados" centrado adentro.
-  const selectedGrupo = useMemo(
-    () => (activeEspecialidad ? catalogoProcedimientos.find((grupo) => grupo.id === activeEspecialidad) ?? null : null),
-    [activeEspecialidad]
-  );
+  // Especialidades con procedimientos ya cargados: una <section> por cada
+  // una, con su propia grilla de cards (como siempre). Las que todavía no
+  // tienen procedimientos (17 en el catálogo) se separan aparte: antes cada
+  // una ocupaba una <section> completa (título + subtítulo + recuadro vacío)
+  // — apiladas, 17 de esas hacían la página kilométrica. Se juntan en una
+  // sola sección compacta más abajo ("Más especialidades").
+  const gruposConProcedimientos = grupos.filter((grupo) => grupo.procedimientos.length > 0);
+  const gruposVacios = grupos.filter((grupo) => grupo.procedimientos.length === 0);
 
   return (
     <>
@@ -174,70 +186,102 @@ export default function ProcedimientosPage() {
               </label>
             </div>
 
-            {grupos.length === 0 ? (
-              selectedGrupo ? (
-                <div className="procedimientos-sections">
-                  <section className="procedimientos-section">
-                    <h3 className="procedimientos-section-title">{selectedGrupo.especialidad[lang]}</h3>
-                    <p className="procedimientos-section-subtitle">{selectedGrupo.subtitulo[lang]}</p>
-                    <div className="procedimientos-cards-grid procedimientos-cards-grid-empty">
-                      <p className="procedimientos-empty">{t("procedimientos.no_results")}</p>
-                    </div>
-                  </section>
-                </div>
-              ) : (
-                <p className="procedimientos-empty">{t("procedimientos.no_results")}</p>
-              )
+            {gruposConProcedimientos.length === 0 && gruposVacios.length === 0 ? (
+              <p className="procedimientos-empty">{t("procedimientos.no_results")}</p>
             ) : (
-              <div className="procedimientos-sections">
-                {/* Sin <Reveal>: ese componente depende de que ScrollEffects.tsx
-                    detecte el elemento en su barrido inicial del DOM (una sola
-                    vez, al montar la página) — como estas cards aparecen y
-                    desaparecen según el buscador/filtro (no según el scroll),
-                    una card nueva nunca sería detectada y se quedaría en
-                    opacity:0 para siempre (invisible). Estas cards son
-                    siempre visibles apenas se filtran a la vista. */}
-                {grupos.map((grupo) => (
-                  <section key={grupo.id} className="procedimientos-section">
-                    <h3 className="procedimientos-section-title">{grupo.especialidad[lang]}</h3>
-                    <p className="procedimientos-section-subtitle">{grupo.subtitulo[lang]}</p>
+              <>
+                {gruposConProcedimientos.length > 0 && (
+                  <div className="procedimientos-sections">
+                    {/* Sin <Reveal>: ese componente depende de que ScrollEffects.tsx
+                        detecte el elemento en su barrido inicial del DOM (una sola
+                        vez, al montar la página) — como estas cards aparecen y
+                        desaparecen según el buscador/filtro (no según el scroll),
+                        una card nueva nunca sería detectada y se quedaría en
+                        opacity:0 para siempre (invisible). Estas cards son
+                        siempre visibles apenas se filtran a la vista. */}
+                    {gruposConProcedimientos.map((grupo) => (
+                      <section key={grupo.id} className="procedimientos-section">
+                        <h3 className="procedimientos-section-title">{grupo.especialidad[lang]}</h3>
+                        <p className="procedimientos-section-subtitle">{grupo.subtitulo[lang]}</p>
+                        <div className="procedimientos-cards-grid">
+                          {grupo.procedimientos.map((procedimiento) => (
+                            <a
+                              key={procedimiento.es}
+                              className="procedimiento-card"
+                              href={buildWhatsAppUrl(
+                                t("procedimientos.inquiry_message", {
+                                  procedimiento: procedimiento[lang],
+                                  especialidad: grupo.especialidad[lang],
+                                })
+                              )}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={t("procedimientos.inquiry_aria", { procedimiento: procedimiento[lang] })}
+                            >
+                              <div className="procedimiento-card-media">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src={procedimiento.img} alt="" loading="lazy" />
+                                {procedimiento.exclusivo && (
+                                  <span className="procedimiento-exclusivo-badge">
+                                    {t("procedimientos.exclusivo_badge")}
+                                  </span>
+                                )}
+                              </div>
+                              <div className="procedimiento-card-body">
+                                <div className="procedimiento-card-name-row">
+                                  <span className="procedimiento-card-name">{procedimiento.titulo[lang]}</span>
+                                  <MessageCircle size={14} strokeWidth={1.8} />
+                                </div>
+                                <p className="procedimiento-card-desc">{procedimiento.desc[lang]}</p>
+                              </div>
+                            </a>
+                          ))}
+                        </div>
+                      </section>
+                    ))}
+                  </div>
+                )}
+
+                {gruposVacios.length > 0 && (
+                  <section className="procedimientos-section procedimientos-section-more">
+                    <h3 className="procedimientos-section-title">{t("procedimientos.more_title")}</h3>
+                    <p className="procedimientos-section-subtitle">{t("procedimientos.more_subtitle")}</p>
                     <div className="procedimientos-cards-grid">
-                      {grupo.procedimientos.map((procedimiento) => (
+                      {gruposVacios.map((grupo) => (
                         <a
-                          key={procedimiento.es}
+                          key={grupo.id}
                           className="procedimiento-card"
                           href={buildWhatsAppUrl(
-                            t("procedimientos.inquiry_message", {
-                              procedimiento: procedimiento[lang],
+                            t("procedimientos.inquiry_especialidad_message", {
                               especialidad: grupo.especialidad[lang],
                             })
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
-                          aria-label={t("procedimientos.inquiry_aria", { procedimiento: procedimiento[lang] })}
+                          aria-label={t("procedimientos.inquiry_especialidad_aria", {
+                            especialidad: grupo.especialidad[lang],
+                          })}
                         >
                           <div className="procedimiento-card-media">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={procedimiento.img} alt="" loading="lazy" />
-                            {procedimiento.exclusivo && (
-                              <span className="procedimiento-exclusivo-badge">
-                                {t("procedimientos.exclusivo_badge")}
-                              </span>
-                            )}
+                            <img
+                              src={grupo.img ?? "/instalaciones/consultorios/con1.webp"}
+                              alt=""
+                              loading="lazy"
+                            />
                           </div>
                           <div className="procedimiento-card-body">
                             <div className="procedimiento-card-name-row">
-                              <span className="procedimiento-card-name">{procedimiento.titulo[lang]}</span>
+                              <span className="procedimiento-card-name">{grupo.especialidad[lang]}</span>
                               <MessageCircle size={14} strokeWidth={1.8} />
                             </div>
-                            <p className="procedimiento-card-desc">{procedimiento.desc[lang]}</p>
                           </div>
                         </a>
                       ))}
                     </div>
                   </section>
-                ))}
-              </div>
+                )}
+              </>
             )}
 
             <div className="domicilio-banner">

@@ -4,7 +4,9 @@ import { Preloader } from "@/presentation/organisms/Preloader";
 export default function Home() {
   return (
     <>
-      <link rel="preload" as="video" href="/videos/hero_arboledas_scrub.mp4" type="video/mp4" />
+      {/* La foto del hero es lo primero que se ve: se pide con prioridad alta
+          desde el <head>, antes de que el navegador llegue a leer el <img>. */}
+      <link rel="preload" as="image" href="/hero/hospital.webp" fetchPriority="high" />
       <LandingPage />
       <Preloader />
     </>

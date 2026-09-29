@@ -10,7 +10,7 @@ import { useLanguage } from "@/presentation/hooks/useLanguage";
 
 const REASONS_IMAGES = [
   { src: "/instalaciones/quirofanos/qx1.webp", alt: "Quirófano SH Arboledas" },
-  { src: "/instalaciones/quirofanos/qx5.png", alt: "Quirófano SH Arboledas" },
+  { src: "/instalaciones/quirofanos/qx5.webp", alt: "Quirófano SH Arboledas" },
   { src: "/instalaciones/quirofanos/qx6.webp", alt: "Quirófano SH Arboledas" },
   { src: "/instalaciones/quirofanos/qx7.webp", alt: "Quirófano SH Arboledas" },
 ];

@@ -458,6 +458,10 @@ export const translations = {
     "procedimientos.inquiry_aria": "Preguntar por WhatsApp sobre {procedimiento}",
     "procedimientos.inquiry_hint": "Toca un procedimiento para preguntar por WhatsApp",
     "procedimientos.exclusivo_badge": "Único en la región",
+    "procedimientos.more_title": "Especialidades",
+    "procedimientos.more_subtitle": "Muy pronto vas a poder ver aquí los procedimientos de cada una — mientras tanto, pregúntanos directo por WhatsApp.",
+    "procedimientos.inquiry_especialidad_message": "Hola, quiero información sobre la especialidad de {especialidad}.",
+    "procedimientos.inquiry_especialidad_aria": "Preguntar por WhatsApp sobre {especialidad}",
     "areas.coming_soon_badge": "Próximamente",
   },
   en: {
@@ -912,6 +916,10 @@ export const translations = {
     "procedimientos.inquiry_aria": "Ask about {procedimiento} on WhatsApp",
     "procedimientos.inquiry_hint": "Tap a procedure to ask about it on WhatsApp",
     "procedimientos.exclusivo_badge": "Only available here",
+    "procedimientos.more_title": "Specialties",
+    "procedimientos.more_subtitle": "Coming soon you'll be able to see procedures for each one here — in the meantime, ask us directly on WhatsApp.",
+    "procedimientos.inquiry_especialidad_message": "Hi, I'd like information about the {especialidad} specialty.",
+    "procedimientos.inquiry_especialidad_aria": "Ask about {especialidad} on WhatsApp",
     "areas.coming_soon_badge": "Coming soon",
   },
 } as const satisfies Record<Lang, Record<string, string>>;

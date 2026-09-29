@@ -29,7 +29,7 @@ export default function PanelProtectedLayout({ children }: { children: React.Rea
           <header className="panel-topbar">
             <Link href="/" className="panel-topbar-logo">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/img/logo.png" alt="SH Arboledas" />
+              <img src="/img/logo.webp" alt="SH Arboledas" />
             </Link>
           </header>
 

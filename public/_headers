@@ -1,0 +1,26 @@
+# Caché del sitio estático (Netlify / Cloudflare Pages). Mismas reglas que
+# public/.htaccess — ver ahí la explicación de cada una.
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/aseguradora/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/atender/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/hero/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/ico/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/img/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/instalaciones/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/nuestro-equipo/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/oftamologia/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/servicios/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+/videos/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000

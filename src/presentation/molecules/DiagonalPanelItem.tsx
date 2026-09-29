@@ -17,7 +17,7 @@ export function DiagonalPanelItem({ instalacion, onOpenGaleria }: DiagonalPanelI
     <div className="diagonal-panel">
       {instalacion.img ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={instalacion.img} alt={instalacion.title[lang]} loading="lazy" />
+        <img src={instalacion.img} alt={instalacion.title[lang]} loading="lazy" decoding="async" />
       ) : (
         <div className="diagonal-panel-placeholder">
           <Icon name="shield-check" strokeWidth={1.6} />
